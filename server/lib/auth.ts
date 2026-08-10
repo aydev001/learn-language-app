@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto"
-import { env, hasBotToken } from "./env"
+import { env, hasBotToken } from "./env.js"
 
 export interface TelegramUser {
   id: number

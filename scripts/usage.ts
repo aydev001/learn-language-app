@@ -4,10 +4,10 @@
  *   npm run usage
  */
 import { config } from "dotenv"
-import { getStore } from "../server/lib/db"
-import { getTtsProvider } from "../server/lib/tts"
-import { monthUsage } from "../server/lib/usage"
-import { env } from "../server/lib/env"
+import { getStore } from "../server/lib/db.js"
+import { getTtsProvider } from "../server/lib/tts/index.js"
+import { monthUsage } from "../server/lib/usage.js"
+import { env } from "../server/lib/env.js"
 
 config()
 

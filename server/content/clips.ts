@@ -1,5 +1,5 @@
-import { LESSONS } from "./lessons"
-import { stripStress, tokenize } from "../../shared/stress"
+import { LESSONS } from "./lessons.js"
+import { stripStress, tokenize } from "../../shared/stress.js"
 
 /**
  * Dars kontentiga kerak bo'ladigan barcha ovoz kliplari.

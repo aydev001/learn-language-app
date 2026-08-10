@@ -14,9 +14,9 @@
  * sintez qilinadi va yana keshga tushadi.
  */
 import { config } from "dotenv"
-import { collectClips } from "../server/content/clips"
-import { getStore } from "../server/lib/db"
-import { cacheKeyFor, getTtsProvider } from "../server/lib/tts"
+import { collectClips } from "../server/content/clips.js"
+import { getStore } from "../server/lib/db.js"
+import { cacheKeyFor, getTtsProvider } from "../server/lib/tts/index.js"
 
 config({ quiet: true })
 

@@ -1,5 +1,5 @@
 import { handle } from "hono/vercel"
-import app from "../server/app"
+import app from "../server/app.js"
 
 /**
  * Vercel'dagi yagona kirish nuqtasi — barcha /api/* so'rovlari shu yerga tushadi.

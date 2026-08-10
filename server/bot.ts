@@ -1,5 +1,5 @@
-import { sendMessage } from "./lib/botApi"
-import { env } from "./lib/env"
+import { sendMessage } from "./lib/botApi.js"
+import { env } from "./lib/env.js"
 
 /**
  * Bot mantiqi — juda ixcham.

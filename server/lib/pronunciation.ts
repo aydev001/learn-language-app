@@ -1,11 +1,11 @@
-import type { PronunciationReport, WordJudgement, WordStatus } from "../../shared/types"
-import { normalizeWord, stripStress, syllabify, stressedSyllableIndex, tokenize } from "../../shared/stress"
-import { alignWords } from "./align"
-import { env } from "./env"
-import { mockReport } from "./mock"
-import { analyzeReading, transcribe } from "./openai"
-import { getStore } from "./db"
-import { ANALYSIS_COST, assertWithinBudget, estimateSttCost, recordUsage } from "./usage"
+import type { PronunciationReport, WordJudgement, WordStatus } from "../../shared/types.js"
+import { normalizeWord, stripStress, syllabify, stressedSyllableIndex, tokenize } from "../../shared/stress.js"
+import { alignWords } from "./align.js"
+import { env } from "./env.js"
+import { mockReport } from "./mock.js"
+import { analyzeReading, transcribe } from "./openai.js"
+import { getStore } from "./db.js"
+import { ANALYSIS_COST, assertWithinBudget, estimateSttCost, recordUsage } from "./usage.js"
 
 export interface EvaluateInput {
   sentenceId: string

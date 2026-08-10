@@ -6,10 +6,10 @@ import type {
   UserStats,
   VocabAttemptInput,
   VocabAttemptResult,
-} from "../../shared/types"
-import { attemptScore, maxScore } from "../../shared/scoring"
-import type { AttemptDoc, ReadingDoc, Store, UserDoc } from "./db"
-import type { TelegramUser } from "./auth"
+} from "../../shared/types.js"
+import { attemptScore, maxScore } from "../../shared/scoring.js"
+import type { AttemptDoc, ReadingDoc, Store, UserDoc } from "./db.js"
+import type { TelegramUser } from "./auth.js"
 
 const today = () => new Date().toISOString().slice(0, 10)
 const nowIso = () => new Date().toISOString()

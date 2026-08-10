@@ -1,8 +1,8 @@
 import OpenAI from "openai"
-import { env } from "../../server/lib/env"
-import type { Lesson, ReadingSentence, VocabWord } from "../../shared/types"
-import type { RawLesson } from "./parseLessons"
-import { applyStress, buildStressDict, uncovered, wordsIn, type StressDict } from "./stressDict"
+import { env } from "../../server/lib/env.js"
+import type { Lesson, ReadingSentence, VocabWord } from "../../shared/types.js"
+import type { RawLesson } from "./parseLessons.js"
+import { applyStress, buildStressDict, uncovered, wordsIn, type StressDict } from "./stressDict.js"
 
 /**
  * Manba matnini ilova uchun to'ldiradi.

@@ -1,5 +1,5 @@
-import type { Store } from "./db"
-import { env } from "./env"
+import type { Store } from "./db.js"
+import { env } from "./env.js"
 
 /**
  * Sarf hisobi va byudjet chegarasi.

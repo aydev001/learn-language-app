@@ -2,17 +2,17 @@ import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { z } from "zod"
 
-import type { LessonSummary, Me, VocabAttemptInput } from "../shared/types"
-import { handleUpdate, type TelegramUpdate } from "./bot"
-import { LESSONS, getLessonById } from "./content/lessons"
-import { authenticate, type AuthResult } from "./lib/auth"
-import { webhookSecret } from "./lib/botApi"
-import { getStore, type Store } from "./lib/db"
-import { describeUpstreamError } from "./lib/errors"
-import { env, hasBotToken } from "./lib/env"
-import { hasOpenAI } from "./lib/openai"
-import { getTtsProvider, hasTts, speak } from "./lib/tts"
-import { evaluateReading } from "./lib/pronunciation"
+import type { LessonSummary, Me, VocabAttemptInput } from "../shared/types.js"
+import { handleUpdate, type TelegramUpdate } from "./bot.js"
+import { LESSONS, getLessonById } from "./content/lessons.js"
+import { authenticate, type AuthResult } from "./lib/auth.js"
+import { webhookSecret } from "./lib/botApi.js"
+import { getStore, type Store } from "./lib/db.js"
+import { describeUpstreamError } from "./lib/errors.js"
+import { env, hasBotToken } from "./lib/env.js"
+import { hasOpenAI } from "./lib/openai.js"
+import { getTtsProvider, hasTts, speak } from "./lib/tts/index.js"
+import { evaluateReading } from "./lib/pronunciation.js"
 import {
   leaderboard,
   lessonProgress,
@@ -20,7 +20,7 @@ import {
   saveVocabAttempt,
   touchUser,
   userStats,
-} from "./lib/repo"
+} from "./lib/repo.js"
 
 type Vars = { auth: AuthResult; store: Store }
 

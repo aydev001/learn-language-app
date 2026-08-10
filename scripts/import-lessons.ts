@@ -9,20 +9,22 @@
  *   npm run import -- <fayl> --lesson=2      # faqat bitta darsni qayta ishlash
  *   npm run import -- <fayl> --dry-run       # tahlil natijasini ko'rsatadi, model chaqirilmaydi
  *
- * Natija: server/content/lessons.json (mavjud darslar ustiga yozilmaydi,
- * bir xil raqamli dars almashtiriladi) va urg'uni tekshirish uchun
+ * Natija: server/content/lessons.data.ts (mavjud darslar saqlanadi, bir xil
+ * raqamlisi almashtiriladi) va urg'uni tekshirish uchun
  * server/content/stress-review.txt
  */
 import { config } from "dotenv"
 import { readFileSync, writeFileSync, existsSync } from "node:fs"
-import { parseLessons } from "./lib/parseLessons"
-import { enrichLesson } from "./lib/enrich"
-import type { Lesson } from "../shared/types"
-import { graphemes, isStressedGrapheme, countVowels, stripStress } from "../shared/stress"
+import { resolve } from "node:path"
+import { pathToFileURL } from "node:url"
+import { parseLessons } from "./lib/parseLessons.js"
+import { enrichLesson } from "./lib/enrich.js"
+import type { Lesson } from "../shared/types.js"
+import { graphemes, isStressedGrapheme, countVowels, stripStress } from "../shared/stress.js"
 
 config({ quiet: true })
 
-const OUT_JSON = "server/content/lessons.json"
+const OUT_DATA = "server/content/lessons.data.ts"
 const OUT_REVIEW = "server/content/stress-review.txt"
 
 async function main() {
@@ -97,16 +99,14 @@ async function main() {
 
   /* --- saqlash --- */
 
-  const existing: Lesson[] = existsSync(OUT_JSON)
-    ? (JSON.parse(readFileSync(OUT_JSON, "utf8")) as Lesson[])
-    : []
+  const existing = await loadExisting()
 
   const merged = [...existing.filter((e) => !built.some((b) => b.id === e.id)), ...built].sort(
     (a, b) => a.id.localeCompare(b.id),
   )
 
-  writeFileSync(OUT_JSON, JSON.stringify(merged, null, 2) + "\n", "utf8")
-  console.log(`\n✓ ${OUT_JSON} — ${merged.length} ta dars`)
+  writeFileSync(OUT_DATA, renderDataModule(merged), "utf8")
+  console.log(`\n✓ ${OUT_DATA} — ${merged.length} ta dars`)
 
   writeFileSync(OUT_REVIEW, buildStressReview(built), "utf8")
   console.log(`✓ ${OUT_REVIEW} — urg'uni tekshirish ro'yxati`)
@@ -128,10 +128,50 @@ async function main() {
 
   console.log(
     `\nKeyingi qadam:\n` +
-      `  1. ${OUT_REVIEW} ni ko'rib chiqing, urg'u xato bo'lsa lessons.json da tuzating\n` +
+      `  1. ${OUT_REVIEW} ni ko'rib chiqing, urg'u xato bo'lsa ${OUT_DATA} da tuzating\n` +
       `  2. npm run cache:prune -- --yes\n` +
       `  3. npm run prewarm -- --yes\n`,
   )
+}
+
+/* ---------------------------------------------------------------- saqlash */
+
+/** Avvalgi darslarni o'qiydi; fayl yo'q yoki buzuq bo'lsa — bo'sh ro'yxat. */
+async function loadExisting(): Promise<Lesson[]> {
+  if (!existsSync(OUT_DATA)) return []
+  try {
+    const mod = (await import(pathToFileURL(resolve(OUT_DATA)).href)) as {
+      LESSON_DATA?: Lesson[]
+    }
+    return mod.LESSON_DATA ?? []
+  } catch (err) {
+    console.warn("⚠ Avvalgi darslarni o'qib bo'lmadi, ustiga yoziladi:", err)
+    return []
+  }
+}
+
+/**
+ * Darslarni TypeScript modul sifatida yozadi.
+ *
+ * JSON emas: Node ESM'da JSON importi alohida sintaksis talab qiladi va
+ * Vercel'da buziladi (u TS'ni qadoqlamasdan, kengaytmasi bilan ishga
+ * tushiradi). TS modul lokal dev'da ham, serverless'da ham bir xil yuklanadi.
+ */
+function renderDataModule(lessons: Lesson[]): string {
+  const header = [
+    'import type { Lesson } from "../../shared/types.js"',
+    "",
+    "/**",
+    " * Darslar ma'lumoti.",
+    " *",
+    " * BU FAYL AVTOMATIK YARATILADI — `npm run import` uni qayta yozadi.",
+    " * Qo'lda tahrirlash mumkin (masalan urg'uni tuzatish uchun), lekin",
+    " * keyingi importda o'zgarishlar yo'qoladi.",
+    " */",
+    "export const LESSON_DATA: Lesson[] = ",
+  ].join("\n")
+
+  return header + JSON.stringify(lessons, null, 2) + "\n"
 }
 
 /* ------------------------------------------------------ tekshirish yordami */
@@ -141,7 +181,7 @@ function buildStressReview(lessons: Lesson[]): string {
   const lines: string[] = [
     "URG'UNI TEKSHIRISH",
     "",
-    "Model qo'ygan urg'ular. Xato bo'lsa server/content/lessons.json da tuzating.",
+    "Model qo'ygan urg'ular. Xato bo'lsa server/content/lessons.data.ts da tuzating.",
     "Urg'u belgisi — U+0301, urg'uli unlidan KEYIN qo'yiladi.",
     "«ё» har doim urg'uli, unga belgi qo'yilmaydi.",
     "",

@@ -1,6 +1,6 @@
 import OpenAI from "openai"
-import { env } from "../../server/lib/env"
-import { countVowels, graphemes, isStressedGrapheme, stripStress } from "../../shared/stress"
+import { env } from "../../server/lib/env.js"
+import { countVowels, graphemes, isStressedGrapheme, stripStress } from "../../shared/stress.js"
 
 /**
  * Urg'u lug'ati.

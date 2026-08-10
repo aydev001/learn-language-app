@@ -1,6 +1,6 @@
 import OpenAI from "openai"
-import { env } from "../env"
-import type { TtsProvider } from "./types"
+import { env } from "../env.js"
+import type { TtsProvider } from "./types.js"
 
 /**
  * Modelga uslub ko'rsatmasi.

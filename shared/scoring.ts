@@ -1,4 +1,4 @@
-import type { VocabMode, WordResult } from "./types"
+import type { VocabMode, WordResult } from "./types.js"
 
 /**
  * Ball hisoblash. Frontend o'yin davomida jonli ball ko'rsatadi,

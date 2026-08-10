@@ -1,12 +1,12 @@
 import { createHash } from "node:crypto"
-import { env } from "../env"
-import { getStore } from "../db"
-import { assertWithinBudget, estimateTtsCost, recordUsage } from "../usage"
-import { googleTts } from "./google"
-import { openaiTts } from "./openai"
-import type { TtsProvider } from "./types"
+import { env } from "../env.js"
+import { getStore } from "../db.js"
+import { assertWithinBudget, estimateTtsCost, recordUsage } from "../usage.js"
+import { googleTts } from "./google.js"
+import { openaiTts } from "./openai.js"
+import type { TtsProvider } from "./types.js"
 
-export type { TtsProvider } from "./types"
+export type { TtsProvider } from "./types.js"
 
 /**
  * Sozlangan provayderni qaytaradi.

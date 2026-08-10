@@ -25,8 +25,8 @@ async function main() {
   if (urlArg) saveUrl(urlArg)
   if (urlArg) process.env.PUBLIC_APP_URL = urlArg.replace(/\/+$/, "")
 
-  const bot = await import("../server/lib/botApi")
-  const { env } = await import("../server/lib/env")
+  const bot = await import("../server/lib/botApi.js")
+  const { env } = await import("../server/lib/env.js")
 
   if (!env.botToken) {
     console.error("✗ .env da TELEGRAM_BOT_TOKEN yo'q.")

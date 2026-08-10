@@ -1,6 +1,6 @@
-import { env } from "../env"
-import { stripStress } from "../../../shared/stress"
-import type { TtsProvider } from "./types"
+import { env } from "../env.js"
+import { stripStress } from "../../../shared/stress.js"
+import type { TtsProvider } from "./types.js"
 
 const ENDPOINT = "https://texttospeech.googleapis.com/v1/text:synthesize"
 

@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { env } from "./env"
+import { env } from "./env.js"
 
 /**
  * Telegram Bot API bilan ishlash uchun minimal qatlam.

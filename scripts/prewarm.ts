@@ -14,10 +14,10 @@
  *   npm run prewarm -- --lesson l1-semya
  */
 import { config } from "dotenv"
-import { collectClips, type Clip } from "../server/content/clips"
-import { getStore } from "../server/lib/db"
-import { getTtsProvider, speak } from "../server/lib/tts"
-import { estimateTtsCost, monthUsage } from "../server/lib/usage"
+import { collectClips, type Clip } from "../server/content/clips.js"
+import { getStore } from "../server/lib/db.js"
+import { getTtsProvider, speak } from "../server/lib/tts/index.js"
+import { estimateTtsCost, monthUsage } from "../server/lib/usage.js"
 
 config()
 

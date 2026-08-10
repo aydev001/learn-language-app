@@ -1,4 +1,16 @@
-[
+import type { Lesson } from "../../shared/types.js"
+
+/**
+ * Darslar ma'lumoti.
+ *
+ * BU FAYL AVTOMATIK YARATILADI — `npm run import` uni qayta yozadi.
+ * Qo'lda tahrirlash mumkin (masalan urg'uni tuzatish uchun), lekin keyingi
+ * importda o'zgarishlar yo'qoladi.
+ *
+ * Nega JSON emas, TypeScript: Node ESM'da JSON importi alohida sintaksis
+ * talab qiladi va Vercel'da buziladi. TS modul hamma joyda bir xil ishlaydi.
+ */
+export const LESSON_DATA: Lesson[] = [
   {
     "id": "lesson-01",
     "title": "Жизнь А́нны",

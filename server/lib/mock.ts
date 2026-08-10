@@ -1,5 +1,5 @@
-import type { PronunciationReport, WordJudgement, WordStatus } from "../../shared/types"
-import { stripStress, syllabify, stressedSyllableIndex, tokenize } from "../../shared/stress"
+import type { PronunciationReport, WordJudgement, WordStatus } from "../../shared/types.js"
+import { stripStress, syllabify, stressedSyllableIndex, tokenize } from "../../shared/stress.js"
 
 /**
  * Soxta talaffuz hisoboti — `MOCK_PRONUNCIATION=1` bo'lganda ishlatiladi.

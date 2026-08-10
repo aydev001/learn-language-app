@@ -1,6 +1,6 @@
 import { MongoClient, type Db } from "mongodb"
-import { env, hasMongo } from "./env"
-import type { VocabMode } from "../../shared/types"
+import { env, hasMongo } from "./env.js"
+import type { VocabMode } from "../../shared/types.js"
 
 /* ------------------------------------------------------------------ hujjatlar */
 
