@@ -5,7 +5,7 @@ import { z } from "zod"
 import type { LessonSummary, Me, VocabAttemptInput } from "../shared/types.js"
 import { handleUpdate, type TelegramUpdate } from "./bot.js"
 import { LESSONS, getLessonById } from "./content/lessons.js"
-import { authenticate, type AuthResult } from "./lib/auth.js"
+import { authenticateDetailed, type AuthResult } from "./lib/auth.js"
 import { webhookSecret } from "./lib/botApi.js"
 import { getStore, type Store } from "./lib/db.js"
 import { describeUpstreamError } from "./lib/errors.js"
@@ -74,13 +74,16 @@ const PUBLIC_PATHS = new Set(["/api/health", "/api/telegram/webhook"])
 app.use("*", async (c, next) => {
   if (PUBLIC_PATHS.has(c.req.path)) return next()
 
-  const auth = authenticate(c.req.raw)
+  const { auth, reason } = authenticateDetailed(c.req.raw)
   if (!auth) {
     return c.json(
       {
         error: "unauthorized",
+        // Sabab matnga qo'shiladi: 401 ni tashxislashning boshqa yo'li yo'q —
+        // Mini App ichida na konsol, na tarmoq paneli bor.
         message:
-          "Bu ilova Telegram bot ichida ishlaydi. Iltimos, botdagi tugma orqali oching.",
+          "Bu ilova Telegram bot ichida ishlaydi. Iltimos, botdagi tugma orqali oching." +
+          (reason ? ` [${reason}]` : ""),
       },
       401,
     )
