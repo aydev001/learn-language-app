@@ -1,5 +1,14 @@
 import { useState } from "react"
-import { Crown, Gamepad2, Medal, Target, Trophy, Users } from "lucide-react"
+import {
+  ChevronLeft,
+  ChevronRight,
+  Crown,
+  Gamepad2,
+  Medal,
+  Target,
+  Trophy,
+  Users,
+} from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
@@ -10,18 +19,35 @@ import { haptic } from "@/lib/telegram"
 import { cn } from "@/lib/utils"
 import type { LeaderboardPeriod, LeaderboardRow, LeaderboardTotals } from "@shared/types"
 
+/** Bir sahifada nechta o'quvchi ko'rinadi. */
+const PAGE_SIZE = 10
+
 export function LeaderboardScreen() {
   const [period, setPeriod] = useState<LeaderboardPeriod>("week")
   const [lessonId, setLessonId] = useState<string | null>(null)
+  // null — hali sahifa tanlanmagan, ya'ni o'quvchining o'z sahifasi ochiladi.
+  const [page, setPage] = useState<number | null>(null)
 
   const lessons = useLessons()
   const board = useLeaderboard(lessonId, period)
 
   const rows = board.data?.rows ?? []
   const podium = rows.slice(0, 3)
-  const rest = rows.slice(3)
   const me = board.data?.me
-  const meInList = me ? rows.some((r) => r.isMe && r.rank <= 3 + rest.length) : false
+
+  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE))
+  const myIndex = rows.findIndex((r) => r.isMe)
+  const myPage = myIndex >= 0 ? Math.floor(myIndex / PAGE_SIZE) : 0
+
+  // Filtr o'zgarsa sahifa yana o'z o'rnimizga qaytadi (setPage(null) orqali).
+  const current = Math.min(page ?? myPage, pageCount - 1)
+  const visible = rows.slice(current * PAGE_SIZE, current * PAGE_SIZE + PAGE_SIZE)
+
+  /** Davr yoki dars almashganda sahifani boshidan hisoblaymiz. */
+  const changeFilter = (apply: () => void) => {
+    apply()
+    setPage(null)
+  }
 
   return (
     <div className="safe-top px-4 pb-4">
@@ -45,7 +71,7 @@ export function LeaderboardScreen() {
             type="button"
             onClick={() => {
               haptic.select()
-              setPeriod(tab.id)
+              changeFilter(() => setPeriod(tab.id))
             }}
             className={cn(
               "tap rounded-lg py-2 text-sm font-medium transition-colors",
@@ -60,14 +86,17 @@ export function LeaderboardScreen() {
       {/* Dars filtri */}
       <div className="-mx-4 mt-3 overflow-x-auto px-4">
         <div className="flex w-max gap-2 pb-1">
-          <FilterChip active={lessonId === null} onClick={() => setLessonId(null)}>
+          <FilterChip
+            active={lessonId === null}
+            onClick={() => changeFilter(() => setLessonId(null))}
+          >
             Barcha darslar
           </FilterChip>
           {lessons.data?.map((lesson) => (
             <FilterChip
               key={lesson.id}
               active={lessonId === lesson.id}
-              onClick={() => setLessonId(lesson.id)}
+              onClick={() => changeFilter(() => setLessonId(lesson.id))}
             >
               {lesson.titleUz}
             </FilterChip>
@@ -98,16 +127,34 @@ export function LeaderboardScreen() {
 
       {podium.length > 0 && <Podium rows={podium} />}
 
-      {rest.length > 0 && (
-        <div className="mt-3 space-y-2">
-          {rest.map((row) => (
-            <PlayerRow key={row.userId} row={row} />
-          ))}
-        </div>
+      {rows.length > 0 && (
+        <>
+          <div className="mt-5 flex items-baseline justify-between">
+            <h2 className="text-sm font-semibold">Barcha o'quvchilar</h2>
+            <span className="text-xs text-muted-foreground tabular-nums">
+              {rows.length} ta{myIndex >= 0 && ` · siz ${myIndex + 1}-o'rindasiz`}
+            </span>
+          </div>
+
+          <div className="mt-3 space-y-2">
+            {visible.map((row) => (
+              <PlayerRow key={row.userId} row={row} />
+            ))}
+          </div>
+
+          {pageCount > 1 && (
+            <Pagination
+              page={current}
+              pageCount={pageCount}
+              myPage={myIndex >= 0 ? myPage : null}
+              onChange={setPage}
+            />
+          )}
+        </>
       )}
 
-      {/* O'zim ro'yxatga tushmasam — pastda alohida ko'rsatamiz */}
-      {me && !meInList && (
+      {/* O'quvchi ro'yxatda bo'lmasa (hujjati hali yaratilmagan) — alohida */}
+      {me && myIndex < 0 && (
         <>
           <div className="my-3 text-center text-xs text-muted-foreground">• • •</div>
           <PlayerRow row={me} />
@@ -145,6 +192,119 @@ function FilterChip({
       {children}
     </button>
   )
+}
+
+function Pagination({
+  page,
+  pageCount,
+  myPage,
+  onChange,
+}: {
+  page: number
+  pageCount: number
+  /** O'quvchining o'z sahifasi — boshqa yerga o'tib ketsa qaytib kelish uchun */
+  myPage: number | null
+  onChange: (page: number) => void
+}) {
+  return (
+    <div className="mt-4 flex flex-col items-center gap-2">
+      <div className="flex items-center gap-1">
+        <PagerButton disabled={page === 0} onClick={() => onChange(page - 1)} label="Oldingi sahifa">
+          <ChevronLeft className="size-4" />
+        </PagerButton>
+
+        {pageWindow(page, pageCount).map((p, i) =>
+          p === null ? (
+            <span key={`gap-${i}`} className="px-0.5 text-xs text-muted-foreground">
+              …
+            </span>
+          ) : (
+            <PagerButton key={p} active={p === page} onClick={() => onChange(p)}>
+              {p + 1}
+            </PagerButton>
+          ),
+        )}
+
+        <PagerButton
+          disabled={page === pageCount - 1}
+          onClick={() => onChange(page + 1)}
+          label="Keyingi sahifa"
+        >
+          <ChevronRight className="size-4" />
+        </PagerButton>
+      </div>
+
+      {myPage !== null && myPage !== page && (
+        <button
+          type="button"
+          onClick={() => {
+            haptic.select()
+            onChange(myPage)
+          }}
+          className="tap text-xs font-medium text-primary"
+        >
+          Mening o'rnimga qaytish
+        </button>
+      )}
+    </div>
+  )
+}
+
+function PagerButton({
+  children,
+  onClick,
+  active,
+  disabled,
+  label,
+}: {
+  children: React.ReactNode
+  onClick: () => void
+  active?: boolean
+  disabled?: boolean
+  label?: string
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      aria-label={label}
+      aria-current={active ? "page" : undefined}
+      onClick={() => {
+        haptic.select()
+        onClick()
+      }}
+      className={cn(
+        "tap grid size-8 place-items-center rounded-lg border text-xs font-semibold tabular-nums transition-colors",
+        active
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border bg-card text-muted-foreground",
+        disabled && "opacity-40",
+      )}
+    >
+      {children}
+    </button>
+  )
+}
+
+/**
+ * Ekran tor — o'nlab sahifani chizib bo'lmaydi. Birinchi, oxirgi va hozirgi
+ * sahifaning atrofi qoladi, orasi "…" bilan qisqartiriladi.
+ */
+function pageWindow(page: number, count: number): (number | null)[] {
+  if (count <= 5) return Array.from({ length: count }, (_, i) => i)
+
+  const wanted = [...new Set([0, page - 1, page, page + 1, count - 1])]
+    .filter((p) => p >= 0 && p < count)
+    .sort((a, b) => a - b)
+
+  const out: (number | null)[] = []
+  let previous = -1
+  for (const p of wanted) {
+    if (previous >= 0 && p - previous > 1) out.push(null)
+    out.push(p)
+    previous = p
+  }
+  return out
 }
 
 function Totals({ totals }: { totals: LeaderboardTotals }) {

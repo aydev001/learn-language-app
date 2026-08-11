@@ -225,16 +225,45 @@ export async function leaderboard(
     byUser.set(a.userId, agg)
   }
 
-  const userIds = [...byUser.keys()]
-  const users = userIds.length ? await store.users.find({ _id: { $in: userIds } }) : []
+  /**
+   * Ro'yxatga barcha o'quvchilar kiradi — hali test o'ynamaganlar ham 0 ball
+   * bilan pastda turadi. Ilgari faqat o'ynaganlar chiqardi, shuning uchun
+   * yangi o'quvchi o'zini ro'yxatdan umuman topa olmasdi.
+   */
+  const users = await store.users.find({})
   const nameOf = new Map(
     users.map((u) => [u._id, [u.firstName, u.lastName].filter(Boolean).join(" ") || "O'quvchi"]),
   )
   const photoOf = new Map(users.map((u) => [u._id, u.photoUrl]))
   const usernameOf = new Map(users.map((u) => [u._id, u.username]))
 
-  const rows: LeaderboardRow[] = [...byUser.values()]
-    .sort((a, b) => b.score - a.score || a.bestTimeMs - b.bestTimeMs)
+  const known = new Set(users.map((u) => u._id))
+  const all: Agg[] = users.map(
+    (u) =>
+      byUser.get(u._id) ?? {
+        userId: u._id,
+        score: 0,
+        bestTimeMs: Number.POSITIVE_INFINITY,
+        correct: 0,
+        total: 0,
+        plays: 0,
+      },
+  )
+  // Hujjati o'chirilgan, lekin urinishlari qolgan o'quvchi ham tushib qolmasin.
+  for (const [id, agg] of byUser) if (!known.has(id)) all.push(agg)
+
+  // Infinity larni ayirsak NaN chiqadi va saralash buziladi — hech qachon
+  // mukammal natija ko'rsatmaganlar ko'pchilik bo'lgani uchun bu muhim.
+  const bestTime = (a: Agg) => (Number.isFinite(a.bestTimeMs) ? a.bestTimeMs : Number.MAX_SAFE_INTEGER)
+
+  const rows: LeaderboardRow[] = all
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        bestTime(a) - bestTime(b) ||
+        b.plays - a.plays ||
+        (nameOf.get(a.userId) ?? "").localeCompare(nameOf.get(b.userId) ?? ""),
+    )
     .map((agg, i) => ({
       rank: i + 1,
       userId: agg.userId,

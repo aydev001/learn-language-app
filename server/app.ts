@@ -79,14 +79,16 @@ app.use("*", async (c, next) => {
 
   const { auth, reason } = authenticateDetailed(c.req.raw)
   if (!auth) {
+    // Sabab o'quvchiga ko'rsatilmaydi, lekin jurnalga tushadi: "initData
+    // kelmadi" bilan "imzo mos emas" ni ajratmasdan turib 401 ni tashxislab
+    // bo'lmaydi, Mini App ichida esa na konsol, na tarmoq paneli bor.
+    console.warn(`[auth] rad etildi: ${reason ?? "sabab noma'lum"}`)
+
     return c.json(
       {
         error: "unauthorized",
-        // Sabab matnga qo'shiladi: 401 ni tashxislashning boshqa yo'li yo'q —
-        // Mini App ichida na konsol, na tarmoq paneli bor.
         message:
-          "Bu ilova Telegram bot ichida ishlaydi. Iltimos, botdagi tugma orqali oching." +
-          (reason ? ` [${reason}]` : ""),
+          "Bu ilova Telegram bot ichida ishlaydi. Iltimos, botdagi tugma orqali oching.",
       },
       401,
     )

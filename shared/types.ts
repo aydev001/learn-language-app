@@ -205,7 +205,7 @@ export interface LeaderboardRow {
 
 /** Reyting ustidagi umumiy ko'rsatkichlar. */
 export interface LeaderboardTotals {
-  /** Shu tanlovda qatnashgan o'quvchilar */
+  /** Ro'yxatdagi o'quvchilar — hali o'ynamaganlar ham sanaladi */
   players: number
   /** Jami o'ynalgan testlar */
   plays: number
