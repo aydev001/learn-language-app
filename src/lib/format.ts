@@ -57,12 +57,14 @@ export function formatDue(iso: string): { text: string; tone: "ok" | "soon" | "l
     }
   }
 
-  const at = hasTime(iso)
-    ? ` soat ${due.getHours()}:${String(due.getMinutes()).padStart(2, "0")} da`
-    : ""
+  // "…gacha" — bu topshirish payti emas, vazifaning bugungi bo'lib turish
+  // muddati: shu vaqtdan keyin u oldingi darslar qatoriga tushadi.
+  const until = hasTime(iso)
+    ? `${due.getHours()}:${String(due.getMinutes()).padStart(2, "0")} gacha`
+    : "kun oxirigacha"
 
-  if (days === 0) return { text: `Bugun${at} topshiriladi`, tone: "soon" }
-  if (days === 1) return { text: `Ertaga${at} topshiriladi`, tone: "soon" }
+  if (days === 0) return { text: `Bugun ${until}`, tone: "soon" }
+  if (days === 1) return { text: `Ertaga ${until}`, tone: "soon" }
   return { text: `${days} kun qoldi`, tone: "ok" }
 }
 
