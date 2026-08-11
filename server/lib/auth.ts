@@ -51,19 +51,22 @@ export function inspectInitData(
   const hash = params.get("hash")
   if (!hash) return { reason: `hash yo'q (maydonlar: ${keys.join(",") || "yo'q"})` }
   params.delete("hash")
-  params.delete("signature") // Telegram'ning yangi Ed25519 imzosi — HMAC hisobiga kirmaydi
 
-  const dataCheckString = [...params.entries()]
-    .map(([k, v]) => `${k}=${v}`)
-    .sort()
-    .join("\n")
-
+  /**
+   * HMAC `hash` dan boshqa hamma maydon ustidan hisoblanadi — `signature` ham
+   * qatnashadi. Uni faqat uchinchi tomonning Ed25519 tekshiruvi chiqarib
+   * tashlaydi, bot esa tashlamaydi. Ilgari biz uni ham olib tashlardik, shuning
+   * uchun Bot API 8.0 mijozlaridan kelgan har bir initData rad etilardi.
+   *
+   * Ikkala shaklni ham sinaymiz: ikkalasini qalbakilashtirish uchun ham bot
+   * tokeni kerak, ya'ni xavfsizlik pasaymaydi, lekin Telegram qoidani yana
+   * o'zgartirsa ilova to'xtab qolmaydi.
+   */
   const secret = createHmac("sha256", "WebAppData").update(env.botToken).digest()
-  const computed = createHmac("sha256", secret).update(dataCheckString).digest("hex")
+  const fields = [...params.entries()]
+  const variants = [fields, fields.filter(([k]) => k !== "signature")]
 
-  const a = Buffer.from(computed, "hex")
-  const b = Buffer.from(hash, "hex")
-  if (a.length !== b.length || !timingSafeEqual(a, b)) {
+  if (!variants.some((v) => hashMatches(secret, v, hash))) {
     return { reason: `imzo mos emas (maydonlar: ${keys.join(",")})` }
   }
 
@@ -84,6 +87,19 @@ export function inspectInitData(
   } catch {
     return { reason: "user JSON o'qilmadi" }
   }
+}
+
+/** `key=value` juftliklaridan data-check-string yasab, HMAC'ni solishtiradi. */
+function hashMatches(secret: Buffer, fields: [string, string][], received: string): boolean {
+  const dataCheckString = fields
+    .map(([k, v]) => `${k}=${v}`)
+    .sort()
+    .join("\n")
+
+  const computed = createHmac("sha256", secret).update(dataCheckString).digest("hex")
+  const a = Buffer.from(computed, "hex")
+  const b = Buffer.from(received, "hex")
+  return a.length === b.length && timingSafeEqual(a, b)
 }
 
 const DEV_USER: TelegramUser = {
