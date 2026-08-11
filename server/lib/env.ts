@@ -21,12 +21,20 @@ export const env = {
    * Vercel'da avtomatik to'ldiriladi, lokal tunnel uchun qo'lda yoziladi.
    */
   get publicUrl() {
-    const raw =
-      process.env.PUBLIC_APP_URL ||
-      (process.env.VERCEL_PROJECT_PRODUCTION_URL
-        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-        : "")
-    return raw.replace(/\/+$/, "")
+    const manual = (process.env.PUBLIC_APP_URL ?? "").replace(/\/+$/, "")
+    const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : ""
+
+    // Tunnel manzillari faqat lokal ishlab chiqish uchun va bir necha soatda
+    // o'ladi. Bir marta Vercel'ning o'zgaruvchilarida qolib ketgani uchun bot
+    // tugmalari o'lik havolani ochib turdi ("sahifani yangilang" xatosi).
+    // Vercel'da bunday manzil hech qachon to'g'ri bo'lolmaydi — o'tkazib yuboramiz.
+    const tunnel = /\.(trycloudflare\.com|ngrok(-free)?\.app|ngrok\.io|loca\.lt)$/i.test(
+      manual.replace(/^https?:\/\//, ""),
+    )
+    if (manual && !(tunnel && vercel)) return manual
+    return vercel
   },
   /** Vergul bilan ajratilgan Telegram ID'lar — o'qituvchi/admin huquqi */
   get adminIds(): number[] {
