@@ -4,6 +4,13 @@ import app from "../server/app.js"
 /**
  * Vercel'dagi yagona kirish nuqtasi — barcha /api/* so'rovlari shu yerga tushadi.
  * Whisper + model tahlili bir necha soniya olishi mumkin.
+ *
+ * Fayl nomi ilgari `[[...route]].ts` edi, lekin Vercel uni catch-all deb emas,
+ * oddiy bitta segmentli dinamik marshrut deb qabul qilgan: /api/health ishlagan,
+ * /api/telegram/webhook esa platformaning o'zidan 404 olgan (shuning uchun bot
+ * javob bermasdi). Endi marshrutlash vercel.json dagi aniq rewrite orqali:
+ *
+ *   { "source": "/api/(.*)", "destination": "/api" }
  */
 export const config = {
   runtime: "nodejs",
