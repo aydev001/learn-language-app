@@ -58,9 +58,11 @@ app.post("/telegram/webhook", async (c) => {
   const update = (await c.req.json().catch(() => null)) as TelegramUpdate | null
   if (!update) return c.json({ ok: true })
 
-  // Telegram javobni 60 soniyagacha kutadi va kechiksa qayta yuboradi —
-  // shuning uchun darhol 200 qaytarib, ishni fonda bajaramiz.
-  void handleUpdate(update)
+  // Ishni fonda qoldirib bo'lmaydi: javob qaytgach Vercel instansiyani muzlatadi
+  // va `sendMessage` bajarilmay qoladi — u faqat keyingi so'rov instansiyani
+  // uyg'otganda yuborilardi (o'quvchi /start javobini ilovani ochgandagina
+  // ko'rardi). handleUpdate xatolarni o'zi yutadi, shuning uchun kutamiz.
+  await handleUpdate(update)
 
   return c.json({ ok: true })
 })

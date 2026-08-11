@@ -5,7 +5,7 @@ import { ProgressRing } from "@/components/ProgressRing"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useLessons, useMe } from "@/lib/api"
+import { ApiError, useLessons, useMe } from "@/lib/api"
 import { formatDue, formatPercent } from "@/lib/format"
 import { haptic } from "@/lib/telegram"
 import { cn } from "@/lib/utils"
@@ -33,6 +33,7 @@ export function HomeScreen() {
       {lessons.isError && (
         <Card className="mt-5 border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
           Vazifalarni yuklab bo'lmadi. Internetni tekshirib, qaytadan urinib ko'ring.
+          <p className="mt-1.5 text-xs opacity-75">{describeError(lessons.error)}</p>
         </Card>
       )}
 
@@ -63,6 +64,15 @@ export function HomeScreen() {
       )}
     </div>
   )
+}
+
+/**
+ * Xatoning haqiqiy sababi. Busiz har qanday nosozlik — internet uzilishi,
+ * 401, serverdagi xato — bir xil ko'rinardi va sababni topib bo'lmasdi.
+ */
+function describeError(error: unknown): string {
+  if (error instanceof ApiError) return `${error.status} — ${error.message}`
+  return error instanceof Error ? error.message : "Nomaʼlum xatolik"
 }
 
 /* --------------------------------------------------------------- bo'laklar */
