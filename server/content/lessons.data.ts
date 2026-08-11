@@ -4,11 +4,8 @@ import type { Lesson } from "../../shared/types.js"
  * Darslar ma'lumoti.
  *
  * BU FAYL AVTOMATIK YARATILADI — `npm run import` uni qayta yozadi.
- * Qo'lda tahrirlash mumkin (masalan urg'uni tuzatish uchun), lekin keyingi
- * importda o'zgarishlar yo'qoladi.
- *
- * Nega JSON emas, TypeScript: Node ESM'da JSON importi alohida sintaksis
- * talab qiladi va Vercel'da buziladi. TS modul hamma joyda bir xil ishlaydi.
+ * Qo'lda tahrirlash mumkin (masalan urg'uni tuzatish uchun), lekin
+ * keyingi importda o'zgarishlar yo'qoladi.
  */
 export const LESSON_DATA: Lesson[] = [
   {
@@ -719,6 +716,395 @@ export const LESSON_DATA: Lesson[] = [
         "example": {
           "ru": "Он бьёт мяч ного́й.",
           "uz": "U to'pni oyog'i bilan urmoqda."
+        }
+      }
+    ]
+  },
+  {
+    "id": "lesson-03",
+    "title": "ДЕ́ТСКИЙ ВРАЧ",
+    "titleUz": "Bolalar shifokori",
+    "level": "A2",
+    "topic": "Kasb, Hayotiy voqea",
+    "assignedAt": "2026-08-11",
+    "dueAt": "2026-08-12T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va asosiy voqeani tushunishga harakat qiling.",
+      "paragraphs": [
+        "Ю́рий Степа́нов был лётчиком. Ему́ нра́вилась э́та профе́ссия. Но одна́жды врачи́ сказа́ли ему́, что у него́ больно́е се́рдце и ему́ нельзя́ быть лётчиком. Он до́лжен был вы́брать другу́ю специа́льность.",
+        "Ю́рий реши́л стать врачо́м. Он поступи́л в медици́нский институ́т. Учи́ться бы́ло тру́дно, но инте́ресно. Ему́ бы́ло уже́ 30 лет.",
+        "Он успе́шно око́нчил институ́т и стал де́тским врачо́м. Степа́нову понра́вилась рабо́та врача́. Он полюби́л свою́ но́вую специа́льность, полюби́л дете́й. Два го́да Ю́рий рабо́тал в де́тской больни́це. Но одна́жды случи́лось несча́стье. В больни́це умерла́ ма́ленькая де́вочка. Степа́нов не мог помо́чь ей, потому́ что де́вочка была́ тяжело́ больна́. Но мать де́вочки сказа́ла Степа́нову, что он не име́ет пра́ва быть де́тским врачо́м, потому́ что он не понима́ет, что зна́чит потеря́ть ребёнка. Же́нщина была́ не права́, но Ю́рий не мог забы́ть её слова́. И тогда́ он реши́л, что сде́лал оши́бку, когда́ вы́брал профе́ссию врача́.",
+        "Ю́рий Степа́нов ушёл из больни́цы, уе́хал в друго́й го́род и на́чал рабо́тать на заво́де. На его́ но́вой рабо́те никто́ не знал, что ра́ньше он рабо́тал врачо́м.",
+        "Одна́жды Степа́нов пришёл в го́сти к своему́ това́рищу. У того́ был ма́ленький сын. Това́рищ Степа́нова сказа́л ему́, что ма́льчик пло́хо себя́ чу́вствует. Когда́ Ю́рий уви́дел ма́льчика, он по́нял, что ребёнок серьёзно бо́лен. Ю́рий внима́тельно осмотре́л ма́льчика и сказа́л, каки́е лека́рства он до́лжен принима́ть. Оте́ц ма́льчика о́чень удиви́лся, и тогда́ Степа́нов рассказа́л ему́ исто́рию свое́й жи́зни. Това́рищ сказа́л: «Ты не прав. Ты до́лжен верну́ться и рабо́тать врачо́м. Де́ти ждут тебя́».",
+        "Степа́нов верну́лся в больни́цу. Он сно́ва стал рабо́тать врачо́м. Де́ти о́чень лю́бят своего́ врача́. Но они́ не зна́ют, кака́я тру́дная и инте́ресная жизнь была́ у э́того челове́ка."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Ю́рий Степа́нов был лётчиком.",
+          "uz": "Yuriy Stepanov uchuvchi edi."
+        },
+        {
+          "id": "s2",
+          "ru": "Ему́ нра́вилась э́та профе́ссия.",
+          "uz": "Unga bu kasb yoqardi."
+        },
+        {
+          "id": "s3",
+          "ru": "Но одна́жды врачи́ сказа́ли ему́, что у него́ больно́е се́рдце и ему́ нельзя́ быть лётчиком.",
+          "uz": "Lekin bir kuni shifokorlar unga yuragingda muammo bor, uchuvchi bo'lish mumkin emas, deb aytishdi."
+        },
+        {
+          "id": "s4",
+          "ru": "Он до́лжен был вы́брать другу́ю специа́льность.",
+          "uz": "U boshqa kasb tanlashi kerak edi."
+        },
+        {
+          "id": "s5",
+          "ru": "Ю́рий реши́л стать врачо́м.",
+          "uz": "Yuriy shifokor bo'lishga qaror qildi."
+        },
+        {
+          "id": "s6",
+          "ru": "Он поступи́л в медици́нский институ́т.",
+          "uz": "U tibbiyot institutiga o'qishga kirdi."
+        },
+        {
+          "id": "s7",
+          "ru": "Учи́ться бы́ло тру́дно, но инте́ресно.",
+          "uz": "O'qish qiyin edi, lekin qiziqarli edi."
+        },
+        {
+          "id": "s8",
+          "ru": "Ему́ бы́ло уже́ 30 лет.",
+          "uz": "U allaqachon 30 yoshda edi."
+        },
+        {
+          "id": "s9",
+          "ru": "Он успе́шно око́нчил институ́т и стал де́тским врачо́м.",
+          "uz": "U institutni muvaffaqiyatli tugatdi va bolalar shifokori bo'ldi."
+        },
+        {
+          "id": "s10",
+          "ru": "Степа́нову понра́вилась рабо́та врача́.",
+          "uz": "Stepanovga shifokorlik ishi yoqdi."
+        },
+        {
+          "id": "s11",
+          "ru": "Он полюби́л свою́ но́вую специа́льность, полюби́л дете́й.",
+          "uz": "U yangi kasbini va bolalarni yaxshi ko'rib qoldi."
+        },
+        {
+          "id": "s12",
+          "ru": "Два го́да Ю́рий рабо́тал в де́тской больни́це.",
+          "uz": "Yuriy ikki yil bolalar shifoxonasida ishladi."
+        },
+        {
+          "id": "s13",
+          "ru": "Но одна́жды случи́лось несча́стье.",
+          "uz": "Lekin bir kuni baxtsiz hodisa yuz berdi."
+        },
+        {
+          "id": "s14",
+          "ru": "В больни́це умерла́ ма́ленькая де́вочка.",
+          "uz": "Shifoxonada kichkina qizaloq vafot etdi."
+        },
+        {
+          "id": "s15",
+          "ru": "Степа́нов не мог помо́чь ей, потому́ что де́вочка была́ тяжело́ больна́.",
+          "uz": "Stepanov unga yordam bera olmadi, chunki qizaloq juda og'ir kasal edi."
+        },
+        {
+          "id": "s16",
+          "ru": "Но мать де́вочки сказа́ла Степа́нову, что он не име́ет пра́ва быть де́тским врачо́м, потому́ что он не понима́ет, что зна́чит потеря́ть ребёнка.",
+          "uz": "Lekin qizaloqning onasi Stepanovga, sen bolalar shifokori bo'lishga haqli emassan, chunki bolani yo'qotish qanday og'riq ekanini tushunmaysan, dedi."
+        },
+        {
+          "id": "s17",
+          "ru": "Же́нщина была́ не права́, но Ю́рий не мог забы́ть её слова́.",
+          "uz": "Ayol haq emas edi, lekin Yuriy uning gaplarini unutolmasdi."
+        },
+        {
+          "id": "s18",
+          "ru": "И тогда́ он реши́л, что сде́лал оши́бку, когда́ вы́брал профе́ссию врача́.",
+          "uz": "Shunda u vrach bo'lishni tanlaganida xato qilganini tushundi."
+        },
+        {
+          "id": "s19",
+          "ru": "Ю́рий Степа́нов ушёл из больни́цы, уе́хал в друго́й го́род и на́чал рабо́тать на заво́де.",
+          "uz": "Yuriy Stepanov kasalxonadan ketdi, boshqa shaharga ko'chib, zavodda ishlay boshladi."
+        },
+        {
+          "id": "s20",
+          "ru": "На его́ но́вой рабо́те никто́ не знал, что ра́ньше он рабо́тал врачо́м.",
+          "uz": "Yangi ishida hech kim uning ilgari vrach bo'lganini bilmasdi."
+        },
+        {
+          "id": "s21",
+          "ru": "Одна́жды Степа́нов пришёл в го́сти к своему́ това́рищу.",
+          "uz": "Bir kuni Stepanov do'stinikiga mehmonga bordi."
+        },
+        {
+          "id": "s22",
+          "ru": "У того́ был ма́ленький сын.",
+          "uz": "Do'stining kichkina o'g'li bor edi."
+        },
+        {
+          "id": "s23",
+          "ru": "Това́рищ Степа́нова сказа́л ему́, что ма́льчик пло́хо себя́ чу́вствует.",
+          "uz": "Stepanovning do'sti unga bolasi o'zini yomon his qilayotganini aytdi."
+        },
+        {
+          "id": "s24",
+          "ru": "Когда́ Ю́рий уви́дел ма́льчика, он по́нял, что ребёнок серьёзно бо́лен.",
+          "uz": "Yuriy bolani ko'rib, uning og'ir kasal ekanini tushundi."
+        },
+        {
+          "id": "s25",
+          "ru": "Ю́рий внима́тельно осмотре́л ма́льчика и сказа́л, каки́е лека́рства он до́лжен принима́ть.",
+          "uz": "Yuriy bolani diqqat bilan ko‘zdan kechirdi va unga qanday dori ichish kerakligini aytdi."
+        },
+        {
+          "id": "s26",
+          "ru": "Оте́ц ма́льчика о́чень удиви́лся, и тогда́ Степа́нов рассказа́л ему́ исто́рию свое́й жи́зни.",
+          "uz": "Bolani otasi juda hayron bo‘ldi, shunda Stepanov unga o‘z hayoti haqida gapirib berdi."
+        },
+        {
+          "id": "s27",
+          "ru": "Това́рищ сказа́л: «Ты не прав.",
+          "uz": "Do‘sti unga: «Sen noto‘g‘ri qilayapsan», dedi."
+        },
+        {
+          "id": "s28",
+          "ru": "Ты до́лжен верну́ться и рабо́тать врачо́м.",
+          "uz": "Sen qaytib kelib, vrach bo‘lib ishlashing kerak."
+        },
+        {
+          "id": "s29",
+          "ru": "Де́ти ждут тебя́».",
+          "uz": "Bolalar seni kutishyapti."
+        },
+        {
+          "id": "s30",
+          "ru": "Степа́нов верну́лся в больни́цу.",
+          "uz": "Stepanov kasalxonaga qaytdi."
+        },
+        {
+          "id": "s31",
+          "ru": "Он сно́ва стал рабо́тать врачо́м.",
+          "uz": "U yana vrach bo‘lib ishlay boshladi."
+        },
+        {
+          "id": "s32",
+          "ru": "Де́ти о́чень лю́бят своего́ врача́.",
+          "uz": "Bolalar o‘z vrachlarini juda yaxshi ko‘rishadi."
+        },
+        {
+          "id": "s33",
+          "ru": "Но они́ не зна́ют, кака́я тру́дная и инте́ресная жизнь была́ у э́того челове́ка.",
+          "uz": "Lekin ular bu odamning hayoti qanchalik qiyin va qiziqarli bo‘lganini bilishmaydi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "лётчик",
+        "uz": "uchuvchi",
+        "pos": "ot",
+        "example": {
+          "ru": "Лётчик лети́т на самолёте.",
+          "uz": "Uchuvchi samolyotda uchyapti."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "се́рдце",
+        "uz": "yurak",
+        "pos": "ot",
+        "example": {
+          "ru": "У меня́ боли́т се́рдце.",
+          "uz": "Mening yuragim og'riyapti."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "вы́брать",
+        "uz": "tanlamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ вы́брать кни́гу.",
+          "uz": "Men kitob tanlamoqchiman."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "специа́льность",
+        "uz": "mutaxassislik",
+        "pos": "ot",
+        "example": {
+          "ru": "Моя́ специа́льность — учи́тель.",
+          "uz": "Mening mutaxassisligim — o'qituvchi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "реши́ть",
+        "uz": "qaror qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он реши́л пое́хать домо́й.",
+          "uz": "U uyga borishga qaror qildi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "несча́стье",
+        "uz": "baxtsizlik",
+        "pos": "ot",
+        "example": {
+          "ru": "Э́то бы́ло большо́е несча́стье.",
+          "uz": "Bu katta baxtsizlik edi."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "умере́ть",
+        "uz": "o'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мой де́душка у́мер.",
+          "uz": "Mening bobom vafot etdi."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "тяжело́",
+        "uz": "og'ir",
+        "pos": "ravish",
+        "example": {
+          "ru": "Ему́ тяжело́ рабо́тать.",
+          "uz": "Unga ishlash og'ir."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "потеря́ть",
+        "uz": "yo'qotmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я потеря́л ключи́.",
+          "uz": "Men kalitlarni yo'qotdim."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "уе́хать",
+        "uz": "jo'nab ketmoq (mashinada)",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он уе́хал в Москву́.",
+          "uz": "U Moskvaga jo'nab ketdi."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "гость",
+        "uz": "mehmon",
+        "pos": "ot",
+        "example": {
+          "ru": "Гость пришёл домо́й.",
+          "uz": "Mehmon uyga keldi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "това́рищ",
+        "uz": "birodar",
+        "pos": "ot",
+        "example": {
+          "ru": "Мой това́рищ учи́тся здесь.",
+          "uz": "Mening birodarim bu yerda o‘qiydi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "чу́вствовать",
+        "uz": "his qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я чу́вствую хо́лод.",
+          "uz": "Men sovuqni his qilaman."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "внима́тельно",
+        "uz": "e'tibor bilan",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он внима́тельно слу́шает.",
+          "uz": "U e'tibor bilan tinglaydi."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "лека́рства принима́ть",
+        "uz": "dori qabul qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я принима́ю лека́рства у́тром.",
+          "uz": "Men ertalab dori qabul qilaman."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "удиви́ться",
+        "uz": "ajablanmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я удиви́лся но́вости.",
+          "uz": "Men yangilikka ajablandim."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "сно́ва",
+        "uz": "yangitdan",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он сно́ва пришёл сюда́.",
+          "uz": "U yana bu yerga keldi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "осмотре́ть",
+        "uz": "ko'rib chiqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Врач осмотре́л пацие́нта.",
+          "uz": "Shifokor bemorni ko‘rib chiqdi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "полюби́ть",
+        "uz": "yaxshi ko'rib qolmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я полюби́л э́ту кни́гу.",
+          "uz": "Men bu kitobni yaxshi ko‘rib qoldim."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "до́лжен",
+        "uz": "kerak, majbur",
+        "pos": "sifat",
+        "example": {
+          "ru": "Я до́лжен учи́ться.",
+          "uz": "Men o‘qishim kerak."
         }
       }
     ]

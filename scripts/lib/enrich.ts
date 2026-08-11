@@ -253,7 +253,9 @@ export async function enrichLesson(
     level: meta.level,
     topic: meta.topic,
     assignedAt: isoDay(-weeksAgo * DAYS_BETWEEN_LESSONS),
-    dueAt: isoDay((1 - weeksAgo) * DAYS_BETWEEN_LESSONS),
+    // Manbadagi `DUE` qatori ustun — o'qituvchi muddatni o'zi belgilaganda
+    // haftalik hisob ishlatilmaydi.
+    dueAt: raw.due ?? isoDay((1 - weeksAgo) * DAYS_BETWEEN_LESSONS),
     reading: { introUz: meta.introUz, paragraphs, sentences },
     vocabulary: words,
   }

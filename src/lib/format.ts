@@ -21,15 +21,48 @@ export function formatDate(iso: string): string {
   return `${d.getDate()}-${MONTHS[d.getMonth()]}`
 }
 
-/** Muddatgacha qolgan kunlar — kartochkalarda ko'rsatiladi. */
+/**
+ * Muddat lahzasi.
+ *
+ * Muddat ikki xil yozilishi mumkin: faqat sana ("2026-08-17") yoki soat bilan
+ * ("2026-08-12T23:00:00+05:00"). Faqat sana bo'lsa — o'sha kunning oxirigacha,
+ * aks holda o'quvchi ertalab soat 5 da "muddati o'tdi" degan yozuvni ko'rardi
+ * (sanasiz ISO satr UTC yarim tun deb o'qiladi).
+ */
+function dueInstant(iso: string): Date {
+  if (/T\d/.test(iso)) return new Date(iso)
+  const [year, month, day] = iso.split("-").map(Number)
+  return new Date(year, month - 1, day, 23, 59, 59, 999)
+}
+
+/** Muddatda aniq soat ko'rsatilganmi */
+const hasTime = (iso: string) => /T\d/.test(iso)
+
+/** Muddat o'tganmi — bugungi vazifa hali dolzarbmi, shuni hal qiladi. */
+export function isPastDue(iso: string): boolean {
+  return dueInstant(iso).getTime() < Date.now()
+}
+
+/** Muddatgacha qolgan vaqt — kartochkalarda ko'rsatiladi. */
 export function formatDue(iso: string): { text: string; tone: "ok" | "soon" | "late" } {
+  const due = dueInstant(iso)
   const days = Math.round(
-    (startOfDay(new Date(iso)).getTime() - startOfDay(new Date()).getTime()) / 86_400_000,
+    (startOfDay(due).getTime() - startOfDay(new Date()).getTime()) / 86_400_000,
   )
 
-  if (days < 0) return { text: `Muddati ${-days} kun oldin tugadi`, tone: "late" }
-  if (days === 0) return { text: "Bugun topshiriladi", tone: "soon" }
-  if (days === 1) return { text: "Ertaga topshiriladi", tone: "soon" }
+  if (isPastDue(iso)) {
+    return {
+      text: days === 0 ? "Muddati bugun tugadi" : `Muddati ${-days} kun oldin tugadi`,
+      tone: "late",
+    }
+  }
+
+  const at = hasTime(iso)
+    ? ` soat ${due.getHours()}:${String(due.getMinutes()).padStart(2, "0")} da`
+    : ""
+
+  if (days === 0) return { text: `Bugun${at} topshiriladi`, tone: "soon" }
+  if (days === 1) return { text: `Ertaga${at} topshiriladi`, tone: "soon" }
   return { text: `${days} kun qoldi`, tone: "ok" }
 }
 

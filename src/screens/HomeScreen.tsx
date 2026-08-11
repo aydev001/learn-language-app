@@ -1,12 +1,12 @@
 import { Link } from "react-router"
-import { ArrowRight, BookOpenText, Flame, Mic, Sparkles, Target } from "lucide-react"
+import { ArrowRight, BookOpenText, Flame, Hourglass, Mic, Sparkles, Target } from "lucide-react"
 
 import { ProgressRing } from "@/components/ProgressRing"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ApiError, useLessons, useMe } from "@/lib/api"
-import { formatDue, formatPercent } from "@/lib/format"
+import { formatDue, formatPercent, isPastDue } from "@/lib/format"
 import { haptic } from "@/lib/telegram"
 import { cn } from "@/lib/utils"
 import type { LessonSummary } from "@shared/types"
@@ -15,7 +15,14 @@ export function HomeScreen() {
   const me = useMe()
   const lessons = useLessons()
 
-  const [current, ...earlier] = lessons.data ?? []
+  /**
+   * Ro'yxat sanasi bo'yicha teskari tartibda keladi, ya'ni birinchisi — eng
+   * yangi vazifa. Uning muddati o'tgan bo'lsa, u endi "bugungi" emas: pastdagi
+   * darslar qatoriga tushadi, o'rniga esa kutish haqida yozuv chiqadi.
+   */
+  const [newest, ...rest] = lessons.data ?? []
+  const current = newest && !isPastDue(newest.dueAt) ? newest : undefined
+  const earlier = current ? rest : newest ? [newest, ...rest] : []
 
   return (
     <div className="safe-top px-4 pb-4">
@@ -37,10 +44,10 @@ export function HomeScreen() {
         </Card>
       )}
 
-      {current && (
+      {!lessons.isLoading && lessons.data && lessons.data.length > 0 && (
         <section className="mt-6">
           <SectionTitle icon={Sparkles}>Bugungi vazifa</SectionTitle>
-          <CurrentLessonCard lesson={current} />
+          {current ? <CurrentLessonCard lesson={current} /> : <NoTaskYet />}
         </section>
       )}
 
@@ -63,6 +70,23 @@ export function HomeScreen() {
         </Card>
       )}
     </div>
+  )
+}
+
+/** Oxirgi vazifaning muddati o'tgan, yangisi hali qo'yilmagan holat. */
+function NoTaskYet() {
+  return (
+    <Card className="mt-3 flex-row items-center gap-3 p-4">
+      <div className="grid size-10 shrink-0 place-items-center rounded-full bg-muted">
+        <Hourglass className="size-5 text-muted-foreground" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm font-semibold">Bugungi vazifa hali qo'shilmadi</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          Tez orada qo'shiladi. Shu orada oldingi darslarni takrorlab turing.
+        </p>
+      </div>
+    </Card>
   )
 }
 
