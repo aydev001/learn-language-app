@@ -10,4 +10,29 @@ export const config = {
   maxDuration: 60,
 }
 
-export default handle(app)
+/**
+ * `handle(app)` — web handler, ya'ni `(Request) => Response`.
+ *
+ * Uni `export default` qilib bo'lmaydi: Vercel'ning Node launcher'i avval
+ * `fetch`/`GET`/`POST`... nomli eksportlarni qidiradi, topmasa default
+ * eksportni Node uslubidagi `(req, res)` handler deb chaqiradi. U holda
+ * qaytgan `Response` hech qayerga yozilmaydi, `res.end()` bo'lmaydi va
+ * so'rov FUNCTION_INVOCATION_TIMEOUT bilan tugaydi (lokalda bilinmaydi —
+ * u yerda @hono/vite-dev-server app'ni to'g'ridan-to'g'ri chaqiradi).
+ *
+ * Launcher default eksportni "ochib" ko'rgani uchun (`mod.default`), nomli
+ * eksportlar default bilan birga ishlamaydi — shuning uchun default o'zi
+ * `fetch` saqlagan obyekt bo'ladi. Nomli eksportlar esa default'ni ochmaydigan
+ * boshqa yo'llar uchun zaxira.
+ */
+const handler = handle(app)
+
+export const GET = handler
+export const HEAD = handler
+export const OPTIONS = handler
+export const POST = handler
+export const PUT = handler
+export const PATCH = handler
+export const DELETE = handler
+
+export default { fetch: handler }

@@ -5,7 +5,24 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.server.json" }
   ],
+  /**
+   * Bu yerdagi compilerOptions loyihaning o'z build'iga ta'sir qilmaydi
+   * (files: [] — hamma narsa references orqali quriladi), lekin Vercel
+   * api/ funksiyasini tekshirganda aynan shu sozlamalarni oladi.
+   * Shuning uchun tsconfig.server.json bilan mos bo'lishi kerak.
+   */
   "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "strict": true,
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
