@@ -31,6 +31,9 @@ app.use("*", cors({ origin: "*", allowHeaders: ["Authorization", "Content-Type",
 app.get("/health", (c) =>
   c.json({
     ok: true,
+    // Bot tugmalari shu manzilni ochadi. Sir emas, lekin xato bo'lsa ilova
+    // "sahifani yangilang" deb turaveradi — shuning uchun ko'rinib tursin.
+    appUrl: env.publicUrl || null,
     // Kalitlar emas, faqat sozlanganlik holati chiqadi.
     ttsProvider: getTtsProvider()?.name ?? null,
     features: { tts: hasTts(), pronunciation: hasOpenAI() },
