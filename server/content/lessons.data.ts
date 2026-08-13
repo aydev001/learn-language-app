@@ -1108,5 +1108,360 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-04",
+    "title": "КАК ВИ́КТОР ВЫ́БРАЛ ПРОФЕ́ССИЮ",
+    "titleUz": "Kasb tanlash",
+    "level": "A2",
+    "topic": "Kundalik hayot",
+    "assignedAt": "2026-08-13",
+    "dueAt": "2026-08-14T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va Viktor qanday kasb tanlaganini aniqlang.",
+      "paragraphs": [
+        "Ви́ктор жил в Петербу́рге и учи́лся в деся́том кла́ссе. У него́ бы́ло мно́го друзе́й. Когда́ друзья́ собира́лись вме́сте, они́ говори́ли о том, что они́ бу́дут де́лать, когда́ оконча́т шко́лу. Оди́н хоте́л стать инжене́ром, друго́й — врачо́м, тре́тий — строи́телем, четвёртый — агроно́мом. Ка́ждый ду́мал, что он вы́брал са́мую хоро́шую профе́ссию.",
+        "А Ви́ктор ничего́ не говори́л. Когда́ друзья́ спроси́ли его́, кем он хо́чет стать, он отве́тил: «Я хочу́ стать писа́телем!» Друзья́ засмея́лись: «Как ты мо́жешь стать писа́телем? Ты не зна́ешь жизнь!»",
+        "Ви́ктор ничего́ не отве́тил.",
+        "По́сле оконча́ния шко́лы Ви́ктор пришёл в Литерату́рный институ́т. Когда́ он хоте́л сдать свои́ докуме́нты, секрета́рь сказа́л ему́, что в э́тот институ́т мо́гут поступи́ть лю́ди, кото́рые уже́ написа́ли хоро́ший расска́з и́ли стихи́. Ви́ктор по́нял, что снача́ла он до́лжен написа́ть расска́з. Он до́лго не мог реши́ть, о чём писа́ть. Да, его́ друзья́ пра́вы, он пло́хо зна́ет жизнь.",
+        "Ви́ктор реши́л нача́ть рабо́тать, а че́рез год поступа́ть в институ́т. Он на́чал иска́ть интере́сную рабо́ту. Наконе́ц он пое́хал на Се́вер с гео́логами, что́бы изучи́ть их жизнь. Ви́ктор знал, что у гео́логов тру́дная, но интере́сная рабо́та. Он познако́мился с ра́зными людьми́, кото́рые о́чень люби́ли свою́ специа́льность. Ви́ктор рабо́тал вме́сте с ни́ми.",
+        "Одна́жды Ви́ктор сказа́л гео́логам, что он хо́чет написа́ть расска́з об их профе́ссии. И тепе́рь ка́ждый ве́чер по́сле рабо́ты гео́логи расска́зывали ему́ ра́зные исто́рии из свое́й жи́зни, что́бы помо́чь ему́ написа́ть интере́сный расска́з.",
+        "Прошёл год. Когда́ Ви́ктор с гео́логами верну́лись в Петербу́рг, на вокза́ле они́ сказа́ли ему́: «Мы жела́ем тебе́ стать хоро́шим писа́телем!» Ви́ктор засмея́лся и отве́тил: «А я реши́л стать гео́логом!»"
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Ви́ктор жил в Петербу́рге и учи́лся в деся́том кла́ссе.",
+          "uz": "Viktor Peterburgda yashardi va o'ninchi sinfda o'qirdi."
+        },
+        {
+          "id": "s2",
+          "ru": "У него́ бы́ло мно́го друзе́й.",
+          "uz": "Uning ko'p do'stlari bor edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Когда́ друзья́ собира́лись вме́сте, они́ говори́ли о том, что они́ бу́дут де́лать, когда́ оконча́т шко́лу.",
+          "uz": "Do'stlari birga yig'ilganda, maktabni tugatgach nima qilishlarini gaplashishardi."
+        },
+        {
+          "id": "s4",
+          "ru": "Оди́н хоте́л стать инжене́ром, друго́й — врачо́м, тре́тий — строи́телем, четвёртый — агроно́мом.",
+          "uz": "Biri muhandis bo'lishni, boshqasi shifokor, uchinchisi quruvchi, to'rtinchisi esa agronom bo'lishni xohlardi."
+        },
+        {
+          "id": "s5",
+          "ru": "Ка́ждый ду́мал, что он вы́брал са́мую хоро́шую профе́ссию.",
+          "uz": "Har biri o'zi tanlagan kasb eng yaxshi deb o'ylardi."
+        },
+        {
+          "id": "s6",
+          "ru": "А Ви́ктор ничего́ не говори́л.",
+          "uz": "Lekin Viktor hech narsa demasdi."
+        },
+        {
+          "id": "s7",
+          "ru": "Когда́ друзья́ спроси́ли его́, кем он хо́чет стать, он отве́тил: «Я хочу́ стать писа́телем!»",
+          "uz": "Do'stlari undan kim bo'lishni xohlashini so'rashganda, u: «Men yozuvchi bo'lishni xohlayman!» deb javob berdi."
+        },
+        {
+          "id": "s8",
+          "ru": "Друзья́ засмея́лись: «Как ты мо́жешь стать писа́телем?",
+          "uz": "Do'stlari kulib yuborishdi: «Sen qanday qilib yozuvchi bo'la olasan?»"
+        },
+        {
+          "id": "s9",
+          "ru": "Ты не зна́ешь жизнь!»",
+          "uz": "Sen hayotni bilmaysan!"
+        },
+        {
+          "id": "s10",
+          "ru": "Ви́ктор ничего́ не отве́тил.",
+          "uz": "Viktor hech narsa demadi."
+        },
+        {
+          "id": "s11",
+          "ru": "По́сле оконча́ния шко́лы Ви́ктор пришёл в Литерату́рный институ́т.",
+          "uz": "Maktabni tugatgandan keyin Viktor Adabiyot institutiga keldi."
+        },
+        {
+          "id": "s12",
+          "ru": "Когда́ он хоте́л сдать свои́ докуме́нты, секрета́рь сказа́л ему́, что в э́тот институ́т мо́гут поступи́ть лю́ди, кото́рые уже́ написа́ли хоро́ший расска́з и́ли стихи́.",
+          "uz": "U hujjatlarini topshirmoqchi bo'lganida, kotiba unga bu institutga faqat yaxshi hikoya yoki she’r yozgan odamlar kirishi mumkinligini aytdi."
+        },
+        {
+          "id": "s13",
+          "ru": "Ви́ктор по́нял, что снача́ла он до́лжен написа́ть расска́з.",
+          "uz": "Viktor avval hikoya yozishi kerakligini tushundi."
+        },
+        {
+          "id": "s14",
+          "ru": "Он до́лго не мог реши́ть, о чём писа́ть.",
+          "uz": "U uzoq vaqt nima haqida yozishni bilmay qiynaldi."
+        },
+        {
+          "id": "s15",
+          "ru": "Да, его́ друзья́ пра́вы, он пло́хо зна́ет жизнь.",
+          "uz": "Ha, do‘stlari to‘g‘ri aytishgan, u hayotni yaxshi bilmaydi."
+        },
+        {
+          "id": "s16",
+          "ru": "Ви́ктор реши́л нача́ть рабо́тать, а че́рез год поступа́ть в институ́т.",
+          "uz": "Viktor ishlashni boshlashga va bir yildan keyin institutga kirishga qaror qildi."
+        },
+        {
+          "id": "s17",
+          "ru": "Он на́чал иска́ть интере́сную рабо́ту.",
+          "uz": "U uzi uchun qiziqarli ish izlashni boshladi."
+        },
+        {
+          "id": "s18",
+          "ru": "Наконе́ц он пое́хал на Се́вер с гео́логами, что́бы изучи́ть их жизнь.",
+          "uz": "Nihoyat, u geologlar bilan Shimolga bordi va ularning hayotini o‘rganishga kirishdi."
+        },
+        {
+          "id": "s19",
+          "ru": "Ви́ктор знал, что у гео́логов тру́дная, но интере́сная рабо́та.",
+          "uz": "Viktor bilardi: geologlarning ishi og‘ir, lekin juda qiziqarli."
+        },
+        {
+          "id": "s20",
+          "ru": "Он познако́мился с ра́зными людьми́, кото́рые о́чень люби́ли свою́ специа́льность.",
+          "uz": "U turli odamlar bilan tanishdi, ular o‘z kasbini juda yaxshi ko‘rardi."
+        },
+        {
+          "id": "s21",
+          "ru": "Ви́ктор рабо́тал вме́сте с ни́ми.",
+          "uz": "Viktor ular bilan birga ishladi."
+        },
+        {
+          "id": "s22",
+          "ru": "Одна́жды Ви́ктор сказа́л гео́логам, что он хо́чет написа́ть расска́з об их профе́ссии.",
+          "uz": "Bir kuni Viktor geologlarga: 'Men sizlarning kasbingiz haqida hikoya yozmoqchiman', dedi."
+        },
+        {
+          "id": "s23",
+          "ru": "И тепе́рь ка́ждый ве́чер по́сле рабо́ты гео́логи расска́зывали ему́ ра́зные исто́рии из свое́й жи́зни, что́бы помо́чь ему́ написа́ть интере́сный расска́з.",
+          "uz": "Endi esa har kuni kechqurun geologlar unga o‘z hayotlaridan turli voqealarni aytib berishardi, shunda u yaxshi hikoya yozishi uchun yordam berishardi."
+        },
+        {
+          "id": "s24",
+          "ru": "Прошёл год.",
+          "uz": "Bir yil o‘tdi."
+        },
+        {
+          "id": "s25",
+          "ru": "Когда́ Ви́ктор с гео́логами верну́лись в Петербу́рг, на вокза́ле они́ сказа́ли ему́: «Мы жела́ем тебе́ стать хоро́шим писа́телем!»",
+          "uz": "Viktor geologlar bilan Peterburgga qaytganda, vokzalda ular unga: «Biz senga yaxshi yozuvchi bo'lishingni tilaymiz!» deyishdi."
+        },
+        {
+          "id": "s26",
+          "ru": "Ви́ктор засмея́лся и отве́тил: «А я реши́л стать гео́логом!»",
+          "uz": "Viktor kulib: «Men esa geolog bo'lishga qaror qildim!» deb javob berdi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "собира́ться",
+        "uz": "yig'ilishmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы собира́емся в па́рке.",
+          "uz": "Biz bog'da yig'ilamiz."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "око́нчить",
+        "uz": "tugatmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я око́нчил шко́лу.",
+          "uz": "Men maktabni tugatdim."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "строи́тель",
+        "uz": "quruvchi",
+        "pos": "ot",
+        "example": {
+          "ru": "Мой оте́ц строи́тель.",
+          "uz": "Mening otam quruvchi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "засмея́ться",
+        "uz": "kulmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́ти засмея́лись гро́мко.",
+          "uz": "Bolalar qattiq kulishdi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "жизнь",
+        "uz": "hayot",
+        "pos": "ot",
+        "example": {
+          "ru": "Жизнь прекра́сна.",
+          "uz": "Hayot go'zal."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "отве́тить",
+        "uz": "javob bermoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я отвечу́ на вопро́с.",
+          "uz": "Men savolga javob beraman."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "сдать",
+        "uz": "topshirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я сдал экза́мен.",
+          "uz": "Men imtihonni topshirdim."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "поступи́ть",
+        "uz": "kirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он поступи́л в университе́т.",
+          "uz": "U universitetga kirdi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "расска́з",
+        "uz": "hikoya",
+        "pos": "ot",
+        "example": {
+          "ru": "Я чита́ю расска́з.",
+          "uz": "Men hikoya o'qiyapman."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "стихи́",
+        "uz": "she'rlar",
+        "pos": "ot",
+        "example": {
+          "ru": "Я люблю́ чита́ть стихи́.",
+          "uz": "Men she'rlar o'qishni yaxshi ko'raman."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "до́лго",
+        "uz": "uzoq muddat",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он до́лго ждал меня́.",
+          "uz": "U uzoq muddat meni kutdi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "изучи́ть",
+        "uz": "o'rganmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ изучи́ть язы́к.",
+          "uz": "Men tilni o'rganmoqchiman."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "расска́зывать",
+        "uz": "hikoya qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он лю́бит расска́зывать исто́рии.",
+          "uz": "U hikoya qilishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "помо́чь",
+        "uz": "yordam bermoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ты мо́жешь мне помо́чь?",
+          "uz": "Menga yordam bera olasanmi?"
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "пройти́",
+        "uz": "o'tmoq (прошёл год — yil o'tdi)",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Прошёл год о́чень бы́стро.",
+          "uz": "Yil juda tez o'tdi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "жела́ть",
+        "uz": "tilamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я жела́ю тебе́ уда́чи.",
+          "uz": "Men senga omad tilayman."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "забы́ть",
+        "uz": "unutmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я забы́л твой а́дрес.",
+          "uz": "Men sening manzilingni unutdim."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "посо́л",
+        "uz": "elchi",
+        "pos": "ot",
+        "example": {
+          "ru": "Посо́л прие́хал в го́род.",
+          "uz": "Elchi shaharga keldi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "посо́льство",
+        "uz": "elchixona",
+        "pos": "ot",
+        "example": {
+          "ru": "Посо́льство нахо́дится ря́дом.",
+          "uz": "Elchixona yaqin joyda."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "племя́нник",
+        "uz": "jiyan (o'g'il bola)",
+        "pos": "ot",
+        "example": {
+          "ru": "Мой племя́нник лю́бит рисова́ть.",
+          "uz": "Mening jiyanim rasm chizishni yaxshi ko'radi."
+        }
+      }
+    ]
   }
 ]
