@@ -13,6 +13,7 @@
     "usage": "tsx scripts/usage.ts",
     "tg:setup": "tsx scripts/telegram-setup.ts",
     "tg:status": "tsx scripts/telegram-setup.ts --status",
+    "broadcast": "tsx scripts/broadcast.ts",
     "cache:prune": "tsx scripts/cache-prune.ts",
     "import": "tsx scripts/import-lessons.ts"
   },
