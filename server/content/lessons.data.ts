@@ -1463,5 +1463,374 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-05",
+    "title": "АБУ́-НУВА́С",
+    "titleUz": "Abu-Nuvas va o‘g‘li",
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-08-17",
+    "dueAt": "2026-08-17T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o‘qing va voqeani tushunishga harakat qiling.",
+      "paragraphs": [
+        "У Абу́-Нува́са был ма́ленький сын. Э́тому весёлому и хи́трому ма́льчику бы́ло то́лько семь лет, но он был уже́ о́чень похо́ж на своего́ отца́. Абу́-Нува́с о́чень люби́л своего́ весёлого хи́трого сы́на, хотя́ сын ча́сто обма́нывал своего́ отца́.",
+        "Одна́жды друг Абу́-Нува́са пришёл к нему́ в го́сти и принёс ему́ сла́дкую халву́, кото́рую Абу́-Нува́с о́чень люби́л. Абу́-Нува́с реши́л, что он съест э́ту халву́, когда́ бу́дет пить чай. Друг Абу́-Нува́са ушёл. Абу́-Нува́с хоте́л нача́ть пить чай, но в э́тот моме́нт в дверь кто́-то постуча́л. Абу́-Нува́с откры́л дверь и уви́дел своего́ сосе́да. Сосе́д сказа́л Абу́-Нува́су, что у него́ сего́дня день рожде́ния и он хо́чет, что́бы Абу́-Нува́с пришёл к нему́ в го́сти. Абу́-Нува́с сказа́л, что придёт че́рез не́сколько мину́т. Но он хорошо́ знал, что, как то́лько он уйдёт, сын обяза́тельно съест вку́сную халву́, кото́рую принёс его́ друг. Поэ́тому он реши́л обману́ть своего́ ма́ленького сы́на.",
+        "Он сказа́л своему́ ма́ленькому сы́ну, что челове́к, кото́рый принёс э́ту халву́, его́ ста́рый враг и что в э́той халве́ есть яд. «Е́сли ты съешь э́ту халву́, ты обяза́тельно умрёшь», — сказа́л Абу́-Нува́с своему́ сы́ну.",
+        "Абу́-Нува́с ушёл к своему́ сосе́ду. Когда́ он ушёл, его́ весёлый хи́трый ма́ленький сын взял халву́ и съел её. Он по́нял, что оте́ц сказа́л непра́вду, потому́ что он не хоте́л, что́бы сын съел его́ люби́мую халву́.",
+        "Но когда́ сын съел всю халву́, он испуга́лся. Он поду́мал, что оте́ц о́чень рассе́рдится, когда́ уви́дит, что сын съел всю халву́. И он реши́л обману́ть своего́ отца́. Он взял люби́мый нож Абу́-Нува́са и слома́л его́. Пото́м он положи́л сло́манный нож ря́дом с собо́й на пол и на́чал ждать, когда́ придёт оте́ц.",
+        "Когда́ Абу́-Нува́с пришёл домо́й, он уви́дел, что его́ люби́мый ма́ленький сын сиди́т на полу́ и пла́чет, а ря́дом с ним лежи́т сло́манный нож. Сын уви́дел отца́ и сказа́л: «Я случа́йно слома́л твой люби́мый нож и реши́л умере́ть. Поэ́тому я съел всю халву́. А тепе́рь я сижу́ и жду, когда́ я умру́. Я не понима́ю, почему́ я ещё не у́мер». Когда́ Абу́-Нува́с услы́шал э́ти слова́, он на́чал гро́мко смея́ться. Он по́нял, что его́ ма́ленький сын хитре́е его́."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "У Абу́-Нува́са был ма́ленький сын.",
+          "uz": "Abu-Nuvasning kichkina o‘g‘li bor edi."
+        },
+        {
+          "id": "s2",
+          "ru": "Э́тому весёлому и хи́трому ма́льчику бы́ло то́лько семь лет, но он был уже́ о́чень похо́ж на своего́ отца́.",
+          "uz": "Bu quvnoq va ayyor bola atigi yetti yoshda edi, lekin u allaqachon otasiga juda o‘xshardi."
+        },
+        {
+          "id": "s3",
+          "ru": "Абу́-Нува́с о́чень люби́л своего́ весёлого хи́трого сы́на, хотя́ сын ча́сто обма́нывал своего́ отца́.",
+          "uz": "Abu-Nuvas o‘zining quvnoq va ayyor o‘g‘lini juda yaxshi ko‘rardi, garchi o‘g‘li tez-tez otasini aldab turardi."
+        },
+        {
+          "id": "s4",
+          "ru": "Одна́жды друг Абу́-Нува́са пришёл к нему́ в го́сти и принёс ему́ сла́дкую халву́, кото́рую Абу́-Нува́с о́чень люби́л.",
+          "uz": "Bir kuni Abu-Nuvasning do‘sti unga mehmon bo‘lib keldi va u juda yaxshi ko‘radigan shirin halva olib keldi."
+        },
+        {
+          "id": "s5",
+          "ru": "Абу́-Нува́с реши́л, что он съест э́ту халву́, когда́ бу́дет пить чай.",
+          "uz": "Abu-Nuvas halvani choy ichayotganda yeyishga qaror qildi."
+        },
+        {
+          "id": "s6",
+          "ru": "Друг Абу́-Нува́са ушёл.",
+          "uz": "Abu-Nuvasning do‘sti ketdi."
+        },
+        {
+          "id": "s7",
+          "ru": "Абу́-Нува́с хоте́л нача́ть пить чай, но в э́тот моме́нт в дверь кто́-то постуча́л.",
+          "uz": "Abu-Nuvas choy ichishni boshlamoqchi edi, shu payt eshik taqilladi."
+        },
+        {
+          "id": "s8",
+          "ru": "Абу́-Нува́с откры́л дверь и уви́дел своего́ сосе́да.",
+          "uz": "Abu-Nuvas eshikni ochdi va qo‘shnisini ko‘rdi."
+        },
+        {
+          "id": "s9",
+          "ru": "Сосе́д сказа́л Абу́-Нува́су, что у него́ сего́дня день рожде́ния и он хо́чет, что́бы Абу́-Нува́с пришёл к нему́ в го́сти.",
+          "uz": "Qo'shni Abu-Nuvasga bugun tug'ilgan kuni ekanini aytdi va uni mehmonlikka chaqirdi."
+        },
+        {
+          "id": "s10",
+          "ru": "Абу́-Нува́с сказа́л, что придёт че́рез не́сколько мину́т.",
+          "uz": "Abu-Nuvas bir necha daqiqadan keyin borishini aytdi."
+        },
+        {
+          "id": "s11",
+          "ru": "Но он хорошо́ знал, что, как то́лько он уйдёт, сын обяза́тельно съест вку́сную халву́, кото́рую принёс его́ друг.",
+          "uz": "Lekin u yaxshi bilar edi: u uyidan chiqishi bilan o'g'li do'sti olib kelgan mazali halvani albatta yeydi."
+        },
+        {
+          "id": "s12",
+          "ru": "Поэ́тому он реши́л обману́ть своего́ ма́ленького сы́на.",
+          "uz": "Shuning uchun u kichkina o'g'lini aldashga qaror qildi."
+        },
+        {
+          "id": "s13",
+          "ru": "Он сказа́л своему́ ма́ленькому сы́ну, что челове́к, кото́рый принёс э́ту халву́, его́ ста́рый враг и что в э́той халве́ есть яд.",
+          "uz": "U kichkina o'g'liga: 'Bu halvani olib kelgan odam men uchun eski dushman, bu halvada zahar bor', dedi."
+        },
+        {
+          "id": "s14",
+          "ru": "«Е́сли ты съешь э́ту халву́, ты обяза́тельно умрёшь», — сказа́л Абу́-Нува́с своему́ сы́ну.",
+          "uz": "'Agar sen bu halvani yesang, albatta o'lib qolasan', — dedi Abu-Nuvas o'g'liga."
+        },
+        {
+          "id": "s15",
+          "ru": "Абу́-Нува́с ушёл к своему́ сосе́ду.",
+          "uz": "Abu-Nuvas qo'shnisining uyiga ketdi."
+        },
+        {
+          "id": "s16",
+          "ru": "Когда́ он ушёл, его́ весёлый хи́трый ма́ленький сын взял халву́ и съел её.",
+          "uz": "U chiqib ketgach, uning quvnoq va ayyor kichkina o'g'li halvani olib, yeb qo'ydi."
+        },
+        {
+          "id": "s17",
+          "ru": "Он по́нял, что оте́ц сказа́л непра́вду, потому́ что он не хоте́л, что́бы сын съел его́ люби́мую халву́.",
+          "uz": "U otasi yolg'on gapirganini tushundi: otasi o'g'li sevimli halvasini yeb qo'yishini xohlamagan edi."
+        },
+        {
+          "id": "s18",
+          "ru": "Но когда́ сын съел всю халву́, он испуга́лся.",
+          "uz": "Lekin o'g'li butun halvani yeb qo'ygach, qo'rqib ketdi."
+        },
+        {
+          "id": "s19",
+          "ru": "Он поду́мал, что оте́ц о́чень рассе́рдится, когда́ уви́дит, что сын съел всю халву́.",
+          "uz": "U o'yladi: otasi o'g'li butun halvani yeb qo'yganini ko'rsa, juda jahli chiqadi."
+        },
+        {
+          "id": "s20",
+          "ru": "И он реши́л обману́ть своего́ отца́.",
+          "uz": "Shuning uchun u otasini aldashga qaror qildi."
+        },
+        {
+          "id": "s21",
+          "ru": "Он взял люби́мый нож Абу́-Нува́са и слома́л его́.",
+          "uz": "U Abu-Nuvasning sevimli pichog'ini olib, uni sindirdi."
+        },
+        {
+          "id": "s22",
+          "ru": "Пото́м он положи́л сло́манный нож ря́дом с собо́й на пол и на́чал ждать, когда́ придёт оте́ц.",
+          "uz": "Keyin sindirilgan pichoqni yoniga polga qo'ydi va otasi kelishini kutdi."
+        },
+        {
+          "id": "s23",
+          "ru": "Когда́ Абу́-Нува́с пришёл домо́й, он уви́дел, что его́ люби́мый ма́ленький сын сиди́т на полу́ и пла́чет, а ря́дом с ним лежи́т сло́манный нож.",
+          "uz": "Abu-Nuvas uyga kirganda, kichkina o'g'li polga o'tirib yig'layotganini va yonida sindirilgan pichoq yotganini ko'rdi."
+        },
+        {
+          "id": "s24",
+          "ru": "Сын уви́дел отца́ и сказа́л: «Я случа́йно слома́л твой люби́мый нож и реши́л умере́ть.",
+          "uz": "O'g'li otasini ko'rib: “Men pichog'ingni tasodifan sindirib qo'ydim va shu sabab o'lishga qaror qildim”, dedi."
+        },
+        {
+          "id": "s25",
+          "ru": "Поэ́тому я съел всю халву́.",
+          "uz": "Shuning uchun men butun halvani yeb qo'ydim."
+        },
+        {
+          "id": "s26",
+          "ru": "А тепе́рь я сижу́ и жду, когда́ я умру́.",
+          "uz": "Endi esa o'tirib, qachon o'laman deb kutyapman."
+        },
+        {
+          "id": "s27",
+          "ru": "Я не понима́ю, почему́ я ещё не у́мер».",
+          "uz": "Nega hali ham o'lmaganimni tushunmayapman."
+        },
+        {
+          "id": "s28",
+          "ru": "Когда́ Абу́-Нува́с услы́шал э́ти слова́, он на́чал гро́мко смея́ться.",
+          "uz": "Abu-Nuvas bu gaplarni eshitib, baland ovozda kulib yubordi."
+        },
+        {
+          "id": "s29",
+          "ru": "Он по́нял, что его́ ма́ленький сын хитре́е его́.",
+          "uz": "U o'g'li undan ham ayyorroq ekanini tushundi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "весёлый",
+        "uz": "quvnoq",
+        "pos": "sifat",
+        "example": {
+          "ru": "Ма́льчик весёлый сего́дня.",
+          "uz": "Bola bugun quvnoq."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "похо́ж",
+        "uz": "o'xshash",
+        "pos": "sifat",
+        "example": {
+          "ru": "Ты похо́ж на бра́та.",
+          "uz": "Sen akangga o'xshashsan."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "обма́нывать",
+        "uz": "aldamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не на́до обма́нывать люде́й.",
+          "uz": "Odamlarni aldamaslik kerak."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "гость",
+        "uz": "mehmon",
+        "pos": "ot",
+        "example": {
+          "ru": "К нам пришёл гость.",
+          "uz": "Bizga mehmon keldi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "съесть",
+        "uz": "yeb tugatmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ съесть я́блоко.",
+          "uz": "Men olmani yeb tugatmoqchiman."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "пить",
+        "uz": "ichmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он лю́бит пить чай.",
+          "uz": "U choy ichishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "вку́сный",
+        "uz": "mazali",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то вку́сный суп.",
+          "uz": "Bu mazali sho'rva."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "враг",
+        "uz": "dushman",
+        "pos": "ot",
+        "example": {
+          "ru": "У него́ есть враг.",
+          "uz": "Uning dushmani bor."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "яд",
+        "uz": "zahar",
+        "pos": "ot",
+        "example": {
+          "ru": "У змеи́ есть яд.",
+          "uz": "Ilonda zahar bor."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "непра́вда",
+        "uz": "yolg'on",
+        "pos": "ot",
+        "example": {
+          "ru": "Э́то непра́вда.",
+          "uz": "Bu yolg'on."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "испуга́ться",
+        "uz": "qo'rqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я испуга́лся но́чью.",
+          "uz": "Men tunda qo'rqdim."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "поду́мать",
+        "uz": "o'ylamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он поду́мал и отве́тил.",
+          "uz": "U o'ylab, javob berdi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "рассерди́ться",
+        "uz": "jahli chiqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Она́ рассерди́лась на меня́.",
+          "uz": "U menga jahli chiqdi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "слома́ть",
+        "uz": "sindirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я слома́л каранда́ш.",
+          "uz": "Men qalamni sindirdim."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "положи́ть",
+        "uz": "qo'ymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Положи́ кни́гу на стол.",
+          "uz": "Kitobni stolga qo'y."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "ждать",
+        "uz": "kutmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я жду дру́га здесь.",
+          "uz": "Men do'stimni shu yerda kutyapman."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "пла́кать",
+        "uz": "yig'lamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́льчик на́чал пла́кать.",
+          "uz": "Bola yig'lay boshladi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "случа́йно",
+        "uz": "to'satdan",
+        "pos": "ravish",
+        "example": {
+          "ru": "Я случа́йно встре́тил его́.",
+          "uz": "Men uni to'satdan uchratdim."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "смея́ться",
+        "uz": "kulmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́ти лю́бят смея́ться вме́сте.",
+          "uz": "Bolalar birga kulishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "принести́",
+        "uz": "olib kelmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Пожа́луйста, принеси́ мне во́ду.",
+          "uz": "Iltimos, menga suv olib kel."
+        }
+      }
+    ]
   }
 ]
