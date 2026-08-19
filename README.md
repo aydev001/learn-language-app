@@ -62,14 +62,26 @@ interfeysi umuman ishlamaydi, boshqaruv esa butunlay bizniki (o'ynatish,
 vaqt chizig'i, ±10 soniya, ovoz, to'liq ekran). Har bir harakat — bosilgan
 tugma, ya'ni uning turi ham, aniq soniyasi ham ma'lum.
 
-Ikki nozik joy:
+Uch nozik joy:
 
 - **O'ynatish** bosilganda video darhol ketmaydi (yuklanadi, buferlanadi).
   Bosilgan lahzadagi soniyani yuborsak, uy soati oldinda ketib qolardi —
   shuning uchun pleer haqiqatan o'ynay boshlaguncha kutamiz.
-- **Surish va to'xtatish** aksincha: natijasi darhol aniq, shuning uchun
-  pleerdan so'ralmaydi (u yangi joyni bir zumda ko'rsatmaydi va eski
-  soniyani qaytarardi) — biz bilgan qiymat to'g'ridan-to'g'ri yuboriladi.
+- **Surish** ham bir zumda bajarilmaydi. `seekTo` dan keyingi bir necha yuz
+  millisekundda `getCurrentTime()` hali **eski** joyni qaytaradi — o'shani
+  yuborsak, surilgan video hammada oldingi joyiga qaytib ketardi. Shuning
+  uchun pleer yangi joyga yetib kelguncha kutiladi, ulgurmasa esa biz bilgan
+  mo'ljal yuboriladi.
+- **Pleer o'z holatini yo'qotganda** (qayta yuklash, bufer) `getCurrentTime()`
+  nol qaytaradi. O'shanda ekranda ham, boshqaruvda ham uning o'rniga uyning
+  soati ishlatiladi — aks holda "+10 soniya" noldan hisoblab, hammani kino
+  boshiga tortib ketardi.
+
+Video haqiqatan ketayotgan lahzadan boshqa paytda pleer o'z pardamiz bilan
+yopiladi. Boshqaruvni o'chirib bo'lsa ham, YouTube yuklanish paytida sarlavha
+bilan brend qatorini, to'xtatilganda esa "More videos" tavsiyalarini
+ko'rsatishda davom etadi — do'stingiz videoni yoqqanda sizda bir zum begona
+ramka yonib o'chardi.
 
 Videoning "hozirgi joyi" bazada saqlanmaydi — u har soniyada o'zgaradi.
 Saqlanadigani: `positionSec` (belgilangan lahzadagi joy) va `stateAt`

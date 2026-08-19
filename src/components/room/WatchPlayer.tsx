@@ -4,6 +4,7 @@ import { Loader2, Lock, Maximize, Minimize, Pause, Play, Volume2, VolumeX } from
 import type { RoomStateView } from "@shared/types"
 import { expectedPosition } from "@/lib/rooms"
 import { haptic } from "@/lib/telegram"
+import { cn } from "@/lib/utils"
 import {
   YT_STATE,
   describeYouTubeError,
@@ -49,6 +50,12 @@ const SEEK_LEAD = 0.5
 
 /** Harakat efirga chiqishidan oldin pleer joylashuvi shuncha kutiladi (ms). */
 const SETTLE_TIMEOUT = 4000
+
+/** To'xtatilgan videoda kutishga hojat yo'q — buferlanadigan narsa yo'q (ms). */
+const SETTLE_TIMEOUT_PAUSED = 1500
+
+/** Surish "yetib keldi" deb hisoblanadigan farq (sekund). */
+const LANDED = 1
 
 /**
  * Pleer shuncha vaqt buferda qotib qolsa, video qaytadan yuklanadi (ms).
@@ -102,7 +109,12 @@ export function WatchPlayer({
    * "nega ketmayapti" deb qolardi.
    */
   const [activated, setActivated] = useState(false)
-  const [display, setDisplay] = useState({ time: 0, duration: 0, buffering: false })
+  const [display, setDisplay] = useState<{
+    time: number
+    duration: number
+    /** `YT_STATE` qiymatlaridan biri */
+    playerState: number
+  }>({ time: 0, duration: 0, playerState: YT_STATE.UNSTARTED })
   /** Foydalanuvchi chiziqni ushlab turibdi — o'sha paytda kuzatuv aralashmaydi */
   const [scrub, setScrub] = useState<number | null>(null)
   /**
@@ -158,29 +170,44 @@ export function WatchPlayer({
    * do'stlar bir-biridan surilib qoladi. Shuning uchun pleer haqiqatan
    * o'ynay boshlaguncha kutamiz va o'shanda aniq soniyani yuboramiz.
    */
-  const broadcast = useCallback((isPlaying: boolean, position: number) => {
+  const broadcast = useCallback((isPlaying: boolean, target: number, wait: boolean) => {
     const player = playerRef.current
     const token = ++settleRef.current
 
-    if (!isPlaying || !player) {
-      onActionRef.current(isPlaying, position)
+    if (!player || !wait) {
+      onActionRef.current(isPlaying, target)
       return
     }
 
     const startedAt = Date.now()
+    const limit = isPlaying ? SETTLE_TIMEOUT : SETTLE_TIMEOUT_PAUSED
 
     const attempt = () => {
       if (settleRef.current !== token) return // yangiroq harakat bo'ldi
 
-      if (player.getPlayerState() === YT_STATE.PLAYING) {
-        onActionRef.current(true, player.getCurrentTime())
+      const time = player.getCurrentTime()
+      /**
+       * Ikki shart ham bajarilishi kerak:
+       *
+       * — **yetib keldi**: `seekTo` bir zumda bajarilmaydi va o'sha oraliqda
+       *   `getCurrentTime` hali **eski** joyni qaytaradi. Ilgari shuni uyga
+       *   yuborardik, natijada surilgan video hammada oldingi joyiga qaytib
+       *   ketardi;
+       * — **o'ynay boshladi**: bosilgan lahzadagi soniyani yuborsak, video
+       *   yuklanguncha ketgan vaqt uy soatini oldinga surib yuborardi.
+       */
+      const landed = Math.abs(time - target) < LANDED
+      const running = !isPlaying || player.getPlayerState() === YT_STATE.PLAYING
+
+      if (landed && running) {
+        onActionRef.current(isPlaying, time)
         return
       }
 
-      // Pleer ketmadi (bufer, sekin tarmoq, ko'rinmayotgan oyna). Uyni
+      // Pleer joylashmadi (bufer, sekin tarmoq, ko'rinmayotgan oyna). Uyni
       // kutkazib qo'ymaymiz — mo'ljallangan soniya bilan davom etamiz.
-      if (Date.now() - startedAt > SETTLE_TIMEOUT) {
-        onActionRef.current(true, position)
+      if (Date.now() - startedAt > limit) {
+        onActionRef.current(isPlaying, target)
         return
       }
 
@@ -325,7 +352,7 @@ export function WatchPlayer({
     suppress()
     player.cueVideoById({ videoId: state.videoId, startSeconds: 0 })
     appliedAtRef.current = 0
-    setDisplay({ time: 0, duration: 0, buffering: false })
+    setDisplay({ time: 0, duration: 0, playerState: YT_STATE.UNSTARTED })
   }, [state.videoId, ready])
 
   /* ------------------------------------------------- serverdagi o'zgarishlar */
@@ -445,15 +472,15 @@ export function WatchPlayer({
 
       const time = player.getCurrentTime()
       const duration = player.getDuration()
-      const buffering = player.getPlayerState() === YT_STATE.BUFFERING
+      const playerState = player.getPlayerState()
 
       // Qiymat sezilarli o'zgarmasa qayta chizmaymiz.
       setDisplay((prev) =>
         Math.abs(prev.time - time) < 0.25 &&
         prev.duration === duration &&
-        prev.buffering === buffering
+        prev.playerState === playerState
           ? prev
-          : { time, duration, buffering },
+          : { time, duration, playerState },
       )
     }, DISPLAY_TICK)
 
@@ -495,10 +522,33 @@ export function WatchPlayer({
   /* ------------------------------------------------------------------ amallar */
 
   const duration = display.duration
-  const position = scrub ?? display.time
   const covered = !ready || !activated
+
+  /**
+   * Ekranda ko'rinadigan va boshqaruv tayanadigan soniya.
+   *
+   * Pleer yuklanayotganda yoki qayta yuklanganda `getCurrentTime()` nolni
+   * qaytaradi. O'shanda uning o'rniga uyning soati ko'rsatiladi: aks holda
+   * "0:00" yonib turar, "+10 soniya" esa noldan hisoblab, hammani kino
+   * boshiga tortib ketardi.
+   */
+  const playerLive =
+    display.playerState === YT_STATE.PLAYING || display.playerState === YT_STATE.PAUSED
+  const position = scrub ?? (playerLive ? display.time : expectedPosition(state, serverNow()))
   /** Tugmalar uchun: hali efirga chiqmagan bosish ham hisobga olinadi */
   const showPlaying = pendingPlay ?? state.isPlaying
+
+  /**
+   * Video haqiqatan ketayotgan lahzadan boshqa paytda pleer o'z parda bilan
+   * yopiladi.
+   *
+   * YouTube boshqaruvini o'chirib bo'lsa ham, u yuklanish paytida sarlavha
+   * bilan brend qatorini, to'xtatilganda esa "More videos" tavsiyalarini
+   * ko'rsatishda davom etadi. Bosish o'tmasa ham bu ko'zga tashlanadi:
+   * do'stingiz videoni yoqqanda sizda bir zum begona ramka yonib o'chardi.
+   */
+  const starting = showPlaying && display.playerState !== YT_STATE.PLAYING
+  const veiled = !covered && (starting || !showPlaying)
 
   const activate = () => {
     haptic.impact("medium")
@@ -526,12 +576,13 @@ export function WatchPlayer({
 
     // Avval o'z pleerimizni boshqaramiz — javob darhol sezilsin. Uyga esa
     // pleer haqiqatan o'sha holatga o'tgach xabar beriladi.
-    const from = player.getCurrentTime()
+    const from = playerLive ? player.getCurrentTime() : position
     suppress(SETTLE_TIMEOUT + 500)
     if (next) player.playVideo()
     else player.pauseVideo()
 
-    broadcast(next, from)
+    // To'xtatish darhol ma'lum, o'ynatish esa yuklanishni kutadi.
+    broadcast(next, from, next)
   }
 
   /** Vaqt chizig'i qo'yib yuborilganda. */
@@ -545,9 +596,7 @@ export function WatchPlayer({
     haptic.select()
     suppress(SETTLE_TIMEOUT + 500)
     player.seekTo(value, true)
-    // Qayerga surganimiz aniq — pleerdan so'rab o'tirmaymiz: u yangi joyni
-    // bir zumda ko'rsatmaydi va eski soniyani qaytarardi.
-    broadcast(showPlaying, value)
+    broadcast(showPlaying, value, true)
   }
 
   const step = (delta: number) => {
@@ -556,7 +605,7 @@ export function WatchPlayer({
     if (!player) return
 
     const limit = display.duration || Number.MAX_SAFE_INTEGER
-    const next = Math.max(0, Math.min(limit, player.getCurrentTime() + delta))
+    const next = Math.max(0, Math.min(limit, position + delta))
 
     haptic.select()
     setScrub(next)
@@ -564,7 +613,7 @@ export function WatchPlayer({
     window.setTimeout(() => setScrub(null), 1200)
     suppress(SETTLE_TIMEOUT + 500)
     player.seekTo(next, true)
-    broadcast(showPlaying, next)
+    broadcast(showPlaying, next, true)
   }
 
   /* ---------------------------------------------------------------- ko'rinish */
@@ -576,26 +625,36 @@ export function WatchPlayer({
             ham, bosib o'tkazish ham ishlamasin. */}
         <div ref={hostRef} className="pointer-events-none size-full [&>iframe]:size-full" />
 
-        {/* Videoning o'zini bosish — o'ynatish/to'xtatish. */}
+        {/* Videoning o'zini bosish — o'ynatish/to'xtatish. Ayni paytda bu
+            YouTube ko'rsatmoqchi bo'lgan narsani yopadigan parda. */}
         {!covered && (
           <button
             type="button"
             onClick={togglePlay}
             aria-label={showPlaying ? "To'xtatish" : "O'ynatish"}
-            className="absolute inset-0 grid place-items-center"
+            className={cn(
+              "absolute inset-0 grid place-items-center transition-opacity duration-200",
+              veiled ? "bg-black/95 backdrop-blur-sm" : "bg-transparent",
+            )}
           >
-            {!showPlaying && (
-              <span className="grid size-14 place-items-center rounded-full bg-black/45 ring-1 ring-white/25 backdrop-blur-sm">
-                <Play className="size-6 translate-x-0.5 fill-white text-white" />
+            {starting ? (
+              <span className="flex flex-col items-center gap-2 text-white/80">
+                <Loader2 className="size-6 animate-spin" />
+                <span className="text-xs">Yuklanmoqda…</span>
               </span>
+            ) : (
+              !showPlaying && (
+                <span className="flex flex-col items-center gap-2">
+                  <span className="grid size-14 place-items-center rounded-full bg-white/15 ring-1 ring-white/25">
+                    <Play className="size-6 translate-x-0.5 fill-white text-white" />
+                  </span>
+                  <span className="text-xs text-white/70">
+                    {state.stateByName ? `${state.stateByName} to'xtatdi` : "To'xtatilgan"}
+                  </span>
+                </span>
+              )
             )}
           </button>
-        )}
-
-        {display.buffering && !covered && (
-          <div className="pointer-events-none absolute top-2 right-2 rounded-full bg-black/50 p-1.5">
-            <Loader2 className="size-4 animate-spin text-white" />
-          </div>
         )}
 
         {covered && (
