@@ -49,6 +49,28 @@ Shuning uchun haqiqat manbai — MongoDB, mijoz esa uy ichida turganda
 1,5–2,5 soniyada bir marta `sync` so'raydi. Bitta kod lokalda ham,
 Vercel'da ham bir xil ishlaydi.
 
+### Nega YouTube boshqaruvi yashirilgan
+
+Pleerning o'z tugmalari ochiq bo'lganda biz foydalanuvchi nima qilganini
+**taxmin** qilardik: vaqt sakrab ketdimi — demak surgan, "PAUSED" hodisasi
+keldimi — demak to'xtatgan. Taxmin ishonchsiz: bufer ham, reklama ham, hali
+boshlanmagan video ham xuddi shunday ko'rinardi, natijada uy noto'g'ri
+soniyaga sakrab ketardi.
+
+Endi `controls: 0` va iframe ustida `pointer-events: none` — YouTube
+interfeysi umuman ishlamaydi, boshqaruv esa butunlay bizniki (o'ynatish,
+vaqt chizig'i, ±10 soniya, ovoz, to'liq ekran). Har bir harakat — bosilgan
+tugma, ya'ni uning turi ham, aniq soniyasi ham ma'lum.
+
+Ikki nozik joy:
+
+- **O'ynatish** bosilganda video darhol ketmaydi (yuklanadi, buferlanadi).
+  Bosilgan lahzadagi soniyani yuborsak, uy soati oldinda ketib qolardi —
+  shuning uchun pleer haqiqatan o'ynay boshlaguncha kutamiz.
+- **Surish va to'xtatish** aksincha: natijasi darhol aniq, shuning uchun
+  pleerdan so'ralmaydi (u yangi joyni bir zumda ko'rsatmaydi va eski
+  soniyani qaytarardi) — biz bilgan qiymat to'g'ridan-to'g'ri yuboriladi.
+
 Videoning "hozirgi joyi" bazada saqlanmaydi — u har soniyada o'zgaradi.
 Saqlanadigani: `positionSec` (belgilangan lahzadagi joy) va `stateAt`
 (o'sha lahza). Hozirgi joyni mijoz hisoblaydi. Telefon soati adashishi

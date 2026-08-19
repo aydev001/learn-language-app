@@ -9,6 +9,12 @@
  * API global `window.YT` orqali keladi va bir marta yuklanadi.
  */
 
+/** `loadVideoById` / `cueVideoById` ning aniq boshlanish nuqtali shakli. */
+export interface YTLoadArgs {
+  videoId: string
+  startSeconds?: number
+}
+
 export interface YTPlayer {
   playVideo(): void
   pauseVideo(): void
@@ -16,8 +22,15 @@ export interface YTPlayer {
   getCurrentTime(): number
   getDuration(): number
   getPlayerState(): number
-  loadVideoById(videoId: string, startSeconds?: number): void
-  cueVideoById(videoId: string, startSeconds?: number): void
+  /**
+   * Videoni yuklab, darhol o'ynatadi.
+   *
+   * `startSeconds` bilan chaqirilgani `seekTo` dan ishonchliroq: hali
+   * boshlanmagan videoda `seekTo` ko'pincha 0-soniyada qolib ketardi.
+   */
+  loadVideoById(args: YTLoadArgs): void
+  /** Yuklaydi, lekin o'ynatmaydi. */
+  cueVideoById(args: YTLoadArgs): void
   setVolume(volume: number): void
   getVolume(): number
   mute(): void

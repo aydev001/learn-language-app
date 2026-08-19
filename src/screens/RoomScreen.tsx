@@ -1,18 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import {
-  Clock,
   DoorOpen,
   Link2,
   Loader2,
   Lock,
   LockOpen,
-  Pause,
-  Play,
   Settings2,
   UserRoundCheck,
-  Volume2,
-  VolumeX,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -25,12 +20,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ApiError, useMe } from "@/lib/api"
-import { expectedPosition, roomApi, useRoomSync } from "@/lib/rooms"
+import { roomApi, useRoomSync } from "@/lib/rooms"
 import { haptic, setBackButton, shareLink } from "@/lib/telegram"
-import { formatVideoTime } from "@/lib/youtube"
 import type { RoomMemberAction, RoomMemberView } from "@shared/types"
-
-const VOLUME_KEY = "room-volume"
 
 /**
  * Kino uyi ichi.
@@ -48,7 +40,6 @@ export function RoomScreen() {
   const { sync, messages, error, loading, serverNow, refresh, applyState, appendMessage } =
     useRoomSync(code)
 
-  const [volume, setVolume] = useState(() => Number(localStorage.getItem(VOLUME_KEY) ?? 100))
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [busyId, setBusyId] = useState<number | null>(null)
   const [joining, setJoining] = useState(false)
@@ -60,7 +51,6 @@ export function RoomScreen() {
   const [videoError, setVideoError] = useState<{ videoId: string; message: string } | null>(null)
 
   useEffect(() => setBackButton(() => navigate("/rooms")), [navigate])
-  useEffect(() => localStorage.setItem(VOLUME_KEY, String(volume)), [volume])
 
   /* ------------------------------------------------------------ boshqaruv */
 
@@ -202,7 +192,6 @@ export function RoomScreen() {
   const pending = sync.pending ?? []
   const meId = me.data?.id ?? 0
   const canControl = !state.controlLocked || sync.isOwner
-  const position = expectedPosition(state, serverNow())
 
   return (
     <div className="mx-auto flex h-dvh w-full max-w-lg flex-col">
@@ -232,9 +221,7 @@ export function RoomScreen() {
         <WatchPlayer
           state={state}
           serverNow={serverNow}
-          meId={meId}
           canControl={canControl}
-          volume={volume}
           onAction={pushState}
           onBlocked={() => toast.info("Hozir videoni faqat uy egasi boshqaradi.")}
           onError={(message) => setVideoError({ videoId: state.videoId, message })}
@@ -251,55 +238,6 @@ export function RoomScreen() {
             <JoinRequests pending={pending} busyId={busyId} onDecide={decide} />
           </div>
         )}
-
-        <div className="mt-2.5 flex items-center gap-2.5">
-          {/* Ochiq boshqaruv: YouTube pleerining o'z tugmasi to'xtatilgan
-              videoda ko'rinmay qoladi (qora ekran), shuning uchun o'ynatish
-              tugmasi har doim shu yerda turadi. */}
-          <Button
-            size="icon-sm"
-            variant={state.isPlaying ? "secondary" : "default"}
-            onClick={() => {
-              haptic.impact("medium")
-              void pushState(!state.isPlaying, position)
-            }}
-            aria-label={state.isPlaying ? "To'xtatish" : "O'ynatish"}
-          >
-            {state.isPlaying ? (
-              <Pause className="size-4 fill-current" />
-            ) : (
-              <Play className="size-4 fill-current" />
-            )}
-          </Button>
-
-          <button
-            type="button"
-            onClick={() => setVolume(volume > 0 ? 0 : 100)}
-            className="tap text-muted-foreground"
-            aria-label={volume > 0 ? "Ovozni o'chirish" : "Ovozni yoqish"}
-          >
-            {volume > 0 ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
-          </button>
-
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => setVolume(Number(e.target.value))}
-            aria-label="Kino ovozi"
-            className="h-1 flex-1 accent-primary"
-          />
-
-          <span className="flex items-center gap-1 text-[11px] tabular-nums text-muted-foreground">
-            <Clock className="size-3" />
-            {formatVideoTime(position)}
-          </span>
-
-          {state.controlLocked && (
-            <Lock className="size-3.5 text-stress" aria-label="Boshqaruv uy egasida" />
-          )}
-        </div>
 
         <div className="mt-2.5">
           <MembersStrip members={members} meId={meId} />
