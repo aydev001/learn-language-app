@@ -1832,5 +1832,421 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-06",
+    "title": "ДРУЗЬЯ",
+    "titleUz": "Do'stlar",
+    "level": "A2",
+    "topic": "Kundalik hayot",
+    "assignedAt": "2026-08-19",
+    "dueAt": "2026-08-19T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va asosiy voqealarni tushunishga harakat qiling.",
+      "paragraphs": [
+        "Ли́да жила́ в Москве́. Ей бы́ло трина́дцать лет. Она́ учи́лась в шко́ле. Ли́да жила́ в Москве́ без роди́телей. Её мать умерла́ не́сколько лет наза́д, а оте́ц был в а́рмии и жил в дру́гом го́роде.",
+        "Зимо́й Ли́да жила́ у свое́й ста́ршей сестры́, а ле́том, когда́ бы́ли кани́кулы, она́ отдыха́ла в дере́вне. Там у Ли́ды бы́ло мно́го друзе́й. Но лу́чшим дру́гом Ли́ды был ма́льчик, кото́рого зва́ли Тиму́р. Он всегда́ помога́л Ли́де, когда́ ей бы́ло тру́дно.",
+        "Одна́жды ле́том, когда́ Ли́да отдыха́ла в дере́вне, она́ пошла́ гуля́ть со свои́ми друзья́ми и верну́лась домо́й о́чень по́здно. Когда́ она́ вошла́ в свою́ ко́мнату, она́ уви́дела, что на столе́ лежи́т телегра́мма. Ли́да взяла́ телегра́мму и прочита́ла её. Телегра́мма была́ от сестры́. «Сего́дня но́чью оте́ц бу́дет в Москве́. Он бу́дет здесь то́лько два часа́. Жду тебя́ в Москве́».",
+        "Ли́да положи́ла телегра́мму на стол и посмотре́ла на часы́. Бы́ло двена́дцать часо́в но́чи. Ли́да поняла́, что она́ опозда́ла на после́дний по́езд и уже́ не смо́жет уви́деть отца́. Она́ се́ла на крова́ть и запла́кала. Она́ давно́ не ви́дела отца́ и о́чень хоте́ла встре́титься с ним.",
+        "Вдруг Ли́да вспо́мнила, что у неё есть друг Тиму́р, кото́рый всегда́ помога́л ей ра́ньше в тру́дные мину́ты. Мо́жет быть, он помо́жет ей и тепе́рь? Ли́да позвони́ла Тиму́ру по телефо́ну и рассказа́ла ему́ о телегра́мме, кото́рую она́ получи́ла. Тиму́р сказа́л ей, что́бы она́ ждала́ его́ о́коло до́ма.",
+        "Че́рез не́сколько мину́т Тиму́р прие́хал к до́му на мотоци́кле своего́ ста́ршего бра́та. Ли́да се́ла на мотоци́кл, и они́ пое́хали в Москву́. Когда́ они́ прие́хали, оте́ц Ли́ды уже́ стоя́л о́коло две́ри. Он о́чень обра́довался, потому́ что ду́мал, что уже́ не уви́дит Ли́ду. Он сказа́л Ли́де: «Как хорошо́, что ты прие́хала! Но почему́ ты прие́хала так по́здно?»",
+        "Ли́да отве́тила ему́: «Я получи́ла телегра́мму о́чень по́здно. Когда́ после́дний по́езд ушёл в Москву́, я ду́мала, что я не смогу́ уви́деть тебя́. Но у меня́ есть друг Тиму́р. Он о́чень хоро́ший челове́к. Э́то он помо́г мне прие́хать в Москву́».",
+        "Ли́да позвала́ Тиму́ра. Оте́ц поблагодари́л его́ и сказа́л Ли́де: «Я о́чень рад, что у тебя́ есть хоро́ший друг!»"
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Ли́да жила́ в Москве́.",
+          "uz": "Lida Moskva shahrida yashardi."
+        },
+        {
+          "id": "s2",
+          "ru": "Ей бы́ло трина́дцать лет.",
+          "uz": "U o'n uch yoshda edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Она́ учи́лась в шко́ле.",
+          "uz": "U maktabda o'qirdi."
+        },
+        {
+          "id": "s4",
+          "ru": "Ли́да жила́ в Москве́ без роди́телей.",
+          "uz": "Lida Moskvada ota-onasisiz yashardi."
+        },
+        {
+          "id": "s5",
+          "ru": "Её мать умерла́ не́сколько лет наза́д, а оте́ц был в а́рмии и жил в дру́гом го́роде.",
+          "uz": "Onasi bir necha yil oldin vafot etgan, otasi esa harbiyda bo'lib, boshqa shaharda yashardi."
+        },
+        {
+          "id": "s6",
+          "ru": "Зимо́й Ли́да жила́ у свое́й ста́ршей сестры́, а ле́том, когда́ бы́ли кани́кулы, она́ отдыха́ла в дере́вне.",
+          "uz": "Qishda Lida opasinikida yashardi, yozda esa ta'til paytida qishloqda dam olardi."
+        },
+        {
+          "id": "s7",
+          "ru": "Там у Ли́ды бы́ло мно́го друзе́й.",
+          "uz": "U yerda Lidaning ko'p do'stlari bor edi."
+        },
+        {
+          "id": "s8",
+          "ru": "Но лу́чшим дру́гом Ли́ды был ма́льчик, кото́рого зва́ли Тиму́р.",
+          "uz": "Lidaning eng yaqin do'sti esa Timur ismli bola edi."
+        },
+        {
+          "id": "s9",
+          "ru": "Он всегда́ помога́л Ли́де, когда́ ей бы́ло тру́дно.",
+          "uz": "U har doim Lida qiynalganida unga yordam berardi."
+        },
+        {
+          "id": "s10",
+          "ru": "Одна́жды ле́том, когда́ Ли́да отдыха́ла в дере́вне, она́ пошла́ гуля́ть со свои́ми друзья́ми и верну́лась домо́й о́чень по́здно.",
+          "uz": "Bir kuni yozda, Lida qishloqda dam olayotganda, do'stlari bilan sayrga chiqdi va uyga juda kech qaytdi."
+        },
+        {
+          "id": "s11",
+          "ru": "Когда́ она́ вошла́ в свою́ ко́мнату, она́ уви́дела, что на столе́ лежи́т телегра́мма.",
+          "uz": "U xonasiga kirganida, stol ustida telegramma yotganini ko'rdi."
+        },
+        {
+          "id": "s12",
+          "ru": "Ли́да взяла́ телегра́мму и прочита́ла её.",
+          "uz": "Lida telegrammani olib, o'qidi."
+        },
+        {
+          "id": "s13",
+          "ru": "Телегра́мма была́ от сестры́.",
+          "uz": "Telegramma opasidan edi."
+        },
+        {
+          "id": "s14",
+          "ru": "«Сего́дня но́чью оте́ц бу́дет в Москве́.",
+          "uz": "«Bugun kechasi otam Moskvada bo'ladi."
+        },
+        {
+          "id": "s15",
+          "ru": "Он бу́дет здесь то́лько два часа́.",
+          "uz": "U faqat ikki soatgina shu yerda bo'ladi."
+        },
+        {
+          "id": "s16",
+          "ru": "Жду тебя́ в Москве́».",
+          "uz": "Seni Moskvada kutaman.»"
+        },
+        {
+          "id": "s17",
+          "ru": "Ли́да положи́ла телегра́мму на стол и посмотре́ла на часы́.",
+          "uz": "Lida telegrammani stolga qo'ydi va soatga qaradi."
+        },
+        {
+          "id": "s18",
+          "ru": "Бы́ло двена́дцать часо́в но́чи.",
+          "uz": "Soat tungi o'n ikki edi."
+        },
+        {
+          "id": "s19",
+          "ru": "Ли́да поняла́, что она́ опозда́ла на после́дний по́езд и уже́ не смо́жет уви́деть отца́.",
+          "uz": "Lida oxirgi poyezdga kech qolganini va endi otasini ko'ra olmasligini tushundi."
+        },
+        {
+          "id": "s20",
+          "ru": "Она́ се́ла на крова́ть и запла́кала.",
+          "uz": "U karavotga o'tirib yig'lab yubordi."
+        },
+        {
+          "id": "s21",
+          "ru": "Она́ давно́ не ви́дела отца́ и о́чень хоте́ла встре́титься с ним.",
+          "uz": "U otasini anchadan beri ko'rmagan edi va u bilan uchrashishni juda xohlardi."
+        },
+        {
+          "id": "s22",
+          "ru": "Вдруг Ли́да вспо́мнила, что у неё есть друг Тиму́р, кото́рый всегда́ помога́л ей ра́ньше в тру́дные мину́ты.",
+          "uz": "Birdan Lida esladi: uning do'sti Timur bor, u har doim qiyin paytda yordam bergan."
+        },
+        {
+          "id": "s23",
+          "ru": "Мо́жет быть, он помо́жет ей и тепе́рь?",
+          "uz": "Balki, hozir ham yordam berar?"
+        },
+        {
+          "id": "s24",
+          "ru": "Ли́да позвони́ла Тиму́ру по телефо́ну и рассказа́ла ему́ о телегра́мме, кото́рую она́ получи́ла.",
+          "uz": "Lida Timurga telefon qilib, olgan telegrammasi haqida gapirib berdi."
+        },
+        {
+          "id": "s25",
+          "ru": "Тиму́р сказа́л ей, что́бы она́ ждала́ его́ о́коло до́ма.",
+          "uz": "Timur unga uy yonida kutib turishini aytdi."
+        },
+        {
+          "id": "s26",
+          "ru": "Че́рез не́сколько мину́т Тиму́р прие́хал к до́му на мотоци́кле своего́ ста́ршего бра́та.",
+          "uz": "Bir necha daqiqadan so'ng Timur akasining mototsiklida uyga keldi."
+        },
+        {
+          "id": "s27",
+          "ru": "Ли́да се́ла на мотоци́кл, и они́ пое́хали в Москву́.",
+          "uz": "Lida mototsiklga o'tirdi va ular Moskvaga yo'l olishdi."
+        },
+        {
+          "id": "s28",
+          "ru": "Когда́ они́ прие́хали, оте́ц Ли́ды уже́ стоя́л о́коло две́ри.",
+          "uz": "Ular yetib kelganida, Lidaning otasi eshik oldida turardi."
+        },
+        {
+          "id": "s29",
+          "ru": "Он о́чень обра́довался, потому́ что ду́мал, что уже́ не уви́дит Ли́ду.",
+          "uz": "U juda xursand bo'ldi, chunki Lidani endi ko'rmayman deb o'ylagandi."
+        },
+        {
+          "id": "s30",
+          "ru": "Он сказа́л Ли́де: «Как хорошо́, что ты прие́хала!",
+          "uz": "U Lidaga dedi: «Kelganing qanday yaxshi bo'ldi!"
+        },
+        {
+          "id": "s31",
+          "ru": "Но почему́ ты прие́хала так по́здно?»",
+          "uz": "Lekin nega bunchalik kech kelding?»"
+        },
+        {
+          "id": "s32",
+          "ru": "Ли́да отве́тила ему́: «Я получи́ла телегра́мму о́чень по́здно.",
+          "uz": "Lida unga javob berdi: «Men telegrammani juda kech oldim."
+        },
+        {
+          "id": "s33",
+          "ru": "Когда́ после́дний по́езд ушёл в Москву́, я ду́мала, что я не смогу́ уви́деть тебя́.",
+          "uz": "Oxirgi poyezd Moskvaga ketib bo'lganda, men seni ko'ra olmayman deb o'ylagandim."
+        },
+        {
+          "id": "s34",
+          "ru": "Но у меня́ есть друг Тиму́р.",
+          "uz": "Lekin menda do'stim Timur bor."
+        },
+        {
+          "id": "s35",
+          "ru": "Он о́чень хоро́ший челове́к.",
+          "uz": "U juda yaxshi inson."
+        },
+        {
+          "id": "s36",
+          "ru": "Э́то он помо́г мне прие́хать в Москву́».",
+          "uz": "Aynan u menga Moskvaga kelishda yordam berdi.»"
+        },
+        {
+          "id": "s37",
+          "ru": "Ли́да позвала́ Тиму́ра.",
+          "uz": "Lida Timurni chaqirdi."
+        },
+        {
+          "id": "s38",
+          "ru": "Оте́ц поблагодари́л его́ и сказа́л Ли́де: «Я о́чень рад, что у тебя́ есть хоро́ший друг!»",
+          "uz": "Otasi unga rahmat aytdi va Lidaga dedi: «Senda yaxshi do'st borligidan juda xursandman!»"
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "наза́д",
+        "uz": "oldin",
+        "pos": "ravish",
+        "example": {
+          "ru": "Я прие́хал сюда́ два го́да наза́д.",
+          "uz": "Men bu yerga ikki yil oldin keldim."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "ста́рший",
+        "uz": "katta (oilada)",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то мой ста́рший брат.",
+          "uz": "Bu mening akam."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "дере́вня",
+        "uz": "qishloq",
+        "pos": "ot",
+        "example": {
+          "ru": "Моя́ ба́бушка живёт в дере́вне.",
+          "uz": "Buvim qishloqda yashaydi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "верну́ться",
+        "uz": "qaytmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ верну́ться домо́й.",
+          "uz": "Men uyga qaytmoqchiman."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "по́здно",
+        "uz": "kech",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он пришёл по́здно.",
+          "uz": "U kech keldi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "войти́",
+        "uz": "kirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Пожа́луйста, войди́те в класс.",
+          "uz": "Iltimos, sinfga kiring."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "телегра́мма",
+        "uz": "telegramma (xat)",
+        "pos": "ot",
+        "example": {
+          "ru": "Я получи́л телегра́мму.",
+          "uz": "Men telegramma oldim."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "положи́ть",
+        "uz": "qo'ymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Положи́ кни́гу на стол.",
+          "uz": "Kitobni stolga qo'y."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "опозда́ть",
+        "uz": "kech qolmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я опозда́л на уро́к.",
+          "uz": "Men darsga kech qoldim."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "после́дний",
+        "uz": "so'nggi",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то мой после́дний уро́к.",
+          "uz": "Bu mening so'nggi darsim."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "встре́титься",
+        "uz": "uchrashmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы встре́тились в па́рке.",
+          "uz": "Biz parkda uchrashdik."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "вспо́мнить",
+        "uz": "eslamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я вспо́мнил твои́ слова́.",
+          "uz": "Men sening so'zlaringni esladim."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "давно́",
+        "uz": "anchadan beri",
+        "pos": "ravish",
+        "example": {
+          "ru": "Я давно́ здесь живу́.",
+          "uz": "Men bu yerda anchadan beri yashayman."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "о́коло",
+        "uz": "yonida, yaqinida",
+        "pos": "ravish",
+        "example": {
+          "ru": "Магази́н о́коло до́ма.",
+          "uz": "Do'kon uy yonida."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "обра́доваться",
+        "uz": "xursand bo'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он обра́довался но́вости.",
+          "uz": "U xabarga xursand bo'ldi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "получи́ть",
+        "uz": "olmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я получи́л письмо́ вчера́.",
+          "uz": "Men kecha xat oldim."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "позва́ть",
+        "uz": "chaqirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́ма позвала́ меня́ домо́й.",
+          "uz": "Onam meni uyga chaqirdi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "поблагодари́ть",
+        "uz": "minnatdorchilik bildirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я поблагодари́л учи́теля.",
+          "uz": "Men o'qituvchiga minnatdorchilik bildirdim."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "предста́вить",
+        "uz": "tasavvur qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я не могу́ предста́вить э́то.",
+          "uz": "Men buni tasavvur qila olmayman."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "помога́ть",
+        "uz": "yordam bermoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я помога́ю ба́бушке до́ма.",
+          "uz": "Men uyda buvimga yordam beraman."
+        }
+      }
+    ]
   }
 ]
