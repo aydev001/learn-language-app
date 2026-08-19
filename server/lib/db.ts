@@ -62,6 +62,57 @@ export interface UsageDoc {
   updatedAt: string
 }
 
+/* --- kino uyi --- */
+
+export interface RoomDoc {
+  /** taklif kodi — havolada ham, url'da ham shu ishlatiladi */
+  _id: string
+  ownerId: number
+  ownerName: string
+  videoId: string
+  title: string
+  isPlaying: boolean
+  /** `stateAt` lahzasidagi joylashuv, sekund */
+  positionSec: number
+  /** holat o'rnatilgan vaqt, ms */
+  stateAt: number
+  stateBy: number
+  stateByName: string
+  /** true — faqat uy egasi play/pause/seek qila oladi */
+  controlLocked: boolean
+  createdAt: number
+  /** har qanday o'zgarish (holat, a'zolar, video) — ro'yxatni saralash uchun */
+  updatedAt: number
+  closed: boolean
+}
+
+export interface RoomMemberDoc {
+  /** `${roomId}:${userId}` */
+  _id: string
+  roomId: string
+  userId: number
+  name: string
+  username?: string
+  photoUrl?: string
+  status: "pending" | "approved" | "blocked"
+  role: "owner" | "guest"
+  requestedAt: number
+  joinedAt?: number
+  /** oxirgi sync so'rovi — kim hozir uyda ekanini shundan bilamiz */
+  lastSeenAt: number
+}
+
+export interface RoomMessageDoc {
+  /** `${roomId}:${at}:${tasodifiy}` — vaqt bo'yicha saralanadigan id */
+  _id: string
+  roomId: string
+  userId: number
+  name: string
+  text: string
+  at: number
+  kind: "text" | "system"
+}
+
 export interface WordStatDoc {
   /** `${userId}:${lessonId}:${wordId}` */
   _id: string
@@ -129,6 +180,9 @@ function matches(doc: Record<string, unknown>, filter: Filter): boolean {
     if (cond && typeof cond === "object" && !Array.isArray(cond)) {
       const c = cond as Record<string, unknown>
       if ("$gte" in c) return (value as never) >= (c.$gte as never)
+      if ("$gt" in c) return (value as never) > (c.$gt as never)
+      if ("$lt" in c) return (value as never) < (c.$lt as never)
+      if ("$ne" in c) return value !== c.$ne
       if ("$in" in c) return (c.$in as unknown[]).includes(value)
     }
     return value === cond
@@ -223,6 +277,9 @@ export interface Store {
   wordStats: Coll<WordStatDoc>
   ttsCache: Coll<TtsCacheDoc>
   usage: Coll<UsageDoc>
+  rooms: Coll<RoomDoc>
+  roomMembers: Coll<RoomMemberDoc>
+  roomMessages: Coll<RoomMessageDoc>
   /** true bo'lsa ma'lumot faqat xotirada — server o'chsa yo'qoladi */
   ephemeral: boolean
 }
@@ -237,6 +294,9 @@ const globalCache = globalThis as unknown as {
     wordStats: WordStatDoc[]
     ttsCache: TtsCacheDoc[]
     usage: UsageDoc[]
+    rooms: RoomDoc[]
+    roomMembers: RoomMemberDoc[]
+    roomMessages: RoomMessageDoc[]
   }
 }
 
@@ -248,6 +308,9 @@ function memoryStore(): Store {
     wordStats: [],
     ttsCache: [],
     usage: [],
+    rooms: [],
+    roomMembers: [],
+    roomMessages: [],
   }
   const m = globalCache.__lrMemory
   return {
@@ -257,6 +320,9 @@ function memoryStore(): Store {
     wordStats: memoryColl(m.wordStats),
     ttsCache: memoryColl(m.ttsCache),
     usage: memoryColl(m.usage),
+    rooms: memoryColl(m.rooms),
+    roomMembers: memoryColl(m.roomMembers),
+    roomMessages: memoryColl(m.roomMessages),
     ephemeral: true,
   }
 }
@@ -278,6 +344,9 @@ export async function getStore(): Promise<Store> {
       wordStats: mongoColl<WordStatDoc>(db, "wordStats"),
       ttsCache: mongoColl<TtsCacheDoc>(db, "ttsCache"),
       usage: mongoColl<UsageDoc>(db, "usage"),
+      rooms: mongoColl<RoomDoc>(db, "rooms"),
+      roomMembers: mongoColl<RoomMemberDoc>(db, "roomMembers"),
+      roomMessages: mongoColl<RoomMessageDoc>(db, "roomMessages"),
       ephemeral: false,
     }
   } catch (err) {

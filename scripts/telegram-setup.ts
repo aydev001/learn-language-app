@@ -82,6 +82,7 @@ async function main() {
 
   await bot.setCommands([
     { command: "start", description: "Darslarni ochish" },
+    { command: "kino", description: "Do'st bilan birga kino ko'rish" },
     { command: "help", description: "Yordam" },
   ])
   console.log("  ✓ buyruqlar yangilandi")

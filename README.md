@@ -4,7 +4,7 @@ Telegram bot ichida ishlaydigan, rus tilini o'rganish uchun uy vazifasi ilovasi.
 O'quvchi matnni ovoz chiqarib o'qiydi, ilova talaffuzni tahlil qilib xatolarni
 ovoz bilan tushuntiradi; so'zlarni esa tezlik testlari orqali yodlaydi.
 
-## Ikki modul
+## Uch modul
 
 **1. Matn ustida ishlash.** Ikki bosqichdan iborat.
 
@@ -31,6 +31,31 @@ eshitishi kerak. Bo'g'inlar faqat ekranda, urg'uni tanlash mashqida ko'rinadi.
 chegarasining 60% ida tugaydi, ya'ni ikkala rejimda "tez javob berdim"
 bir xil ma'noni bildiradi. Ballar reytingga tushadi.
 
+**3. Birga kino ko'rish.** O'quvchi YouTube havolasini berib "uy" (room)
+yaratadi va do'stini taklif qiladi. Do'st havolani bosganda uy egasiga kirish
+so'rovi boradi; u tasdiqlagach kino ikkalasida **bir vaqtda** ketadi —
+play, pauza va vaqt chizig'ini surish hammaga uzatiladi. Yonida matnli chat
+ishlaydi. Video hech qayerda saqlanmaydi: bazada faqat 11 belgilik
+`videoId` turadi, ko'rsatishni YouTube'ning o'z pleeri bajaradi.
+
+### Nega WebSocket emas
+
+Ilova Vercel'da serverless funksiya sifatida ishlaydi — u yerda doimiy
+ulanish ham, instansiyalar orasidagi umumiy xotira ham yo'q. Socket.io
+alohida server (Railway/Fly) talab qilardi: yangi hosting, yangi xarajat,
+ikkita alohida deploy.
+
+Shuning uchun haqiqat manbai — MongoDB, mijoz esa uy ichida turganda
+1,5–2,5 soniyada bir marta `sync` so'raydi. Bitta kod lokalda ham,
+Vercel'da ham bir xil ishlaydi.
+
+Videoning "hozirgi joyi" bazada saqlanmaydi — u har soniyada o'zgaradi.
+Saqlanadigani: `positionSec` (belgilangan lahzadagi joy) va `stateAt`
+(o'sha lahza). Hozirgi joyni mijoz hisoblaydi. Telefon soati adashishi
+mumkin, shuning uchun server har javobda `serverNow` ni ham yuboradi va
+mijoz farqni to'g'rilab oladi. Og'ish 1,5 soniyadan oshsa video
+avtomatik tenglashtiriladi.
+
 ## Texnologiyalar
 
 | Qism | Nima ishlatilgan |
@@ -56,6 +81,26 @@ npm run dev             # http://localhost:5173
 `.env` da hech narsa bo'lmasa ham ilova ochiladi (`ALLOW_DEV_USER=1` bilan),
 lekin ovoz bilan bog'liq funksiyalar `OPENAI_API_KEY` talab qiladi.
 
+### Ikki foydalanuvchi bo'lib sinash
+
+Kino uyini bir kompyuterda sinash uchun ilovani `?devUser=<raqam>` bilan
+oching — server so'rovni o'sha id'li soxta foydalanuvchi deb qabul qiladi:
+
+```
+http://localhost:5173/rooms?devUser=1     # uy egasi
+http://localhost:5173/rooms?devUser=2     # mehmon (boshqa oynada)
+```
+
+Qiymat `sessionStorage` da saqlanadi, ya'ni ilova ichida yurganda ham
+o'zgarmaydi, lekin **har oyna o'zinikini saqlaydi** — shuning uchun ikkinchi
+foydalanuvchini alohida oynada (yoki incognito'da) oching.
+
+Videoni brauzer faqat **faol** oynada o'ynatadi, shuning uchun sinxronni
+ko'rish uchun ikkita alohida oyna kerak (bir oynadagi ikki tab emas).
+
+Production'da bu butunlay o'chiq: `env.allowDevUser` ishlab chiqarish
+muhitida `ALLOW_DEV_USER` qiymatidan qat'i nazar `false` qaytaradi.
+
 ## Buyruqlar
 
 | Buyruq | Vazifasi |
@@ -72,6 +117,7 @@ lekin ovoz bilan bog'liq funksiyalar `OPENAI_API_KEY` talab qiladi.
 | `npm run import -- <fayl>` | txt darsni bazaga qo'shadi |
 | `npm run tg:setup -- <url>` | Botni shu manzilga ulaydi |
 | `npm run tg:status` | Webhook holati va oxirgi xato |
+| `npm run test:rooms` | Kino uyi API'sining uchidan-uchiga sinovi (bazasiz) |
 
 ## Telegram'ga ulash
 
@@ -172,12 +218,15 @@ server/
   lib/
     auth.ts           Telegram initData tekshiruvi
     db.ts             MongoDB + xotiradagi zaxira
+    rooms.ts          Kino uyi: a'zolar, holat, chat, taklif havolasi
+    youtube.ts        Video sarlavhasi va ko'rish mumkinligi (oEmbed)
     repo.ts           Progress, ball, reyting mantiqи
     openai.ts         TTS / STT / tahlil
     align.ts          So'zlarni tekislash algoritmi
     pronunciation.ts  Talaffuz hisobotini yig'ish
 scripts/
   import-lessons.ts   txt -> lessons.json
+  room-smoke.ts       Kino uyi oqimining sinovi
   lib/parseLessons.ts Matnni gaplarga ajratish
   lib/stressDict.ts   Urg'u lug'ati
   lib/enrich.ts       Tarjima, misollar, sarlavha
@@ -185,10 +234,13 @@ shared/               Frontend va server o'rtasidagi umumiy kod
   types.ts            API shartnomasi + gaplarni qismlarga bo'lish
   stress.ts           Urg'u, bo'g'inlarga ajratish, tokenizatsiya
   scoring.ts          Ball formulasi (serverda qayta hisoblanadi)
+  youtube.ts          Havoladan video id ajratish
 src/
-  screens/            Ekranlar
-  components/         Umumiy komponentlar
+  screens/            Ekranlar (shu jumladan RoomsScreen, RoomScreen)
+  components/
+    room/             Sinxron pleer, chat, a'zolar
   lib/                telegram.ts, api.ts, audio.ts, format.ts
+                      rooms.ts (polling), youtube.ts (IFrame API)
 ```
 
 ## Kontent qo'shish

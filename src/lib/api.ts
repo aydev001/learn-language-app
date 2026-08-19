@@ -26,7 +26,23 @@ export class ApiError extends Error {
 
 function authHeaders(): Record<string, string> {
   const initData = getInitData()
-  return initData ? { Authorization: `tma ${initData}` } : {}
+  if (initData) return { Authorization: `tma ${initData}` }
+
+  /**
+   * Telegram tashqarisida (brauzerda) sinash uchun: `?devUser=2` bilan
+   * ochilgan oyna boshqa foydalanuvchi bo'lib ko'rinadi. Kino uyini bir
+   * kompyuterda ikki kishi bo'lib sinash shusiz imkonsiz.
+   *
+   * Serverda bu faqat `ALLOW_DEV_USER=1` bo'lganda ishlaydi va
+   * production'da butunlay o'chiq (`env.allowDevUser`).
+   */
+  const fromUrl = new URLSearchParams(window.location.search).get("devUser")
+  // Manzil o'zgarganda ham saqlanib qolsin. `sessionStorage` — oyna ichida,
+  // shuning uchun ikkinchi ilova oynasi boshqa foydalanuvchi bo'la oladi.
+  if (fromUrl) sessionStorage.setItem("devUser", fromUrl)
+
+  const devUser = fromUrl ?? sessionStorage.getItem("devUser")
+  return devUser ? { "X-Dev-User": devUser } : {}
 }
 
 async function toError(res: Response): Promise<ApiError> {
@@ -38,7 +54,11 @@ async function toError(res: Response): Promise<ApiError> {
   )
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+/**
+ * Autentifikatsiya sarlavhasi bilan JSON so'rov.
+ * Kino uyi qatlami (`lib/rooms.ts`) ham shuni ishlatadi.
+ */
+export async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
     headers: { ...authHeaders(), ...(init?.headers ?? {}) },

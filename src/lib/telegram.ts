@@ -20,6 +20,32 @@ export function getTelegramUser() {
   return tg?.initDataUnsafe?.user
 }
 
+/**
+ * Ilova qaysi ekrandan ochilgani — taklif havolasidagi `?startapp=` yoki
+ * `?start=` qiymati. Kino uyiga taklif shu orqali keladi.
+ */
+export function getStartParam(): string {
+  return tg?.initDataUnsafe?.start_param ?? ""
+}
+
+/**
+ * Havolani do'stga yuborish.
+ *
+ * Telegram ichida bo'lsak — ilovadan chiqmasdan "kimga yuborish" oynasi
+ * ochiladi. Brauzerda esa havolani almashish buferiga nusxalaymiz.
+ */
+export async function shareLink(url: string, text: string): Promise<"shared" | "copied"> {
+  const share = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
+
+  if (tg?.openTelegramLink) {
+    tg.openTelegramLink(share)
+    return "shared"
+  }
+
+  await navigator.clipboard.writeText(url)
+  return "copied"
+}
+
 /** Telegram mavzusiga qarab `.dark` klassini o'rnatadi. */
 function applyColorScheme() {
   const dark = tg ? tg.colorScheme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches

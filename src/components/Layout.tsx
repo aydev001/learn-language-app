@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { NavLink, Outlet, useNavigate } from "react-router"
-import { ChevronLeft, GraduationCap, Trophy, UserRound } from "lucide-react"
+import { ChevronLeft, GraduationCap, Popcorn, Trophy, UserRound } from "lucide-react"
 import { haptic, isTelegram, setBackButton } from "@/lib/telegram"
 import { stopSpeech } from "@/lib/audio"
 import { cn } from "@/lib/utils"
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 
 const TABS = [
   { to: "/", label: "Vazifa", icon: GraduationCap },
+  { to: "/rooms", label: "Kino", icon: Popcorn },
   { to: "/rating", label: "Reyting", icon: Trophy },
   { to: "/profile", label: "Profil", icon: UserRound },
 ]

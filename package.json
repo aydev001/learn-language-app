@@ -15,7 +15,8 @@
     "tg:status": "tsx scripts/telegram-setup.ts --status",
     "broadcast": "tsx scripts/broadcast.ts",
     "cache:prune": "tsx scripts/cache-prune.ts",
-    "import": "tsx scripts/import-lessons.ts"
+    "import": "tsx scripts/import-lessons.ts",
+    "test:rooms": "tsx scripts/room-smoke.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

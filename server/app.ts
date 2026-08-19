@@ -1,13 +1,22 @@
-import { Hono } from "hono"
+import { Hono, type Context } from "hono"
 import { cors } from "hono/cors"
 import { z } from "zod"
 
-import type { LessonSummary, Me, VocabAttemptInput } from "../shared/types.js"
+import type {
+  LessonSummary,
+  Me,
+  RoomMemberAction,
+  RoomStateView,
+  VocabAttemptInput,
+} from "../shared/types.js"
+import { parseYouTubeId } from "../shared/youtube.js"
 import { handleUpdate, type TelegramUpdate } from "./bot.js"
 import { LESSONS, getLessonById } from "./content/lessons.js"
 import { authenticateDetailed, type AuthResult } from "./lib/auth.js"
 import { webhookSecret } from "./lib/botApi.js"
-import { getStore, type Store } from "./lib/db.js"
+import { getStore, type RoomDoc, type Store } from "./lib/db.js"
+import * as rooms from "./lib/rooms.js"
+import { fetchVideoInfo } from "./lib/youtube.js"
 import { describeUpstreamError } from "./lib/errors.js"
 import { env, hasBotToken } from "./lib/env.js"
 import { hasOpenAI } from "./lib/openai.js"
@@ -302,6 +311,269 @@ app.get("/leaderboard", async (c) => {
   const period = c.req.query("period") === "week" ? "week" : "all"
 
   return c.json(await leaderboard(c.get("store"), { lessonId, period, meId: user.id }))
+})
+
+/* --------------------------------------------------------------- /api/rooms
+ *
+ * "Kino uyi" — do'stlar bilan birga YouTube ko'rish. Real vaqt WebSocket'siz:
+ * holat MongoDB'da turadi, mijoz `sync` ni qisqa oraliqda so'rab turadi.
+ * Sabablari `server/lib/rooms.ts` boshida yozilgan.
+ */
+
+type RoomContext = Context<{ Variables: Vars }>
+
+const forbidden = (c: RoomContext, message: string) =>
+  c.json({ error: "forbidden", message }, 403)
+
+const roomNotFound = (c: RoomContext) =>
+  c.json({ error: "not_found", message: "Bunday uy topilmadi yoki yopilgan." }, 404)
+
+/**
+ * Havolani tekshirib, video id va sarlavhasini qaytaradi.
+ *
+ * YouTube javob bermasa uy yaratilishiga to'sqinlik qilmaymiz — sarlavhasiz
+ * davom etamiz. Lekin video o'chirilgan yoki tashqi saytda ko'rish taqiqlangan
+ * bo'lsa darhol aytamiz: aks holda o'quvchi qora ekran oldida qolardi.
+ */
+async function resolveVideo(
+  raw: string,
+): Promise<{ ok: true; videoId: string; title: string } | { ok: false; message: string }> {
+  const videoId = parseYouTubeId(raw)
+  if (!videoId) {
+    return {
+      ok: false,
+      message: "Bu YouTube havolasiga o'xshamaydi. Masalan: youtube.com/watch?v=... yoki youtu.be/...",
+    }
+  }
+
+  const info = await fetchVideoInfo(videoId)
+  if (info.ok) return { ok: true, videoId, title: info.title }
+
+  if (info.reason === "not_found") {
+    return { ok: false, message: "Bunday video topilmadi — o'chirilgan yoki yopiq bo'lishi mumkin." }
+  }
+  if (info.reason === "not_embeddable") {
+    return {
+      ok: false,
+      message:
+        "Bu videoni boshqa ilovada ko'rish taqiqlangan (egasi shunday sozlagan). Boshqa havola tanlang.",
+    }
+  }
+
+  // Tarmoq nosozligi — sarlavhasiz davom etamiz.
+  return { ok: true, videoId, title: "YouTube video" }
+}
+
+/** Marshrut kodidan uyni topadi. */
+async function roomOf(c: RoomContext): Promise<RoomDoc | null> {
+  const code = (c.req.param("code") ?? "").trim().toLowerCase()
+  if (!/^[a-z0-9]{4,12}$/.test(code)) return null
+  return rooms.getRoom(c.get("store"), code)
+}
+
+app.get("/rooms", async (c) => {
+  const { user } = c.get("auth")
+  return c.json(await rooms.listMyRooms(c.get("store"), user.id))
+})
+
+const createRoomSchema = z.object({ url: z.string().min(1).max(500) })
+
+app.post("/rooms", async (c) => {
+  const parsed = createRoomSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Havola yuborilmadi." }, 400)
+  }
+
+  const video = await resolveVideo(parsed.data.url)
+  if (!video.ok) return c.json({ error: "bad_video", message: video.message }, 400)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+  await touchUser(store, user)
+
+  const room = await rooms.createRoom(store, user, video)
+  return c.json({ code: room._id, inviteUrl: await rooms.inviteUrl(room._id) })
+})
+
+app.get("/rooms/:code/sync", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const msgSince = Number(c.req.query("msgSince") ?? 0) || 0
+
+  return c.json(await rooms.buildSync(c.get("store"), room, user, msgSince))
+})
+
+app.post("/rooms/:code/join", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+  if (room.closed) return forbidden(c, "Bu uy yopilgan.")
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+  await touchUser(store, user)
+
+  return c.json({ access: await rooms.requestJoin(store, room, user) })
+})
+
+const stateSchema = z.object({
+  isPlaying: z.boolean(),
+  positionSec: z.number().min(0).max(24 * 60 * 60),
+})
+
+app.post("/rooms/:code/state", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+
+  const member = await rooms.getMember(store, room._id, user.id)
+  if (rooms.accessOf(member) !== "member") return forbidden(c, "Siz bu uyning a'zosi emassiz.")
+  if (!rooms.canControl(room, user.id)) {
+    return forbidden(c, "Hozir videoni faqat uy egasi boshqaradi.")
+  }
+
+  const parsed = stateSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Holat noto'g'ri yuborildi." }, 400)
+  }
+
+  const updated = await rooms.setState(store, room, user, parsed.data)
+  return c.json({ state: stateView(updated) })
+})
+
+app.post("/rooms/:code/video", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  if (room.ownerId !== user.id) return forbidden(c, "Kinoni faqat uy egasi almashtira oladi.")
+
+  const parsed = createRoomSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Havola yuborilmadi." }, 400)
+  }
+
+  const video = await resolveVideo(parsed.data.url)
+  if (!video.ok) return c.json({ error: "bad_video", message: video.message }, 400)
+
+  const updated = await rooms.setVideo(c.get("store"), room, user, video)
+  return c.json({ state: stateView(updated) })
+})
+
+app.post("/rooms/:code/control", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  if (room.ownerId !== user.id) return forbidden(c, "Buni faqat uy egasi o'zgartira oladi.")
+
+  const parsed = z
+    .object({ locked: z.boolean() })
+    .safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) return c.json({ error: "bad_request", message: "Noto'g'ri so'rov." }, 400)
+
+  await rooms.setControlLock(c.get("store"), room, parsed.data.locked)
+  return c.json({ ok: true })
+})
+
+const messageSchema = z.object({
+  text: z.string().trim().min(1).max(rooms.MAX_MESSAGE_LENGTH),
+})
+
+app.post("/rooms/:code/messages", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+
+  const member = await rooms.getMember(store, room._id, user.id)
+  if (rooms.accessOf(member) !== "member") return forbidden(c, "Siz bu uyning a'zosi emassiz.")
+
+  const parsed = messageSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Xabar bo'sh yoki juda uzun." }, 400)
+  }
+
+  return c.json({ message: await rooms.addMessage(store, room, user, parsed.data.text) })
+})
+
+const memberActionSchema = z.object({
+  action: z.enum(["approve", "reject", "kick", "block", "unblock"]),
+})
+
+app.post("/rooms/:code/members/:userId", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+  if (room.ownerId !== user.id) return forbidden(c, "A'zolarni faqat uy egasi boshqaradi.")
+
+  const targetId = Number(c.req.param("userId"))
+  if (!Number.isFinite(targetId)) {
+    return c.json({ error: "bad_request", message: "Foydalanuvchi ko'rsatilmadi." }, 400)
+  }
+  if (targetId === room.ownerId) {
+    return forbidden(c, "Uy egasini uydan chiqarib bo'lmaydi.")
+  }
+
+  const parsed = memberActionSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) return c.json({ error: "bad_request", message: "Noto'g'ri amal." }, 400)
+
+  const target = await rooms.getMember(store, room._id, targetId)
+  if (!target) return c.json({ error: "not_found", message: "Bunday a'zo yo'q." }, 404)
+
+  const action: RoomMemberAction = parsed.data.action
+  if (action === "approve") await rooms.approveMember(store, room, target)
+  else if (action === "block") await rooms.blockMember(store, room, target)
+  else if (action === "unblock") await rooms.unblockMember(store, room, target)
+  else await rooms.dropMember(store, room, target)
+
+  return c.json({ ok: true })
+})
+
+app.post("/rooms/:code/leave", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+
+  // Uy egasi "chiqib ketsa" uy yopiladi — egasiz uy hech kimga kerak emas.
+  if (room.ownerId === user.id) {
+    await rooms.closeRoom(store, room)
+    return c.json({ ok: true, closed: true })
+  }
+
+  const member = await rooms.getMember(store, room._id, user.id)
+  if (member) await rooms.dropMember(store, room, member)
+  return c.json({ ok: true, closed: false })
+})
+
+app.post("/rooms/:code/close", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  if (room.ownerId !== user.id) return forbidden(c, "Uyni faqat egasi yopa oladi.")
+
+  await rooms.closeRoom(c.get("store"), room)
+  return c.json({ ok: true })
+})
+
+const stateView = (room: RoomDoc): RoomStateView => ({
+  videoId: room.videoId,
+  title: room.title,
+  isPlaying: room.isPlaying,
+  positionSec: room.positionSec,
+  stateAt: room.stateAt,
+  stateBy: room.stateBy,
+  stateByName: room.stateByName,
+  controlLocked: room.controlLocked,
 })
 
 /* ------------------------------------------------------------------- xatolar */

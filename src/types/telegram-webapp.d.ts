@@ -61,6 +61,10 @@ declare global {
     /* Quyidagilar faqat yangiroq mijozlarda bor — chaqirishdan oldin tekshiring */
     disableVerticalSwipes?: () => void
     enableClosingConfirmation?: () => void
+    /** Telegram ichidagi havolani ochadi (t.me/...) — ilova yopilmaydi */
+    openTelegramLink?: (url: string) => void
+    /** Tashqi havolani brauzerda ochadi */
+    openLink?: (url: string, options?: { try_instant_view?: boolean }) => void
     setHeaderColor?: (color: string) => void
     setBackgroundColor?: (color: string) => void
   }
