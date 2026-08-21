@@ -2248,5 +2248,457 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-07",
+    "title": "ИСТО́ЧНИК МО́ЛОДОСТИ",
+    "titleUz": "Yoshlik manbai",
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-08-21",
+    "dueAt": "2026-08-21T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va unda nima haqida hikoya qilinayotganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "В одно́м ма́леньком бе́дном до́мике жи́ли стари́к со стару́хой. Они́ о́ба бы́ли о́чень ста́рые: старику́ бы́ло девяно́сто лет, а стару́хе — во́семьдесят.",
+        "Одна́жды ра́но у́тром стари́к пошёл за дрова́ми в го́ры. Он поднима́лся на го́ру ме́дленно, ча́сто сади́лся отдыха́ть. Наконец́ он пришёл в лес и на́чал руби́ть дрова́. Стари́к рабо́тал до́лго и о́чень уста́л. Он с трудо́м по́днял дрова́ и на́чал спуска́ться с горы́. Бы́ло жа́рко, дрова́ бы́ли тяжёлые, старику́ бы́ло тру́дно идти́. Вдруг недалеко́ от доро́ги он услы́шал шум воды́. Стари́к подошёл и уви́дел небольшо́й исто́чник. Вода́ в исто́чнике была́ чи́стой, прозра́чной и блесте́ла на со́лнце. Стари́к реши́л вы́пить э́той воды́ и отдохну́ть. Он положи́л дрова́ на зе́млю, стал пить вку́сную холо́дную во́ду. Пото́м стари́к лёг о́коло исто́чника на мя́гкую зелёную траву́ и засну́л.",
+        "Стари́к спал до́лго. Когда́ он просну́лся, он уви́дел, что день уже́ конча́ется, наступа́ет ве́чер. Он бы́стро встал, взял дрова́ и пошёл вниз. Стари́к спеши́л, шёл бы́стро, но не устава́л, ему́ бы́ло легко́ идти́ с дрова́ми. «Стра́нно, — поду́мал стари́к. — Дрова́ бы́ли таки́е тяжёлые, а тепе́рь ста́ли лёгкие! Почему́?»",
+        "Дома́ стару́ха до́лго ждала́ своего́ му́жа. Бы́ло уже́ по́здно, и она́ реши́ла идти́ иска́ть старика́. Недалеко́ от своего́ дома́ она́ встре́тила ю́ношу с дрова́ми. Стару́ха спроси́ла его́:",
+        "— Ты не ви́дел в лесу́ моего́ старика́ с дрова́ми? Он пошёл за дрова́ми ра́но у́тром, и до сих пор его́ нет!",
+        "— Ты что, не ви́дишь меня́, стару́ха? И́ли не узнаёшь? Э́то же я, твой стари́к!",
+        "— Не сме́йся на́до мной, молодо́й челове́к, — сказа́ла ему́ стару́ха. — Как тебе́ не сты́дно! Э́то сейча́с ты молодо́й, а че́рез се́мьдесят лет ты то́же бу́дешь ста́рым, как мой муж.",
+        "Тогда́ стари́к по́нял, что вы́пил во́ду из исто́чника мо́лодости, о кото́ром мно́го лет наза́д ему́ расска́зывал его́ оте́ц. Он рассказа́л об э́том чуде́сном исто́чнике свое́й стару́хе, она́ обра́довалась и реши́ла то́же вы́пить э́той воды́, что́бы стать молодо́й. Муж рассказа́л ей, где нахо́дится э́тот исто́чник, и посове́товал ей пойти́ туда́ у́тром. Но же́нщина не хоте́ла ждать до у́тра и сра́зу пошла́ иска́ть исто́чник, а муж оста́лся дома́.",
+        "Муж до́лго ждал свою́ жену́. Наступи́ла ночь, стару́хи не бы́ло, и стари́к реши́л пойти́ за ней в лес. Он пришёл к исто́чнику, но там не бы́ло стару́хи. Он до́лго иска́л её на берегу́ и вдруг услы́шал де́тский плач. Недалеко́ от исто́чника, под де́ревом, лежа́л ма́ленький ребёнок в пла́тье стару́хи. Же́нщина хоте́ла стать моло́же, чем муж, и вы́пила сли́шком мно́го воды́."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "В одно́м ма́леньком бе́дном до́мике жи́ли стари́к со стару́хой.",
+          "uz": "Bir kichkina kambag'al uyda bir chol bilan kampir yashardi."
+        },
+        {
+          "id": "s2",
+          "ru": "Они́ о́ба бы́ли о́чень ста́рые: старику́ бы́ло девяно́сто лет, а стару́хе — во́семьдесят.",
+          "uz": "Ikkalasi ham juda qari edi: chol to'qson yoshda, kampir esa sakson yoshda edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Одна́жды ра́но у́тром стари́к пошёл за дрова́ми в го́ры.",
+          "uz": "Bir kuni ertalab chol tog'ga o'tin terishga bordi."
+        },
+        {
+          "id": "s4",
+          "ru": "Он поднима́лся на го́ру ме́дленно, ча́сто сади́лся отдыха́ть.",
+          "uz": "U tog'ga sekin chiqdi, tez-tez o'tirib dam oldi."
+        },
+        {
+          "id": "s5",
+          "ru": "Наконец́ он пришёл в лес и на́чал руби́ть дрова́.",
+          "uz": "Nihoyat, u o'rmonga yetib bordi va o'tin chopishni boshladi."
+        },
+        {
+          "id": "s6",
+          "ru": "Стари́к рабо́тал до́лго и о́чень уста́л.",
+          "uz": "Chol uzoq ishladi va juda charchadi."
+        },
+        {
+          "id": "s7",
+          "ru": "Он с трудо́м по́днял дрова́ и на́чал спуска́ться с горы́.",
+          "uz": "U zo'rg'a o'tinlarni ko'tarib, tog'dan pastga tusha boshladi."
+        },
+        {
+          "id": "s8",
+          "ru": "Бы́ло жа́рко, дрова́ бы́ли тяжёлые, старику́ бы́ло тру́дно идти́.",
+          "uz": "Havo issiq edi, o'tinlar og'ir edi, cholga yurish qiyin bo'ldi."
+        },
+        {
+          "id": "s9",
+          "ru": "Вдруг недалеко́ от доро́ги он услы́шал шум воды́.",
+          "uz": "To‘satdan, yo‘lga yaqin joyda u suv shovqinini eshitdi."
+        },
+        {
+          "id": "s10",
+          "ru": "Стари́к подошёл и уви́дел небольшо́й исто́чник.",
+          "uz": "Chol yaqinlashib, kichik bir buloqni ko‘rdi."
+        },
+        {
+          "id": "s11",
+          "ru": "Вода́ в исто́чнике была́ чи́стой, прозра́чной и блесте́ла на со́лнце.",
+          "uz": "Buloqdagi suv toza, tiniq va quyoshda yaltirab turardi."
+        },
+        {
+          "id": "s12",
+          "ru": "Стари́к реши́л вы́пить э́той воды́ и отдохну́ть.",
+          "uz": "Chol shu suvdan ichib, dam olishga qaror qildi."
+        },
+        {
+          "id": "s13",
+          "ru": "Он положи́л дрова́ на зе́млю, стал пить вку́сную холо́дную во́ду.",
+          "uz": "U o‘tinlarni yerga qo‘ydi va mazali, sovuq suvdan ichdi."
+        },
+        {
+          "id": "s14",
+          "ru": "Пото́м стари́к лёг о́коло исто́чника на мя́гкую зелёную траву́ и засну́л.",
+          "uz": "Keyin chol buloq yonida yumshoq, yashil maysaga yotib, uxlab qoldi."
+        },
+        {
+          "id": "s15",
+          "ru": "Стари́к спал до́лго.",
+          "uz": "Chol uzoq uxlab yotdi."
+        },
+        {
+          "id": "s16",
+          "ru": "Когда́ он просну́лся, он уви́дел, что день уже́ конча́ется, наступа́ет ве́чер.",
+          "uz": "Uyg‘onganda, kun tugab, kech kirayotganini ko‘rdi."
+        },
+        {
+          "id": "s17",
+          "ru": "Он бы́стро встал, взял дрова́ и пошёл вниз.",
+          "uz": "U tez turdi, o‘tinlarni oldi va pastga tushib ketdi."
+        },
+        {
+          "id": "s18",
+          "ru": "Стари́к спеши́л, шёл бы́стро, но не устава́л, ему́ бы́ло легко́ идти́ с дрова́ми.",
+          "uz": "Chol shoshilardi, tez yurardi, lekin charchamasdi, o‘tinlarni ko‘tarib yurish unga oson edi."
+        },
+        {
+          "id": "s19",
+          "ru": "«Стра́нно, — поду́мал стари́к.",
+          "uz": "\"Qiziq ekan\", deb o‘yladi chol."
+        },
+        {
+          "id": "s20",
+          "ru": "— Дрова́ бы́ли таки́е тяжёлые, а тепе́рь ста́ли лёгкие!",
+          "uz": "\"O‘tinlar juda og‘ir edi, endi esa yengil bo‘lib qoldi!"
+        },
+        {
+          "id": "s21",
+          "ru": "Почему́?»",
+          "uz": "Nega shunday?\""
+        },
+        {
+          "id": "s22",
+          "ru": "Дома́ стару́ха до́лго ждала́ своего́ му́жа.",
+          "uz": "Uyda kampir erini uzoq kutdi."
+        },
+        {
+          "id": "s23",
+          "ru": "Бы́ло уже́ по́здно, и она́ реши́ла идти́ иска́ть старика́.",
+          "uz": "Kech bo‘lib ketdi, shuning uchun u cholni izlashga chiqishga qaror qildi."
+        },
+        {
+          "id": "s24",
+          "ru": "Недалеко́ от своего́ дома́ она́ встре́тила ю́ношу с дрова́ми.",
+          "uz": "Uyi yaqinida u o‘tin ko‘tarib ketayotgan bir yigitni uchratdi."
+        },
+        {
+          "id": "s25",
+          "ru": "Стару́ха спроси́ла его́:",
+          "uz": "Kampir undan so'radi:"
+        },
+        {
+          "id": "s26",
+          "ru": "— Ты не ви́дел в лесу́ моего́ старика́ с дрова́ми?",
+          "uz": "— O'rmonda mening cholimni o'tin bilan ko'rmadingmi?"
+        },
+        {
+          "id": "s27",
+          "ru": "Он пошёл за дрова́ми ра́но у́тром, и до сих пор его́ нет!",
+          "uz": "U ertalab o'tin olishga ketgandi, hali ham qaytib kelmadi!"
+        },
+        {
+          "id": "s28",
+          "ru": "— Ты что, не ви́дишь меня́, стару́ха?",
+          "uz": "— Nega meni ko'rmayapsan, kampir?"
+        },
+        {
+          "id": "s29",
+          "ru": "И́ли не узнаёшь?",
+          "uz": "Yoki tanimayapsanmi?"
+        },
+        {
+          "id": "s30",
+          "ru": "Э́то же я, твой стари́к!",
+          "uz": "Axir menman, sening choling!"
+        },
+        {
+          "id": "s31",
+          "ru": "— Не сме́йся на́до мной, молодо́й челове́к, — сказа́ла ему́ стару́ха.",
+          "uz": "— Menga kulma, yigit, — dedi kampir."
+        },
+        {
+          "id": "s32",
+          "ru": "— Как тебе́ не сты́дно!",
+          "uz": "— Uyalmaysanmi!"
+        },
+        {
+          "id": "s33",
+          "ru": "Э́то сейча́с ты молодо́й, а че́рез се́мьдесят лет ты то́же бу́дешь ста́рым, как мой муж.",
+          "uz": "Hozir sen yoshsan, lekin yetmish yildan keyin sen ham mening erim kabi qari bo‘lasan."
+        },
+        {
+          "id": "s34",
+          "ru": "Тогда́ стари́к по́нял, что вы́пил во́ду из исто́чника мо́лодости, о кото́ром мно́го лет наза́д ему́ расска́зывал его́ оте́ц.",
+          "uz": "Shunda chol tushundi: u yoshartiradigan buloqdan suv ichgan ekan, bu buloq haqida unga ko‘p yillar oldin otasi aytgan edi."
+        },
+        {
+          "id": "s35",
+          "ru": "Он рассказа́л об э́том чуде́сном исто́чнике свое́й стару́хе, она́ обра́довалась и реши́ла то́же вы́пить э́той воды́, что́бы стать молодо́й.",
+          "uz": "U bu mo‘jizaviy buloq haqida xotiniga gapirib berdi, xotini xursand bo‘ldi va yosh bo‘lish uchun u ham shu suvdan ichishga qaror qildi."
+        },
+        {
+          "id": "s36",
+          "ru": "Муж рассказа́л ей, где нахо́дится э́тот исто́чник, и посове́товал ей пойти́ туда́ у́тром.",
+          "uz": "Er xotiniga buloq qayerda joylashganini aytib, ertalab borishni maslahat berdi."
+        },
+        {
+          "id": "s37",
+          "ru": "Но же́нщина не хоте́ла ждать до у́тра и сра́зу пошла́ иска́ть исто́чник, а муж оста́лся дома́.",
+          "uz": "Lekin ayol tonggacha kutishni xohlamadi va darrov buloqni izlashga chiqdi, eri esa uyda qoldi."
+        },
+        {
+          "id": "s38",
+          "ru": "Муж до́лго ждал свою́ жену́.",
+          "uz": "Er xotinini uzoq kutdi."
+        },
+        {
+          "id": "s39",
+          "ru": "Наступи́ла ночь, стару́хи не бы́ло, и стари́к реши́л пойти́ за ней в лес.",
+          "uz": "Tun bo‘ldi, xotini hali ham yo‘q edi, shunda chol uni izlab o‘rmonga bordi."
+        },
+        {
+          "id": "s40",
+          "ru": "Он пришёл к исто́чнику, но там не бы́ло стару́хи.",
+          "uz": "U buloqqa keldi, lekin u yerda xotini yo‘q edi."
+        },
+        {
+          "id": "s41",
+          "ru": "Он до́лго иска́л её на берегу́ и вдруг услы́шал де́тский плач.",
+          "uz": "U uzoq vaqt uni sohil bo'yida qidirdi va to'satdan bolalarning yig'isini eshitdi."
+        },
+        {
+          "id": "s42",
+          "ru": "Недалеко́ от исто́чника, под де́ревом, лежа́л ма́ленький ребёнок в пла́тье стару́хи.",
+          "uz": "Manbadan uncha uzoq bo'lmagan joyda, daraxt tagida, kampirning ko'ylagini kiygan kichkina bola yotardi."
+        },
+        {
+          "id": "s43",
+          "ru": "Же́нщина хоте́ла стать моло́же, чем муж, и вы́пила сли́шком мно́го воды́.",
+          "uz": "Ayol eridan yoshroq bo'lishni xohladi va juda ko'p suv ichib yubordi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Бе́дный",
+        "uz": "kambag'al",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он бе́дный челове́к.",
+          "uz": "U kambag'al odam."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Стари́к",
+        "uz": "chol",
+        "pos": "ot",
+        "example": {
+          "ru": "Стари́к идёт домо́й.",
+          "uz": "Chol uyga ketmoqda."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Стару́ха",
+        "uz": "kampir",
+        "pos": "ot",
+        "example": {
+          "ru": "Стару́ха сиди́т на скаме́йке.",
+          "uz": "Kampir skameykada o'tiribdi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Дрова́",
+        "uz": "o'tin",
+        "pos": "ot",
+        "example": {
+          "ru": "Он несёт дрова́ домо́й.",
+          "uz": "U uyga o'tin olib ketmoqda."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Гора́",
+        "uz": "tog'",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы ви́дим большу́ю го́ру.",
+          "uz": "Biz katta tog'ni ko'ryapmiz."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Поднима́ться",
+        "uz": "ko'tarilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я люблю́ поднима́ться в го́ры.",
+          "uz": "Men tog'larga ko'tarilishni yaxshi ko'raman."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Сади́ться",
+        "uz": "o'tirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Пожа́луйста, сади́тесь здесь.",
+          "uz": "Iltimos, bu yerga o'tiring."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Руби́ть",
+        "uz": "kesmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он уме́ет руби́ть дрова́.",
+          "uz": "U o'tin kesishni biladi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Лес",
+        "uz": "o'rmon",
+        "pos": "ot",
+        "example": {
+          "ru": "В лесу́ мно́го дере́вьев.",
+          "uz": "O'rmonda ko'p daraxt bor."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Уста́ть",
+        "uz": "charchamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я бы́стро уста́л сего́дня.",
+          "uz": "Men bugun tez charchadim."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Спуска́ться",
+        "uz": "tushmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я спуска́юсь по ле́стнице.",
+          "uz": "Men zinadan tushyapman."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Тяжёлый",
+        "uz": "og'ir",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то тяжёлый чемода́н.",
+          "uz": "Bu og'ir chamadon."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Недалеко́ от",
+        "uz": "dan uzoq bo'lmagan",
+        "pos": "son oldi",
+        "example": {
+          "ru": "Шко́ла недалеко́ от дома́.",
+          "uz": "Maktab uydan uzoq emas."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Шум",
+        "uz": "shovqin",
+        "pos": "ot",
+        "example": {
+          "ru": "На у́лице си́льный шум.",
+          "uz": "Ko'chada kuchli shovqin bor."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Исто́чник",
+        "uz": "buloq",
+        "pos": "ot",
+        "example": {
+          "ru": "В лесу́ есть исто́чник.",
+          "uz": "O'rmonda buloq bor."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Прозра́чный",
+        "uz": "tiniq",
+        "pos": "sifat",
+        "example": {
+          "ru": "Вода́ прозра́чная здесь.",
+          "uz": "Bu yerda suv tiniq."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Блесте́ть",
+        "uz": "yaltiramoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Снег блести́т на со́лнце.",
+          "uz": "Qor quyoshda yaltiraydi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Вы́пить",
+        "uz": "ichmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ вы́пить воды́.",
+          "uz": "Men suv ichmoqchiman."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Лечь",
+        "uz": "yotmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ лечь спать.",
+          "uz": "Men uxlash uchun yotmoqchiman."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "О́коло",
+        "uz": "yaqiniga",
+        "pos": "son oldi",
+        "example": {
+          "ru": "Соба́ка о́коло дома́.",
+          "uz": "It uy yaqinida."
+        }
+      },
+      {
+        "id": "w21",
+        "ru": "Засну́ть",
+        "uz": "uxlab qolmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ засну́ть бы́стро.",
+          "uz": "Men tez uxlab qolishni xohlayman."
+        }
+      }
+    ]
   }
 ]
