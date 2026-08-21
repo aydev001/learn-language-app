@@ -1,6 +1,8 @@
 import { useEffect } from "react"
 import { NavLink, Outlet, useNavigate } from "react-router"
 import { ChevronLeft, GraduationCap, Popcorn, Trophy, UserRound } from "lucide-react"
+import { useMe } from "@/lib/api"
+import { canUseRooms } from "@/lib/rooms"
 import { haptic, isTelegram, setBackButton } from "@/lib/telegram"
 import { stopSpeech } from "@/lib/audio"
 import { cn } from "@/lib/utils"
@@ -9,12 +11,15 @@ import { cn } from "@/lib/utils"
 
 const TABS = [
   { to: "/", label: "Vazifa", icon: GraduationCap },
-  { to: "/rooms", label: "Kino", icon: Popcorn },
+  { to: "/rooms", label: "Kino", icon: Popcorn, guarded: true },
   { to: "/rating", label: "Reyting", icon: Trophy },
   { to: "/profile", label: "Profil", icon: UserRound },
 ]
 
 export function TabLayout() {
+  const me = useMe()
+  const tabs = TABS.filter((tab) => !tab.guarded || canUseRooms(me.data))
+
   // Asosiy ekranlarda Telegram'ning orqaga tugmasi kerak emas.
   useEffect(() => setBackButton(null), [])
 
@@ -26,7 +31,7 @@ export function TabLayout() {
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-lg border-t border-border bg-card/90 px-2 pt-1.5 backdrop-blur-lg">
         <ul className="flex items-stretch justify-around">
-          {TABS.map(({ to, label, icon: Icon }) => (
+          {tabs.map(({ to, label, icon: Icon }) => (
             <li key={to} className="flex-1">
               <NavLink
                 to={to}

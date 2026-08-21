@@ -20,12 +20,14 @@ import type {
   RoomAccess,
   RoomMemberView,
   RoomMessageView,
+  PublicRoomSummary,
   RoomSummary,
+  RoomVisibility,
   RoomSync,
 } from "../../shared/types.js"
 import type { RoomDoc, RoomMemberDoc, RoomMessageDoc, Store } from "./db.js"
 import type { TelegramUser } from "./auth.js"
-import { getMe, sendMessage } from "./botApi.js"
+import { botTokenId, getMe, sendMessage } from "./botApi.js"
 import { env, hasBotToken } from "./env.js"
 
 /** Shu vaqt ichida sync so'ragan a'zo "hozir uyda" hisoblanadi. */
@@ -36,6 +38,9 @@ const MESSAGE_TTL_MS = 48 * 60 * 60 * 1000
 
 /** Bir so'rovda qaytariladigan xabarlar chegarasi. */
 const MESSAGE_LIMIT = 60
+
+/** «Ochiq uylar» ro'yxatida ko'rsatiladigan uylar soni. */
+const PUBLIC_LIMIT = 30
 
 export const MAX_MESSAGE_LENGTH = 400
 
@@ -74,12 +79,21 @@ export async function getMember(
   return store.roomMembers.findOne({ _id: memberId(roomId, userId) })
 }
 
-/** Hujjat holatini ilova tushunadigan `access` ga aylantiradi. */
+/**
+ * Hujjat holatini ilova tushunadigan `access` ga aylantiradi.
+ *
+ * Holati yo'q hujjat ham uchraydi: mavjudlikni belgilash (`lastSeenAt`)
+ * upsert bilan yoziladi, ya'ni a'zo shu orada uydan chiqarilgan bo'lsa
+ * yozuv qaytadan — bo'sh holda — yaratilib qoladi. Ilgari bunday skelet
+ * "pending" deb o'qilardi va uy egasida hech kim yubormagan kirish
+ * so'rovi paydo bo'lardi. Bazada shunday yozuv haqiqatan topildi.
+ */
 export function accessOf(member: RoomMemberDoc | null): RoomAccess {
   if (!member) return "none"
   if (member.status === "approved") return "member"
   if (member.status === "blocked") return "blocked"
-  return "pending"
+  if (member.status === "pending") return "pending"
+  return "none"
 }
 
 /* -------------------------------------------------------------- yaratish */
@@ -87,7 +101,18 @@ export function accessOf(member: RoomMemberDoc | null): RoomAccess {
 export interface CreateRoomInput {
   videoId: string
   title: string
+  visibility: RoomVisibility
 }
+
+/**
+ * Uy ko'rinishi.
+ *
+ * Eski hujjatlarda maydon yo'q — ular ochiq deb hisoblanadi, chunki
+ * maxfiylik keyin qo'shildi va hech kimning uyi kutilmaganda yashirinib
+ * qolmasligi kerak.
+ */
+export const visibilityOf = (room: RoomDoc): RoomVisibility =>
+  room.visibility === "private" ? "private" : "public"
 
 export async function createRoom(
   store: Store,
@@ -116,6 +141,7 @@ export async function createRoom(
     stateBy: user.id,
     stateByName: name,
     controlLocked: false,
+    visibility: input.visibility,
     createdAt: at,
     updatedAt: at,
     closed: false,
@@ -209,8 +235,16 @@ export async function blockMember(store: Store, room: RoomDoc, target: RoomMembe
   await touchRoom(store, room._id)
 }
 
+/**
+ * Blokdan chiqarish — a'zolik yozuvi butunlay o'chadi.
+ *
+ * Ilgari status "pending" ga qaytarilardi va uy egasida odam so'ramagan
+ * "kirish so'rovi" paydo bo'lardi; o'sha odamning ekranida esa u
+ * yubormagan so'rov "kutilmoqda" bo'lib turardi. Endi u shunchaki begona
+ * bo'ladi va xohlasa o'zi qaytadan so'rov yuboradi.
+ */
 export async function unblockMember(store: Store, room: RoomDoc, target: RoomMemberDoc) {
-  await store.roomMembers.upsert(target._id, { set: { status: "pending" } })
+  await store.roomMembers.deleteMany([target._id])
   await touchRoom(store, room._id)
 }
 
@@ -372,6 +406,7 @@ export async function buildSync(
     ownerId: room.ownerId,
     ownerName: room.ownerName,
     isOwner,
+    visibility: visibilityOf(room),
     access,
     closed: room.closed,
     serverNow: now(),
@@ -401,6 +436,18 @@ export async function buildSync(
     pending: isOwner
       ? all
           .filter((m) => m.status === "pending")
+          .map(toMemberView)
+          .sort((a, b) => a.requestedAt - b.requestedAt)
+      : [],
+    /*
+      Bloklanganlar faqat uy egasiga. Ilgari ular hech qayerga
+      yuborilmasdi, ya'ni `unblock` amali API'da bor edi-yu, unga
+      bosadigan joy yo'q edi — bir marta bloklangan odam abadiy tashqarida
+      qolardi.
+    */
+    blocked: isOwner
+      ? all
+          .filter((m) => m.status === "blocked")
           .map(toMemberView)
           .sort((a, b) => a.requestedAt - b.requestedAt)
       : [],
@@ -464,6 +511,7 @@ export async function listMyRooms(store: Store, userId: number): Promise<RoomSum
         ownerId: room.ownerId,
         ownerName: room.ownerName,
         isOwner: room.ownerId === userId,
+        visibility: visibilityOf(room),
         status,
         memberCount: approved.length,
         onlineCount: approved.filter((m) => at - m.lastSeenAt < ONLINE_MS).length,
@@ -476,6 +524,75 @@ export async function listMyRooms(store: Store, userId: number): Promise<RoomSum
     .sort((a, b) => b.updatedAt - a.updatedAt)
 }
 
+
+/**
+ * «Ochiq uylar» — kodni bilmagan odam ham ko'radigan ro'yxat.
+ *
+ * O'zim allaqachon aloqador uylar chiqarib tashlanadi: ular «Mening
+ * uylarim» da turadi (a'zo ham, so'rov yuborgan ham, bloklangan ham).
+ * Tartib: avval odam bor uylar, keyin oxirgi harakat vaqti bo'yicha —
+ * bo'sh va unutilgan uy ro'yxat boshini egallab turmasin.
+ */
+export async function listPublicRooms(
+  store: Store,
+  userId: number,
+): Promise<PublicRoomSummary[]> {
+  // Eski hujjatlarda `visibility` yo'q — ular ochiq hisoblanadi.
+  const rooms = await store.rooms.find({ closed: false, visibility: { $ne: "private" } })
+  if (!rooms.length) return []
+
+  const ids = rooms.map((r) => r._id)
+  const members = await store.roomMembers.find({ roomId: { $in: ids } })
+
+  const mine = new Set(members.filter((m) => m.userId === userId).map((m) => m.roomId))
+  const byRoom = new Map<string, RoomMemberDoc[]>()
+  for (const m of members) {
+    const list = byRoom.get(m.roomId) ?? []
+    list.push(m)
+    byRoom.set(m.roomId, list)
+  }
+
+  const at = now()
+
+  return rooms
+    .filter((room) => !mine.has(room._id))
+    .map((room): PublicRoomSummary => {
+      const approved = (byRoom.get(room._id) ?? []).filter((m) => m.status === "approved")
+      const owner = approved.find((m) => m.userId === room.ownerId)
+
+      return {
+        code: room._id,
+        title: room.title,
+        videoId: room.videoId,
+        ownerId: room.ownerId,
+        ownerName: room.ownerName,
+        ownerPhotoUrl: owner?.photoUrl,
+        memberCount: approved.length,
+        onlineCount: approved.filter((m) => at - m.lastSeenAt < ONLINE_MS).length,
+        isPlaying: room.isPlaying,
+        updatedAt: room.updatedAt,
+      }
+    })
+    .sort((a, b) => b.onlineCount - a.onlineCount || b.updatedAt - a.updatedAt)
+    .slice(0, PUBLIC_LIMIT)
+}
+
+/**
+ * Uyni ochiq yoki maxfiy qilish.
+ *
+ * Suhbatga yozib qo'yiladi: a'zolar uy endi hammaga ko'rinayotganini
+ * bilishi kerak — bu ularga ham taalluqli.
+ */
+export async function setVisibility(store: Store, room: RoomDoc, visibility: RoomVisibility) {
+  await store.rooms.upsert(room._id, { set: { visibility, updatedAt: now() } })
+  await addSystemMessage(
+    store,
+    room._id,
+    visibility === "private"
+      ? "Uy maxfiy qilindi — endi unga faqat havola orqali kiriladi"
+      : "Uy ochiq ro'yxatga qo'shildi — endi uni hamma ko'radi",
+  )
+}
 async function touchRoom(store: Store, roomId: string) {
   await store.rooms.upsert(roomId, { set: { updatedAt: now() } })
 }
@@ -498,18 +615,30 @@ export async function inviteUrl(code: string): Promise<string> {
 }
 
 /**
- * Bot foydalanuvchi nomi. `getMe` har so'rovda chaqirilmasin — natija
- * serverless "issiq" instansiyalar orasida saqlanadi.
+ * Bot foydalanuvchi nomi.
+ *
+ * `getMe` har so'rovda chaqirilmasin — natija serverless "issiq"
+ * instansiyalar orasida saqlanadi.
+ *
+ * Kesh **token bilan birga** saqlanadi. Ilgari u bitta qiymat edi va
+ * tokenni almashtirganda eski bot nomi ilib qolardi: taklif havolasi
+ * butunlay boshqa botga olib borar, uni faqat serverni qayta ishga
+ * tushirish (Vercel'da — instansiya yangilanishi) tuzatardi.
  */
-const cache = globalThis as unknown as { __lrBotUsername?: string | null }
+const cache = globalThis as unknown as {
+  __lrBot?: { tokenId: string; username: string | null }
+}
 
 async function botUsername(): Promise<string | null> {
-  if (cache.__lrBotUsername !== undefined) return cache.__lrBotUsername
-  if (!hasBotToken()) return (cache.__lrBotUsername = null)
+  if (!hasBotToken()) return null
+
+  const tokenId = botTokenId()
+  if (cache.__lrBot?.tokenId === tokenId) return cache.__lrBot.username
 
   try {
     const me = await getMe()
-    return (cache.__lrBotUsername = me.username ?? null)
+    cache.__lrBot = { tokenId, username: me.username ?? null }
+    return cache.__lrBot.username
   } catch {
     // Vaqtinchalik nosozlik keshlanmasin — keyingi safar yana urinamiz.
     return null

@@ -38,6 +38,27 @@ play, pauza va vaqt chizig'ini surish hammaga uzatiladi. Yonida matnli chat
 ishlaydi. Video hech qayerda saqlanmaydi: bazada faqat 11 belgilik
 `videoId` turadi, ko'rsatishni YouTube'ning o'z pleeri bajaradi.
 
+### Ochiq va maxfiy uylar
+
+Uy ochilayotganda ikki variant bor, sukut bo'yicha — **ochiq**:
+
+- **Ochiq** uy «Kino» bo'limidagi «Ochiq uylar» ro'yxatida hammaga ko'rinadi.
+  Kodni bilmagan odam ham unga kirish so'rovini yubora oladi.
+- **Maxfiy** uy hech qayerda ko'rinmaydi. Unga faqat taklif havolasini
+  (ya'ni kodni) olgan odam borishi mumkin.
+
+Ko'rinish faqat **kim so'rov yubora oladi**ni hal qiladi, **kim kiradi**ni
+emas: ikkala holatda ham ichkariga o'tish uchun uy egasining tasdig'i kerak.
+Egasi buni keyin ham o'zgartira oladi; o'zgarish uy suhbatiga yozib qo'yiladi,
+chunki u a'zolarga ham taalluqli.
+
+Ochiq ro'yxatda o'zim aloqador uylar ko'rinmaydi (a'zo ham, so'rov yuborgan
+ham, bloklangan ham) — ular «Mening uylarim» da turadi. Tartib: avval odam
+bor uylar, keyin oxirgi harakat vaqti bo'yicha, ko'pi bilan 30 ta.
+
+Maxfiylik keyin qo'shilgani uchun eski uylarda bu maydon yo'q. Ular ochiq
+deb hisoblanadi (`$ne: "private"`) — hech kimning uyi kutilmaganda yashirinib
+qolmasligi kerak.
 ### Nega WebSocket emas
 
 Ilova Vercel'da serverless funksiya sifatida ishlaydi — u yerda doimiy
@@ -46,8 +67,28 @@ alohida server (Railway/Fly) talab qilardi: yangi hosting, yangi xarajat,
 ikkita alohida deploy.
 
 Shuning uchun haqiqat manbai — MongoDB, mijoz esa uy ichida turganda
-1,5–2,5 soniyada bir marta `sync` so'raydi. Bitta kod lokalda ham,
+1,2–1,8 soniyada bir marta `sync` so'raydi. Bitta kod lokalda ham,
 Vercel'da ham bir xil ishlaydi.
+
+### Uy holati — yagona haqiqat manbai
+
+Bir vaqtlar har bir mijoz o'z pleeridan o'qigan soniyani uyga qaytarib
+yozardi: "men 100,2 daman" — "yo'q, men 99,8 daman". Ikki tomon bir-birining
+o'lchovini ustiga yozar, video esa oldinga-orqaga sakrardi. Ekrandagi vaqt
+ham pleerdan olingani uchun ikki ekranda ikki xil raqam turar, pleer qayta
+yuklanganda esa 0:00 ga tushib ketardi.
+
+Endi pleerdan o'qilgan hech narsa uyga ketmaydi. Uyga faqat **niyat**
+yuboriladi — "o'ynat", "to'xtat", "shu soniyaga o't" — soniyasi esa har doim
+uyning soatidan hisoblanadi. Ekrandagi vaqt ham, chiziq ham o'sha soatdan
+chiziladi, shuning uchun ikkala ekranda bir xil raqam turadi va u hech
+qachon orqaga sakramaydi.
+
+Pleer bu yerda quyi qurilma: uni bitta `steer()` funksiyasi uy holatiga
+qarab yo'naltiradi. Bosilgan tugma ham, do'stdan kelgan o'zgarish ham,
+kuzatuvning jimgina tuzatishi ham xuddi shu bitta yo'ldan o'tadi — "kim
+boshladi" degan farq qolmadi, demak ikki tomon bir-birini ustma-ust
+tuzatadigan holat ham qolmadi.
 
 ### Nega YouTube boshqaruvi yashirilgan
 
@@ -62,33 +103,63 @@ interfeysi umuman ishlamaydi, boshqaruv esa butunlay bizniki (o'ynatish,
 vaqt chizig'i, ±10 soniya, ovoz, to'liq ekran). Har bir harakat — bosilgan
 tugma, ya'ni uning turi ham, aniq soniyasi ham ma'lum.
 
-Uch nozik joy:
-
-- **O'ynatish** bosilganda video darhol ketmaydi (yuklanadi, buferlanadi).
-  Bosilgan lahzadagi soniyani yuborsak, uy soati oldinda ketib qolardi —
-  shuning uchun pleer haqiqatan o'ynay boshlaguncha kutamiz.
-- **Surish** ham bir zumda bajarilmaydi. `seekTo` dan keyingi bir necha yuz
-  millisekundda `getCurrentTime()` hali **eski** joyni qaytaradi — o'shani
-  yuborsak, surilgan video hammada oldingi joyiga qaytib ketardi. Shuning
-  uchun pleer yangi joyga yetib kelguncha kutiladi, ulgurmasa esa biz bilgan
-  mo'ljal yuboriladi.
-- **Pleer o'z holatini yo'qotganda** (qayta yuklash, bufer) `getCurrentTime()`
-  nol qaytaradi. O'shanda ekranda ham, boshqaruvda ham uning o'rniga uyning
-  soati ishlatiladi — aks holda "+10 soniya" noldan hisoblab, hammani kino
-  boshiga tortib ketardi.
+Klaviatura ham o'tmaydi: iframe'ga `tabindex="-1"` qo'yiladi, aks holda Tab
+bilan fokus ichkariga tushib, YouTube o'z tugmalarini ko'rsatib yuborardi.
 
 Video haqiqatan ketayotgan lahzadan boshqa paytda pleer o'z pardamiz bilan
 yopiladi. Boshqaruvni o'chirib bo'lsa ham, YouTube yuklanish paytida sarlavha
 bilan brend qatorini, to'xtatilganda esa "More videos" tavsiyalarini
 ko'rsatishda davom etadi — do'stingiz videoni yoqqanda sizda bir zum begona
-ramka yonib o'chardi.
+ramka yonib o'chardi. Mayda buferda esa parda 0,4 soniya kutib yonadi: tarmoq
+bir zum cho'kkanida ekran qorayib-yorishib turmasin.
 
 Videoning "hozirgi joyi" bazada saqlanmaydi — u har soniyada o'zgaradi.
 Saqlanadigani: `positionSec` (belgilangan lahzadagi joy) va `stateAt`
 (o'sha lahza). Hozirgi joyni mijoz hisoblaydi. Telefon soati adashishi
 mumkin, shuning uchun server har javobda `serverNow` ni ham yuboradi va
-mijoz farqni to'g'rilab oladi. Og'ish 1,5 soniyadan oshsa video
-avtomatik tenglashtiriladi.
+mijoz farqni to'g'rilab oladi.
+
+### Harakat qilinganda yo'ldagi javoblar yopiladi
+
+`sync` javobi yo'lda 1-2 soniya yuradi. Siz videoni surgan lahzada allaqachon
+yo'lga chiqqan javob ichida **eskirgan** soniya bo'ladi, va u sizning
+yozuvingizdan keyin yetib keladi. Ilgari u yangi holatni bosib ketar, kuzatuv
+esa videoni eski joyga qaytarardi — surish "ishlamayotgandek" ko'rinardi.
+
+Endi har bir harakat navbat raqamini oladi:
+
+- bosilgan zahoti kutilayotgan holat ekranga qo'yiladi, shuning uchun chiziq
+  markazning javobini kutib turmaydi;
+- shu lahzadan boshlab `sync` javoblari uy holatiga tegmaydi (a'zolar va
+  suhbat baribir yangilanaveradi);
+- markazdan javob kelgach sinxronlash qayta ochiladi. Javob eskirgan bo'lsa —
+  ya'ni undan keyin yana bosilgan bo'lsa — navbat raqami mos kelmaydi va u
+  tashlab yuboriladi.
+
+Javob umuman qaytmasa (tarmoq uzildi) besh soniyadan keyin sinxronlash o'zi
+ochiladi. Bundan tashqari kechikkan javob hech qachon yangisining ustiga
+yozilmaydi: `stateAt` orqaga ketadigan holat qabul qilinmaydi.
+
+### Surish narxi o'lchanadi
+
+`seekTo` ham, `loadVideoById` ham bir zumda bajarilmaydi: pleer yangi joyni
+buferlaguncha vaqt ketadi va o'sha vaqtda uy soati siljib bo'ladi. Shuning
+uchun surganda biroz oldinga suriladi.
+
+Qancha oldinga — o'lchab bilinadi. Buyruq berilgan lahzadan pleer haqiqatan
+o'ynay boshlagan lahzagacha ketgan vaqt yozib olinadi va keyingi surishda
+o'sha qiymat ishlatiladi. Ilgari bu 0,5 soniya deb qotirib qo'yilgan edi:
+sekin tarmoqda har tuzatishdan keyin video yana orqada qolar, keyingi
+tuzatish yana kechikar — natijada uzluksiz sakrash sikli.
+
+O'sha o'lchov "davom ettirish"da ham ishlatiladi. To'xtatilgan joydan
+o'ynatilganda uy soati o'lchangan narx qadar orqadan qo'yiladi, ya'ni pleer
+haqiqatan ketgan lahzada soat aynan kerakli soniyada bo'ladi — buferlash
+vaqtida kinoning bir necha soniyasi tushib qolmaydi.
+
+Og'ish 0,75 soniyadan oshsagina video jimgina tenglashtiriladi, ketma-ket
+tuzatishlar orasida esa to'rt soniya kutiladi: surish har safar ko'zga
+tashlanadigan uzilish, shuning uchun ular kam va aniq bo'lishi kerak.
 
 ## Texnologiyalar
 

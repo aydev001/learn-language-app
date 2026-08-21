@@ -235,6 +235,96 @@ async function main() {
   const rejoin = await post<{ access: string }>(`/rooms/${code}/join`, GUEST)
   check("bloklangan odam qayta so'rov yubora olmaydi", rejoin.body.access === "blocked")
 
+  const blockedSeen = await get<{ blocked?: { userId: number }[] }>(`/rooms/${code}/sync`, OWNER)
+  check(
+    "bloklangan odam uy egasiga ko'rinadi",
+    (blockedSeen.body.blocked ?? []).some((m) => m.userId === 2),
+    blockedSeen.body.blocked,
+  )
+
+  const guestSees = await get<{ blocked?: unknown[] }>(`/rooms/${code}/sync`, GUEST)
+  check("bloklanganlar ro'yxati boshqaga ko'rinmaydi", guestSees.body.blocked === undefined)
+
+  const unblock = await post(`/rooms/${code}/members/2`, OWNER, { action: "unblock" })
+  check("blokdan chiqarildi", unblock.status === 200)
+
+  const afterUnblock = await get<{ access: string; blocked?: unknown[] }>(
+    `/rooms/${code}/sync`,
+    OWNER,
+  )
+  check(
+    "blokdan chiqarilgan odam ro'yxatdan tushdi",
+    (afterUnblock.body.blocked ?? []).length === 0,
+    afterUnblock.body.blocked,
+  )
+
+  const guestAfter = await get<{ access: string }>(`/rooms/${code}/sync`, GUEST)
+  check(
+    "u endi begona — so'ramagan so'rovi ko'rinmaydi",
+    guestAfter.body.access === "none",
+    guestAfter.body,
+  )
+
+  const rejoinOk = await post<{ access: string }>(`/rooms/${code}/join`, GUEST)
+  check("qaytadan so'rov yubora oladi", rejoinOk.body.access === "pending", rejoinOk.body)
+
+
+  /* --- 9. uy ko'rinishi --- */
+
+  const THIRD = "3"
+
+  const openList = await get<{ code: string }[]>("/rooms/public", THIRD)
+  check(
+    "ochiq uy begonaga ko'rinadi",
+    openList.status === 200 && openList.body.some((r) => r.code === code),
+    openList.body,
+  )
+
+  const ownerList = await get<{ code: string }[]>("/rooms/public", OWNER)
+  check(
+    "o'z uying ochiq ro'yxatda takrorlanmaydi",
+    !ownerList.body.some((r) => r.code === code),
+    ownerList.body,
+  )
+
+  const secret = await post<{ code: string }>("/rooms", OWNER, {
+    url: VIDEO_URL,
+    visibility: "private",
+  })
+  const secretCode = secret.body.code
+  check("maxfiy uy yaratildi", secret.status === 200 && Boolean(secretCode))
+
+  const afterSecret = await get<{ code: string }[]>("/rooms/public", THIRD)
+  check(
+    "maxfiy uy ro'yxatda ko'rinmaydi",
+    !afterSecret.body.some((r) => r.code === secretCode),
+    afterSecret.body,
+  )
+
+  const secretSync = await get<{ access: string; visibility: string }>(
+    `/rooms/${secretCode}/sync`,
+    THIRD,
+  )
+  check(
+    "maxfiy uyga havola (kod) orqali borish mumkin",
+    secretSync.status === 200 && secretSync.body.visibility === "private",
+    secretSync.body,
+  )
+
+  const guestHide = await post(`/rooms/${secretCode}/visibility`, THIRD, {
+    visibility: "public",
+  })
+  check("begona ko'rinishni o'zgartira olmaydi", guestHide.status === 403)
+
+  await post(`/rooms/${secretCode}/visibility`, OWNER, { visibility: "public" })
+  const opened = await get<{ code: string }[]>("/rooms/public", THIRD)
+  check(
+    "ochilgan uy ro'yxatga tushdi",
+    opened.body.some((r) => r.code === secretCode),
+    opened.body,
+  )
+
+  await post(`/rooms/${secretCode}/close`, OWNER)
   const missing = await get(`/rooms/yoqbunday/sync`, OWNER)
   check("mavjud bo'lmagan uy — 404", missing.status === 404)
 

@@ -6,12 +6,20 @@ import {
   Loader2,
   Lock,
   LockOpen,
+  EyeOff,
+  Globe,
   Settings2,
+  ShieldBan,
   UserRoundCheck,
 } from "lucide-react"
 import { toast } from "sonner"
 
-import { JoinRequests, MemberList, MembersStrip } from "@/components/room/RoomMembers"
+import {
+  BlockedList,
+  JoinRequests,
+  MemberList,
+  WatchingBar,
+} from "@/components/room/RoomMembers"
 import { RoomChat } from "@/components/room/RoomChat"
 import { WatchPlayer } from "@/components/room/WatchPlayer"
 import { Button } from "@/components/ui/button"
@@ -20,9 +28,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ApiError, useMe } from "@/lib/api"
+import { cn } from "@/lib/utils"
 import { roomApi, useRoomSync } from "@/lib/rooms"
 import { haptic, setBackButton, shareLink } from "@/lib/telegram"
-import type { RoomMemberAction, RoomMemberView } from "@shared/types"
+import type { RoomMemberAction, RoomMemberView, RoomVisibility } from "@shared/types"
 
 /**
  * Kino uyi ichi.
@@ -37,7 +46,7 @@ export function RoomScreen() {
   const me = useMe()
   const api = useMemo(() => roomApi(code), [code])
 
-  const { sync, messages, error, loading, serverNow, refresh, applyState, appendMessage } =
+  const { sync, messages, error, loading, serverNow, refresh, predictState, applyState, abortAction, appendMessage } =
     useRoomSync(code)
 
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -50,23 +59,59 @@ export function RoomScreen() {
    */
   const [videoError, setVideoError] = useState<{ videoId: string; message: string } | null>(null)
 
+
+  /**
+   * Boshqa uyga o'tilganda ekran holati qolib ketmasin.
+   *
+   * Marshrut naqshi bir xil (`/room/:code`), shuning uchun React komponentni
+   * qayta yaratmaydi — faqat `code` o'zgaradi. Ochiq turgan sozlamalar oynasi
+   * yangi uyga o'tib ketardi, u yerdagi «rostdan yopilsinmi?» tasdig'i esa
+   * allaqachon bosilgan holda qolardi: keyingi bosish butunlay boshqa uyni
+   * yopib yuborishi mumkin edi.
+   *
+   * Tozalash effektda emas, render paytida bajariladi — effekt bir kadr
+   * kechikadi va o'sha kadrda oyna hali eski holatda ko'rinib turardi.
+   */
+  const [openCode, setOpenCode] = useState(code)
+  if (openCode !== code) {
+    setOpenCode(code)
+    setSettingsOpen(false)
+    setVideoError(null)
+    setBusyId(null)
+  }
   useEffect(() => setBackButton(() => navigate("/rooms")), [navigate])
 
   /* ------------------------------------------------------------ boshqaruv */
 
   /**
-   * Pleer harakatini serverga yuboradi.
+   * Pleer harakatini markazga yuboradi.
    *
-   * Bir vaqtda ikkita so'rov ketmasin: yo'lda so'rov bo'lsa, oxirgi holat
-   * navbatda kutadi va bittasi tugagach yuboriladi. Aks holda vaqt chizig'ini
-   * surganda o'nlab so'rov ketardi.
+   * Uch qadamdan iborat:
+   *
+   * 1. Kutilayotgan holat ekranga darhol qo'yiladi (`predictState`) va shu
+   *    lahzadan boshlab yo'ldagi `sync` javoblari yopiladi — ular tugma
+   *    bosilishidan oldin chiqqan va eskirgan soniyani olib qaytadi.
+   * 2. So'rov ketadi. Bir vaqtda ikkitasi ketmaydi: yo'lda so'rov bo'lsa,
+   *    oxirgi holat navbatda kutadi. Aks holda chiziqni surganda o'nlab
+   *    so'rov ketardi.
+   * 3. Markaz javobi kelgach sinxronlash qayta ochiladi. Javob eskirgan
+   *    bo'lsa (undan keyin yana bosilgan) `applyState` uni o'zi tashlaydi.
    */
   const inflightRef = useRef(false)
-  const queuedRef = useRef<{ isPlaying: boolean; positionSec: number } | null>(null)
+  const queuedRef = useRef<{ isPlaying: boolean; positionSec: number; seq: number } | null>(null)
+
+  const meName = [me.data?.firstName, me.data?.lastName].filter(Boolean).join(" ").trim()
 
   const pushState = useCallback(
     async (isPlaying: boolean, positionSec: number) => {
-      queuedRef.current = { isPlaying, positionSec }
+      const seq = predictState({
+        isPlaying,
+        positionSec,
+        stateBy: me.data?.id ?? 0,
+        stateByName: meName,
+      })
+
+      queuedRef.current = { isPlaying, positionSec, seq }
       if (inflightRef.current) return
 
       inflightRef.current = true
@@ -76,8 +121,9 @@ export function RoomScreen() {
           queuedRef.current = null
           try {
             const { state } = await api.setState(next.isPlaying, next.positionSec)
-            applyState(state)
+            applyState(state, next.seq)
           } catch (err) {
+            abortAction(next.seq)
             if (err instanceof ApiError && err.status === 403) toast.info(err.message)
             else toast.error("Harakat yuborilmadi — aloqani tekshiring.")
             refresh()
@@ -87,7 +133,7 @@ export function RoomScreen() {
         inflightRef.current = false
       }
     },
-    [api, applyState, refresh],
+    [api, applyState, abortAction, predictState, refresh, me.data?.id, meName],
   )
 
   const decide = async (userId: number, action: RoomMemberAction) => {
@@ -194,24 +240,35 @@ export function RoomScreen() {
   const canControl = !state.controlLocked || sync.isOwner
 
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-lg flex-col">
+    <div className="mx-auto flex h-dvh w-full max-w-lg flex-col overflow-hidden">
+      {/*
+        Sarlavha ixcham: ekranning asosiy qismi videoga va suhbatga qolishi
+        kerak. Taklif qilish belgichasi bu yerdan olib tashlandi — u endi
+        pleer ostida, matni bilan turadi va uyda yolg'iz odam uni albatta
+        ko'radi.
+      */}
       <header className="safe-top flex items-center gap-2 px-3 pb-2">
         <div className="min-w-0 flex-1">
           <h1 className="truncate text-sm leading-tight font-semibold">{sync.title}</h1>
-          <p className="truncate text-[11px] text-muted-foreground">
-            {sync.isOwner ? "Sizning uyingiz" : `${sync.ownerName}ning uyi`} ·{" "}
-            {members.filter((m) => m.online).length}/{members.length} onlayn
+          <p className="flex items-center gap-1.5 truncate text-[11px] text-muted-foreground">
+            <span className="truncate">
+              {sync.isOwner ? "Sizning uyingiz" : `${sync.ownerName}ning uyi`}
+            </span>
+            {/* Uy maxfiyligi ko'rinib tursin — egasi buni esdan chiqarmasin. */}
+            {sync.visibility === "private" && (
+              <span className="flex shrink-0 items-center gap-0.5 text-muted-foreground/80">
+                <EyeOff className="size-3" />
+                maxfiy
+              </span>
+            )}
           </p>
         </div>
 
-        <Button size="icon-sm" variant="ghost" onClick={invite} aria-label="Do'stni taklif qilish">
-          <Link2 className="size-4" />
-        </Button>
         <Button
           size="icon-sm"
           variant="ghost"
           onClick={() => setSettingsOpen(true)}
-          aria-label="Sozlamalar"
+          aria-label="Uy sozlamalari"
         >
           <Settings2 className="size-4" />
         </Button>
@@ -221,6 +278,8 @@ export function RoomScreen() {
         <WatchPlayer
           state={state}
           serverNow={serverNow}
+          meId={meId}
+          isOwner={sync.isOwner}
           canControl={canControl}
           onAction={pushState}
           onBlocked={() => toast.info("Hozir videoni faqat uy egasi boshqaradi.")}
@@ -234,17 +293,17 @@ export function RoomScreen() {
         )}
 
         {pending.length > 0 && (
-          <div className="mt-2">
+          <div className="mt-2.5">
             <JoinRequests pending={pending} busyId={busyId} onDecide={decide} />
           </div>
         )}
 
         <div className="mt-2.5">
-          <MembersStrip members={members} meId={meId} />
+          <WatchingBar members={members} meId={meId} onInvite={invite} />
         </div>
       </div>
 
-      <div className="mt-3 flex min-h-0 flex-1 flex-col px-3 pb-3">
+      <div className="mt-2.5 flex min-h-0 flex-1 flex-col px-3 pb-3">
         <RoomChat messages={messages} meId={meId} sending={sending} onSend={send} />
       </div>
 
@@ -255,7 +314,9 @@ export function RoomScreen() {
         inviteUrl={sync.inviteUrl ?? ""}
         isOwner={sync.isOwner}
         locked={state.controlLocked}
+        visibility={sync.visibility}
         members={members}
+        blocked={sync.blocked ?? []}
         meId={meId}
         busyId={busyId}
         onDecide={decide}
@@ -264,6 +325,19 @@ export function RoomScreen() {
           try {
             await api.setLock(locked)
             refresh()
+          } catch {
+            toast.error("O'zgartirib bo'lmadi.")
+          }
+        }}
+        onToggleVisibility={async (next) => {
+          try {
+            await api.setVisibility(next)
+            refresh()
+            toast.success(
+              next === "private"
+                ? "Uy maxfiy — endi faqat havola orqali kiriladi"
+                : "Uy ochiq ro'yxatga qo'shildi",
+            )
           } catch {
             toast.error("O'zgartirib bo'lmadi.")
           }
@@ -300,11 +374,14 @@ interface RoomSettingsProps {
   isOwner: boolean
   locked: boolean
   members: RoomMemberView[]
+  blocked: RoomMemberView[]
   meId: number
   busyId: number | null
   onDecide: (userId: number, action: RoomMemberAction) => void
   onInvite: () => void
+  visibility: RoomVisibility
   onToggleLock: (locked: boolean) => void
+  onToggleVisibility: (visibility: RoomVisibility) => void
   onChangeVideo: (url: string) => void
   onLeave: () => void
 }
@@ -317,15 +394,28 @@ function RoomSettings({
   isOwner,
   locked,
   members,
+  blocked,
   meId,
   busyId,
   onDecide,
   onInvite,
+  visibility,
   onToggleLock,
+  onToggleVisibility,
   onChangeVideo,
   onLeave,
 }: RoomSettingsProps) {
   const [url, setUrl] = useState("")
+  /** Uyni yopish ikki qadam: birinchi bosishda tasdiq so'raladi */
+  const [confirmLeave, setConfirmLeave] = useState(false)
+  const isPublic = visibility === "public"
+
+  // Oyna yopilib ochilganda tasdiq holati qolib ketmasin.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (wasOpen !== open) {
+    setWasOpen(open)
+    setConfirmLeave(false)
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -357,19 +447,97 @@ function RoomSettings({
         {isOwner && (
           <section className="space-y-2">
             <h3 className="text-xs font-semibold text-muted-foreground">Boshqaruv</h3>
-            <Button
-              variant="outline"
-              className="w-full justify-start"
+            {/*
+              Ilgari bu oddiy tugma edi va uning ustidagi yozuv joriy holatni
+              bildiradimi yoki bosilganda nima bo'lishini — noaniq edi. Endi
+              o'chirgich: o'ng tarafdagi holat ko'rinib turadi.
+            */}
+            <button
+              type="button"
               onClick={() => onToggleLock(!locked)}
+              className="tap flex w-full items-center gap-3 rounded-xl border border-border p-3 text-left"
             >
-              {locked ? <Lock className="size-4" /> : <LockOpen className="size-4" />}
-              {locked ? "Faqat men boshqaraman" : "Hamma boshqara oladi"}
-            </Button>
-            <p className="text-[11px] text-muted-foreground">
-              {locked
-                ? "Mehmonlar videoni to'xtata olmaydi. Bosib o'zgartiring."
-                : "Har bir a'zo videoni to'xtatishi va surishi mumkin."}
-            </p>
+              <span
+                className={cn(
+                  "grid size-9 shrink-0 place-items-center rounded-full",
+                  locked ? "bg-stress-soft text-stress" : "bg-success-soft text-success",
+                )}
+              >
+                {locked ? <Lock className="size-4" /> : <LockOpen className="size-4" />}
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-medium">
+                  {locked ? "Faqat men boshqaraman" : "Hamma boshqara oladi"}
+                </span>
+                <span className="block text-[11px] leading-snug text-muted-foreground">
+                  {locked
+                    ? "Mehmonlar videoni to'xtata olmaydi"
+                    : "Har bir a'zo to'xtatishi va surishi mumkin"}
+                </span>
+              </span>
+
+              <span
+                className={cn(
+                  "h-6 w-10 shrink-0 rounded-full p-0.5 transition-colors",
+                  locked ? "bg-muted" : "bg-primary",
+                )}
+                aria-hidden
+              >
+                <span
+                  className={cn(
+                    "block size-5 rounded-full bg-white shadow-sm transition-transform",
+                    !locked && "translate-x-4",
+                  )}
+                />
+              </span>
+            </button>
+          </section>
+        )}
+
+        {isOwner && (
+          <section className="space-y-2">
+            <h3 className="text-xs font-semibold text-muted-foreground">Kim ko'radi</h3>
+            <button
+              type="button"
+              onClick={() => onToggleVisibility(isPublic ? "private" : "public")}
+              className="tap flex w-full items-center gap-3 rounded-xl border border-border p-3 text-left"
+            >
+              <span
+                className={cn(
+                  "grid size-9 shrink-0 place-items-center rounded-full",
+                  isPublic ? "bg-success-soft text-success" : "bg-secondary text-foreground",
+                )}
+              >
+                {isPublic ? <Globe className="size-4" /> : <EyeOff className="size-4" />}
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-medium">
+                  {isPublic ? "Ochiq uylar ro'yxatida" : "Maxfiy uy"}
+                </span>
+                <span className="block text-[11px] leading-snug text-muted-foreground">
+                  {isPublic
+                    ? "Uni hamma ko'radi va so'rov yubora oladi"
+                    : "Faqat havolani olgan odam so'rov yubora oladi"}
+                </span>
+              </span>
+
+              <span
+                className={cn(
+                  "h-6 w-10 shrink-0 rounded-full p-0.5 transition-colors",
+                  isPublic ? "bg-primary" : "bg-muted",
+                )}
+                aria-hidden
+              >
+                <span
+                  className={cn(
+                    "block size-5 rounded-full bg-white shadow-sm transition-transform",
+                    isPublic && "translate-x-4",
+                  )}
+                />
+              </span>
+            </button>
           </section>
         )}
 
@@ -412,9 +580,37 @@ function RoomSettings({
           />
         </section>
 
-        <Button variant="destructive" className="w-full" onClick={onLeave}>
+        {isOwner && blocked.length > 0 && (
+          <section className="space-y-2">
+            <h3 className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
+              <ShieldBan className="size-3.5" />
+              Bloklanganlar
+            </h3>
+            <BlockedList blocked={blocked} busyId={busyId} onDecide={onDecide} />
+            <p className="text-[11px] leading-snug text-muted-foreground">
+              Blokdan chiqarilgan odam uyga o'zi qaytmaydi — u yana kirish
+              so'rovini yuborishi kerak.
+            </p>
+          </section>
+        )}
+
+        {/*
+          Uyni yopish qaytarilmaydi: hamma chiqib ketadi va havola o'lik
+          bo'ladi. Shuning uchun ikki qadam — tasodifan bosilmasin.
+        */}
+        <Button
+          variant="destructive"
+          className="w-full"
+          onClick={() => (confirmLeave ? onLeave() : setConfirmLeave(true))}
+        >
           <DoorOpen className="size-4" />
-          {isOwner ? "Uyni yopish" : "Uydan chiqish"}
+          {confirmLeave
+            ? isOwner
+              ? "Rostdan yopilsinmi? Bosing"
+              : "Rostdan chiqasizmi? Bosing"
+            : isOwner
+              ? "Uyni yopish"
+              : "Uydan chiqish"}
         </Button>
       </DialogContent>
     </Dialog>

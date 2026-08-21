@@ -1,6 +1,6 @@
 import { MongoClient, type Db } from "mongodb"
 import { env, hasMongo } from "./env.js"
-import type { VocabMode } from "../../shared/types.js"
+import type { RoomVisibility, VocabMode } from "../../shared/types.js"
 
 /* ------------------------------------------------------------------ hujjatlar */
 
@@ -83,6 +83,13 @@ export interface RoomDoc {
   createdAt: number
   /** har qanday o'zgarish (holat, a'zolar, video) — ro'yxatni saralash uchun */
   updatedAt: number
+  /**
+   * Uy ochiq ro'yxatda ko'rinadimi.
+   *
+   * Eski hujjatlarda bu maydon yo'q — ular ochiq deb hisoblanadi, shuning
+   * uchun so'rovlar `$ne: "private"` bilan yoziladi.
+   */
+  visibility?: RoomVisibility
   closed: boolean
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { SendHorizonal } from "lucide-react"
+import { MessagesSquare, SendHorizonal } from "lucide-react"
 
 import type { RoomMessageView } from "@shared/types"
 import { Button } from "@/components/ui/button"
@@ -53,17 +53,24 @@ export function RoomChat({ messages, meId, sending, onSend }: RoomChatProps) {
       <div
         ref={listRef}
         onScroll={onScroll}
-        className="min-h-32 flex-1 space-y-2 overflow-y-auto rounded-2xl bg-muted/40 p-3"
+        className="min-h-20 flex-1 space-y-1.5 overflow-y-auto rounded-2xl bg-muted/50 p-3"
       >
         {messages.length === 0 && (
-          <p className="py-6 text-center text-xs text-muted-foreground">
-            Hali xabar yo'q. Kino haqida fikringizni yozing 🍿
-          </p>
+          <div className="flex h-full flex-col items-center justify-center gap-1 px-6 py-6 text-center">
+            <MessagesSquare className="size-5 text-muted-foreground/60" />
+            <p className="text-xs font-medium text-muted-foreground">Suhbat shu yerda</p>
+            <p className="text-[11px] leading-snug text-muted-foreground/80">
+              Kino ketayotganda yozishingiz mumkin — video to'xtamaydi.
+            </p>
+          </div>
         )}
 
         {messages.map((message) =>
           message.kind === "system" ? (
-            <p key={message.id} className="py-0.5 text-center text-[11px] text-muted-foreground">
+            <p
+              key={message.id}
+              className="py-1 text-center text-[11px] text-muted-foreground/80"
+            >
               {message.text}
             </p>
           ) : (
@@ -72,6 +79,11 @@ export function RoomChat({ messages, meId, sending, onSend }: RoomChatProps) {
         )}
       </div>
 
+      {/*
+        Yozish maydoni: dumaloq va baland (40 px), tugma esa doim ko'rinadi.
+        Ilgari tugma matn yozilmaguncha o'chiq turar va qatorda nima bilan
+        nima qilinishi darrov tushunarli emas edi.
+      */}
       <div className="mt-2 flex items-end gap-2">
         <textarea
           value={text}
@@ -84,14 +96,15 @@ export function RoomChat({ messages, meId, sending, onSend }: RoomChatProps) {
           }}
           rows={1}
           placeholder="Xabar yozing…"
-          className="max-h-24 min-h-9 flex-1 resize-none rounded-xl border border-input bg-transparent px-3 py-2 text-base outline-none focus-visible:border-ring md:text-sm dark:bg-input/30"
+          className="max-h-24 min-h-10 flex-1 resize-none rounded-2xl border border-input bg-card px-4 py-2.5 text-base leading-tight outline-none placeholder:text-muted-foreground/70 focus-visible:border-ring md:text-sm dark:bg-input/30"
         />
         <Button
           type="button"
-          size="icon"
+          size="icon-lg"
           onClick={submit}
           disabled={!text.trim() || sending}
           aria-label="Yuborish"
+          className="tap shrink-0 rounded-full"
         >
           <SendHorizonal className="size-4" />
         </Button>
@@ -100,26 +113,41 @@ export function RoomChat({ messages, meId, sending, onSend }: RoomChatProps) {
   )
 }
 
+/**
+ * Xabar puffagi.
+ *
+ * Vaqt matn bilan bir qatorda turadi — alohida qatorda bo'lganda har bir
+ * xabar bir yo'l balandroq bo'lar va telefon ekraniga kam xabar sig'ardi.
+ */
 function Bubble({ message, mine }: { message: RoomMessageView; mine: boolean }) {
+  const time = new Date(message.at).toLocaleTimeString("uz-UZ", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+
   return (
     <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[80%] rounded-2xl px-3 py-1.5 text-sm break-words",
+          "max-w-[82%] rounded-2xl px-3 py-1.5 text-sm break-words",
           mine
             ? "rounded-br-sm bg-primary text-primary-foreground"
             : "rounded-bl-sm bg-card text-card-foreground shadow-xs",
         )}
       >
         {!mine && (
-          <div className="text-[11px] font-semibold text-primary">{message.name}</div>
+          <div className="text-[11px] leading-tight font-semibold text-primary">{message.name}</div>
         )}
-        <div className="whitespace-pre-wrap">{message.text}</div>
-        <div className={cn("mt-0.5 text-[10px]", mine ? "text-white/70" : "text-muted-foreground")}>
-          {new Date(message.at).toLocaleTimeString("uz-UZ", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+        <div className="flex items-end gap-2">
+          <span className="min-w-0 whitespace-pre-wrap">{message.text}</span>
+          <span
+            className={cn(
+              "shrink-0 translate-y-0.5 text-[10px] tabular-nums",
+              mine ? "text-primary-foreground/60" : "text-muted-foreground",
+            )}
+          >
+            {time}
+          </span>
         </div>
       </div>
     </div>

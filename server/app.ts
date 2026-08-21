@@ -376,7 +376,24 @@ app.get("/rooms", async (c) => {
   return c.json(await rooms.listMyRooms(c.get("store"), user.id))
 })
 
-const createRoomSchema = z.object({ url: z.string().min(1).max(500) })
+/**
+ * Ochiq uylar — kodni bilmagan odam ham ko'radigan ro'yxat.
+ *
+ * `/rooms/:code/...` marshrutlaridan oldin turadi, lekin to'qnashmaydi:
+ * ularda `/rooms` dan keyin ikkita bo'lak bor, bu yerda esa bitta.
+ */
+app.get("/rooms/public", async (c) => {
+  const { user } = c.get("auth")
+  return c.json(await rooms.listPublicRooms(c.get("store"), user.id))
+})
+
+const visibilitySchema = z.enum(["public", "private"])
+
+const createRoomSchema = z.object({
+  url: z.string().min(1).max(500),
+  /** Berilmasa uy ochiq bo'ladi — sukut bo'yicha uylar hammaga ko'rinadi. */
+  visibility: visibilitySchema.optional(),
+})
 
 app.post("/rooms", async (c) => {
   const parsed = createRoomSchema.safeParse(await c.req.json().catch(() => null))
@@ -391,8 +408,30 @@ app.post("/rooms", async (c) => {
   const store = c.get("store")
   await touchUser(store, user)
 
-  const room = await rooms.createRoom(store, user, video)
+  const room = await rooms.createRoom(store, user, {
+    videoId: video.videoId,
+    title: video.title,
+    visibility: parsed.data.visibility ?? "public",
+  })
   return c.json({ code: room._id, inviteUrl: await rooms.inviteUrl(room._id) })
+})
+
+app.post("/rooms/:code/visibility", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  if (room.ownerId !== user.id) return forbidden(c, "Buni faqat uy egasi o'zgartira oladi.")
+
+  const parsed = z
+    .object({ visibility: visibilitySchema })
+    .safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Qiymat noto'g'ri." }, 400)
+  }
+
+  await rooms.setVisibility(c.get("store"), room, parsed.data.visibility)
+  return c.json({ ok: true })
 })
 
 app.get("/rooms/:code/sync", async (c) => {

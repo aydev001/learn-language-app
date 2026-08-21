@@ -48,6 +48,16 @@ export function webhookSecret(): string {
   return createHash("sha256").update(`${env.botToken}:webhook:v1`).digest("hex").slice(0, 48)
 }
 
+/**
+ * Joriy tokenning qisqa belgisi — keshlarni tokenga bog'lash uchun.
+ *
+ * Tokenning o'zini saqlab yurmaymiz: kesh globalda turadi va u yerda maxfiy
+ * qiymat yotishining hojati yo'q.
+ */
+export function botTokenId(): string {
+  return createHash("sha256").update(`${env.botToken}:id:v1`).digest("hex").slice(0, 16)
+}
+
 /* ------------------------------------------------------------- metodlar */
 
 export interface BotUser {

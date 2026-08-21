@@ -213,6 +213,83 @@
   }
 }
 
+
+/* --------------------------------------------------- kino uyi: boshqaruv */
+
+/*
+ * Vaqt chizig'i.
+ *
+ * Brauzerning o'z ko'rinishi ingichka (2-3 px) va barmoq bilan ushlash
+ * deyarli imkonsiz. Shuning uchun chiziqning o'zi ko'rinadigan qismi
+ * ingichka qoladi, elementning balandligi esa 24 px — teginish maydoni
+ * shuncha. To'lgan qism `--seek` orqali chiziladi.
+ */
+.range-track {
+  -webkit-appearance: none;
+  appearance: none;
+  /* Eni Tailwind sinfidan keladi: bu yerda belgilasak, `w-16` kabi
+     sinflarni bosib ketardi va ovoz chizig'i butun qatorni egallardi. */
+  height: 1.5rem;
+  background: transparent;
+  cursor: pointer;
+}
+.range-track:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.range-track::-webkit-slider-runnable-track {
+  height: 0.3125rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--primary) var(--seek, 0%),
+    oklch(1 0 0 / 22%) var(--seek, 0%)
+  );
+}
+.range-track::-moz-range-track {
+  height: 0.3125rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--primary) var(--seek, 0%),
+    oklch(1 0 0 / 22%) var(--seek, 0%)
+  );
+}
+
+.range-track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-top: -0.28125rem;
+  border-radius: 999px;
+  background: oklch(1 0 0);
+  box-shadow: 0 1px 3px oklch(0 0 0 / 45%);
+  transition: transform 120ms ease;
+}
+.range-track::-moz-range-thumb {
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 0;
+  border-radius: 999px;
+  background: oklch(1 0 0);
+  box-shadow: 0 1px 3px oklch(0 0 0 / 45%);
+}
+
+/* Ushlab turilganda nishon kattalashadi — barmoq ostida ko'rinib tursin */
+.range-track:active::-webkit-slider-thumb {
+  transform: scale(1.35);
+}
+
+/* Ovoz chizig'i pastroq va ixchamroq */
+.range-track[data-thin]::-webkit-slider-runnable-track,
+.range-track[data-thin]::-moz-range-track {
+  height: 0.25rem;
+}
+.range-track[data-thin] {
+  height: 1.25rem;
+}
 /* Yozib olish tugmasi atrofidagi puls */
 @keyframes rec-pulse {
   0%   { box-shadow: 0 0 0 0 color-mix(in oklch, var(--destructive), transparent 40%); }

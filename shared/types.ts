@@ -238,6 +238,20 @@ export interface ApiError {
 
 export type RoomMemberStatus = "pending" | "approved" | "blocked"
 
+/**
+ * Uyning ko'rinishi.
+ *
+ * `public` — uy «Ochiq uylar» ro'yxatida hammaga ko'rinadi va kodni
+ * bilmagan odam ham kirish so'rovini yubora oladi. `private` — uy hech
+ * qayerda ko'rinmaydi, unga faqat taklif havolasi (ya'ni kod) orqali
+ * boriladi.
+ *
+ * Ikkala holatda ham ichkariga kirish uchun uy egasining ruxsati kerak:
+ * ko'rinish faqat «kim so'rov yubora oladi»ni hal qiladi, «kim kiradi»ni
+ * emas.
+ */
+export type RoomVisibility = "public" | "private"
+
 /** Foydalanuvchining shu uyga munosabati. */
 export type RoomAccess =
   /** hali so'rov yubormagan */
@@ -300,6 +314,7 @@ export interface RoomSummary {
   ownerId: number
   ownerName: string
   isOwner: boolean
+  visibility: RoomVisibility
   status: RoomMemberStatus
   memberCount: number
   onlineCount: number
@@ -309,6 +324,25 @@ export interface RoomSummary {
   updatedAt: number
 }
 
+
+/**
+ * «Ochiq uylar» ro'yxatidagi qator.
+ *
+ * Bu ro'yxatni hali a'zo bo'lmagan odam ko'radi, shuning uchun unda uy
+ * ichidagi hech narsa yo'q — faqat kino, egasi va nechta odam borligi.
+ */
+export interface PublicRoomSummary {
+  code: string
+  title: string
+  videoId: string
+  ownerId: number
+  ownerName: string
+  ownerPhotoUrl?: string
+  memberCount: number
+  onlineCount: number
+  isPlaying: boolean
+  updatedAt: number
+}
 /** Uy ichidagi polling javobi — bir so'rovda hamma narsa keladi. */
 export interface RoomSync {
   code: string
@@ -317,6 +351,7 @@ export interface RoomSync {
   ownerId: number
   ownerName: string
   isOwner: boolean
+  visibility: RoomVisibility
   access: RoomAccess
   closed: boolean
   /** server soati (ms) — mijoz o'z soati bilan farqni shundan topadi */
@@ -327,6 +362,8 @@ export interface RoomSync {
   members?: RoomMemberView[]
   /** faqat uy egasiga */
   pending?: RoomMemberView[]
+  /** bloklanganlar — faqat uy egasiga */
+  blocked?: RoomMemberView[]
   /** so'ralgan lahzadan keyingi yangi xabarlar */
   messages?: RoomMessageView[]
   /** do'stga yuboriladigan taklif havolasi */

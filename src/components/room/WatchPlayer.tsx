@@ -1,5 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Loader2, Lock, Maximize, Minimize, Pause, Play, Volume2, VolumeX } from "lucide-react"
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react"
+import {
+  FastForward,
+  Loader2,
+  Lock,
+  Maximize,
+  Minimize,
+  Pause,
+  Play,
+  Rewind,
+  Volume2,
+  VolumeX,
+} from "lucide-react"
 
 import type { RoomStateView } from "@shared/types"
 import { expectedPosition } from "@/lib/rooms"
@@ -17,73 +28,103 @@ import {
 /**
  * Uy a'zolari uchun sinxron YouTube pleeri.
  *
+ * ## Yagona haqiqat manbai — uy holati
+ *
+ * Ilgari har bir mijoz o'z pleeridan o'qigan soniyani uyga qaytarib yozardi:
+ * "men 100,2 daman" — "yo'q, men 99,8 daman". Ikki tomon bir-birining
+ * o'lchovini ustiga yozar, video esa oldinga-orqaga sakrardi. Ekrandagi vaqt
+ * ham pleerdan olingani uchun ikki ekranda ikki xil raqam turardi, pleer
+ * qayta yuklanganda esa 0:00 ga tushib ketardi.
+ *
+ * Endi pleerdan o'qilgan hech narsa uyga ketmaydi. Uyga faqat **niyat**
+ * yuboriladi — "o'ynat", "to'xtat", "shu soniyaga o't" — soniyasi esa har
+ * doim uyning soatidan olinadi (`expectedPosition`). Ekrandagi vaqt ham,
+ * chiziq ham o'sha soatdan chiziladi, shuning uchun ikkala ekranda bir xil
+ * raqam turadi va u hech qachon orqaga sakramaydi.
+ *
+ * Pleer bu yerda quyi qurilma: uni `steer()` uy holatiga qarab yo'naltiradi.
+ * Bosilgan tugma ham, do'stdan kelgan o'zgarish ham xuddi shu bitta yo'ldan
+ * o'tadi — "kim boshladi" degan farq qolmadi, demak ikki tomon bir-birini
+ * ustma-ust tuzatadigan holat ham qolmadi.
+ *
  * ## Nega YouTube boshqaruvi yashirilgan
  *
- * Ilgari pleerning o'z tugmalari ochiq edi va biz foydalanuvchi nima
- * qilganini **taxmin** qilardik: vaqt sakrab ketdimi — demak surgan,
- * "PAUSED" hodisasi keldimi — demak to'xtatgan. Taxmin ishonchsiz: bufer
- * ham, reklama ham, hali boshlanmagan video ham xuddi shunday ko'rinardi.
- * Natijada uy noto'g'ri soniyaga sakrab ketardi.
- *
- * Endi iframe hodisalarni umuman qabul qilmaydi (`pointer-events: none`),
- * boshqaruv esa butunlay bizniki. Har bir harakat — bosilgan tugma, ya'ni
- * uning turi ham, aniq soniyasi ham ma'lum. Taxmin qilinadigan joy qolmadi.
- *
- * ## Pleer nega hali ham kuzatiladi
- *
- * Foydalanuvchi tegmasa ham video o'zi to'xtashi mumkin (bufer, reklama,
- * tarmoq uzilishi). Shuning uchun qisqa oraliqda pleer holati uy holatiga
- * solishtiriladi va farq bo'lsa jimgina to'g'rilanadi.
+ * Pleerning o'z tugmalari ochiq bo'lganda biz foydalanuvchi nima qilganini
+ * taxmin qilardik: vaqt sakradimi — surgan, "PAUSED" keldimi — to'xtatgan.
+ * Bufer ham, reklama ham, hali boshlanmagan video ham xuddi shunday
+ * ko'rinadi. Endi iframe hodisalarni umuman qabul qilmaydi
+ * (`pointer-events: none`, `tabindex="-1"`), boshqaruv esa butunlay bizniki.
  */
 
-/** Shu farqdan katta og'ish bo'lsa video tenglashtiriladi (sekund). */
-const DRIFT_TOLERANCE = 1.5
+/** Uy soatidan shundan ko'proq og'ish bo'lsa video jimgina tenglashtiriladi (sekund). */
+const DRIFT_TOLERANCE = 0.75
 
-/**
- * Tenglashtirishda shuncha oldinga suriladi (sekund).
- *
- * `seekTo` bir zumda bajarilmaydi: pleer yangi joyni buferlaguncha yarim
- * soniyacha ketadi va o'sha vaqtda uy soati oldinga siljib bo'ladi. Shu
- * qadar oldinga surmasak, har tuzatishdan keyin yana orqada qolaverardik.
- */
-const SEEK_LEAD = 0.5
+/** Ataylab qilingan harakatda (surish, o'ynatish) shu aniqlik talab qilinadi (sekund). */
+const PRECISE = 0.35
 
-/** Harakat efirga chiqishidan oldin pleer joylashuvi shuncha kutiladi (ms). */
-const SETTLE_TIMEOUT = 4000
+/** Tuzatuvchi surishdan keyin keyingi tuzatishgacha (ms). */
+const DRIFT_HOLD = 4000
 
-/** To'xtatilgan videoda kutishga hojat yo'q — buferlanadigan narsa yo'q (ms). */
-const SETTLE_TIMEOUT_PAUSED = 1500
-
-/** Surish "yetib keldi" deb hisoblanadigan farq (sekund). */
-const LANDED = 1
+/** Buyruq berilgandan keyin kuzatuv shuncha jim turadi (ms). */
+const SEEK_HOLD = 1200
+const LOAD_HOLD = 2500
 
 /**
  * Pleer shuncha vaqt buferda qotib qolsa, video qaytadan yuklanadi (ms).
  *
  * Odatda bufer o'zi tugaydi va aralashish faqat zarar qiladi. Lekin u
- * ba'zan butunlay qotib qoladi — brauzer ko'rinmayotgan oynada ovozli
- * videoni boshlamaydi, tarmoq uzilib qoladi va hokazo. O'shanda kutish
- * cheksiz davom etardi: uy soati ketaverar, ekranda esa 0:00 turardi.
+ * ba'zan butunlay qotib qoladi — tarmoq uzilib qolganda, ko'rinmayotgan
+ * oynada. O'shanda kutish cheksiz davom etardi.
  */
 const STALL_TIMEOUT = 6000
 
-/** Dasturiy buyruqdan keyin kuzatuv shuncha vaqt jim turadi (ms). */
-const SUPPRESS_MS = 1200
-
-/** Pleer holatini qanchalik tez-tez tekshiramiz (ms). */
+/** Pleer holati uy holatiga shu oraliqda solishtiriladi (ms). */
 const WATCH_TICK = 700
 
-/** Vaqt ko'rsatkichi va chiziq shu oraliqda yangilanadi (ms). */
-const DISPLAY_TICK = 500
+/** Ekrandagi vaqt uy soatidan shu oraliqda qayta chiziladi (ms). */
+const CLOCK_TICK = 250
 
+/** O'ynab turgan video buferga tushsa, parda shuncha kutib yonadi (ms). */
+const VEIL_DELAY = 400
+
+/** Bosilgan tugmaga javob kelmasa, shuncha vaqtdan keyin uy holatiga qaytamiz (ms). */
+const PENDING_TTL = 5000
+
+/**
+ * `seekTo` bir zumda bajarilmaydi — pleer yangi joyni buferlaguncha vaqt
+ * ketadi va o'sha vaqtda uy soati siljib bo'ladi. Shuning uchun surganda
+ * biroz oldinga suramiz. Qancha oldinga — o'lchab bilamiz: tarmoq sekin
+ * bo'lsa narx o'zi ko'payadi, tez bo'lsa kamayadi. Ilgari bu qiymat doimiy
+ * 0,5 s edi va sekin tarmoqda har tuzatishdan keyin yana orqada qolinardi —
+ * natijada tuzatish sikli, ya'ni uzluksiz qotish.
+ */
+const MIN_LEAD = 0.3
+const MAX_LEAD = 2.5
+
+/** Kino tugadi deb hisoblanadigan chegara (sekund). */
+const END_EPSILON = 0.3
+
+
+/**
+ * Chiziq qo'yib yuborilgach markazga yuborishdan oldin shuncha kutiladi (ms).
+ *
+ * Brauzer `input` hodisasini `pointerup` dan keyin ham yuborishi mumkin;
+ * klaviaturada esa tugma bosib turilganda o'nlab hodisa keladi. Kechikish
+ * ularning hammasini bitta yuborishga jamlaydi.
+ */
+const SEEK_COMMIT_DELAY = 120
 const VOLUME_KEY = "room-volume"
 
 export interface WatchPlayerProps {
   state: RoomStateView
   /** Server soati bo'yicha hozirgi vaqt */
   serverNow: () => number
+  /** O'zimizning id — o'z harakatimizning aks-sadosini ajratish uchun */
+  meId: number
+  /** Kino tugaganini uyga faqat uy egasi yozadi */
+  isOwner: boolean
   canControl: boolean
-  /** Foydalanuvchi boshqaruv tugmasini bosdi */
+  /** Foydalanuvchi boshqaruv tugmasini bosdi (niyat: nima va qaysi soniyada) */
   onAction: (isPlaying: boolean, positionSec: number) => void
   /** Ruxsatsiz boshqarishga urinildi */
   onBlocked: () => void
@@ -93,6 +134,8 @@ export interface WatchPlayerProps {
 export function WatchPlayer({
   state,
   serverNow,
+  meId,
+  isOwner,
   canControl,
   onAction,
   onBlocked,
@@ -109,19 +152,27 @@ export function WatchPlayer({
    * "nega ketmayapti" deb qolardi.
    */
   const [activated, setActivated] = useState(false)
-  const [display, setDisplay] = useState<{
-    time: number
-    duration: number
-    /** `YT_STATE` qiymatlaridan biri */
-    playerState: number
-  }>({ time: 0, duration: 0, playerState: YT_STATE.UNSTARTED })
+  /**
+   * Pleerning holati. Ilgari u 500 ms da bir marta so'ralardi va parda
+   * kechikib o'chardi; endi hodisadan keladi, ya'ni o'sha zahoti.
+   */
+  const [playerState, setPlayerState] = useState<number>(YT_STATE.UNSTARTED)
+  const [duration, setDuration] = useState(0)
   /** Foydalanuvchi chiziqni ushlab turibdi — o'sha paytda kuzatuv aralashmaydi */
   const [scrub, setScrub] = useState<number | null>(null)
   /**
-   * Bosilgan, lekin hali efirga chiqmagan holat. Tugma darhol o'zgarishi
-   * kerak — foydalanuvchi ikki soniya "hech narsa bo'lmadi" deb turmasin.
+   * Bosilgan, lekin hali uyga yetib bormagan holat. Tugma darhol o'zgarishi
+   * kerak — foydalanuvchi javob kutib turmasin.
    */
   const [pendingPlay, setPendingPlay] = useState<boolean | null>(null)
+  /**
+   * Mayda bufer tugaguncha parda ushlab turiladi.
+   *
+   * Tarmoq bir zum cho'kkanda ekran qorayib-yorishib turmasin. Faqat
+   * o'zimiz surmagan buferga beriladi: o'z surishimizdan keyin YouTube
+   * baribir sarlavhasini ko'rsatadi, uni yopish kerak.
+   */
+  const [graceUntil, setGraceUntil] = useState(0)
   const [volume, setVolume] = useState(() => clampVolume(localStorage.getItem(VOLUME_KEY)))
   const [fullscreen, setFullscreen] = useState(false)
 
@@ -133,6 +184,10 @@ export function WatchPlayer({
   const nowRef = useRef(serverNow)
   const onActionRef = useRef(onAction)
   const onErrorRef = useRef(onError)
+  const isOwnerRef = useRef(isOwner)
+  const durationRef = useRef(0)
+  /** Pleerning oldingi holati — bufer qayerdan kelganini bilish uchun */
+  const prevPlayerStateRef = useRef(YT_STATE.UNSTARTED as number)
 
   useEffect(() => {
     stateRef.current = state
@@ -141,136 +196,210 @@ export function WatchPlayer({
     nowRef.current = serverNow
     onActionRef.current = onAction
     onErrorRef.current = onError
+    isOwnerRef.current = isOwner
   })
 
-  const suppressRef = useRef(0)
-  /** Qo'llangan oxirgi server holati — takror qo'llamaslik uchun */
+  /** Buyruq berilgan — pleer unga yetib borguncha kuzatuv aralashmaydi. */
+  const holdRef = useRef(0)
+  /** Og'ish oxirgi marta qachon tuzatilgan — tuzatishlar ketma-ket kelmasin. */
+  const driftHoldRef = useRef(0)
+  /** Pleerga qo'llangan oxirgi uy holati — takror qo'llamaslik uchun */
   const appliedAtRef = useRef(0)
-  /** Efirga chiqishni kutayotgan harakat — eskisini bekor qilish uchun */
-  const settleRef = useRef(0)
   /** Bufer qachondan beri davom etyapti (0 — buferda emas) */
   const stalledSinceRef = useRef(0)
   /** Pleerga hozir yuklangan video */
   const loadedVideoRef = useRef(state.videoId)
+  /** Surish boshlangan lahza — narxini o'lchash uchun */
+  const seekStartedAtRef = useRef(0)
+  /** O'lchangan surish narxi (sekund) */
+  const leadRef = useRef(0.6)
+  /** Kino tugagani uyga bir marta yozilsin */
+  const endReportedRef = useRef(false)
+  /** Vaqt chizig'i barmoq/sichqoncha ostida */
+  const draggingRef = useRef(false)
+  /** Markazga yuborilishi kutilayotgan soniya */
+  const pendingSeekRef = useRef<number | null>(null)
+  const seekTimerRef = useRef(0)
 
-  const suppress = (ms = SUPPRESS_MS) => {
-    suppressRef.current = Date.now() + ms
-  }
+  const hold = useCallback((ms: number) => {
+    holdRef.current = Date.now() + ms
+  }, [])
 
   /**
-   * Harakatni uyga xabar qiladi.
+   * Pleerni buferga tushiradigan buyruq.
    *
-   * **To'xtatish va surish** — natijasi darhol aniq: qaysi soniyada
-   * to'xtaganimizni ham, qayerga surganimizni ham o'zimiz bilamiz. Ular
-   * kutmasdan yuboriladi.
-   *
-   * **O'ynatish** boshqacha: bosilgandan keyin video darhol ketmaydi —
-   * yuklanadi, buferlanadi, ba'zan reklama ko'rsatadi. Bosilgan lahzadagi
-   * soniyani yuborsak, uy soati o'sha bir-ikki soniyaga oldinda ketadi va
-   * do'stlar bir-biridan surilib qoladi. Shuning uchun pleer haqiqatan
-   * o'ynay boshlaguncha kutamiz va o'shanda aniq soniyani yuboramiz.
+   * `measure` — buyruq o'ynatish bilan tugaydimi. To'xtatilgan videoni
+   * yuklashda o'lchov boshlanmasligi kerak: u o'ynay boshlagunga qadar
+   * odam bir soat kutishi mumkin va o'sha soat "surish narxi" bo'lib
+   * qolardi.
    */
-  const broadcast = useCallback((isPlaying: boolean, target: number, wait: boolean) => {
-    const player = playerRef.current
-    const token = ++settleRef.current
+  const beginSeek = useCallback((ms: number, measure = true) => {
+    seekStartedAtRef.current = measure ? Date.now() : 0
+    stalledSinceRef.current = 0
+    holdRef.current = Date.now() + ms
+  }, [])
 
-    if (!player || !wait) {
-      onActionRef.current(isPlaying, target)
+  /* --------------------------------------------------------------- steer */
+
+  /**
+   * Pleerni uy holatiga yo'naltiradi.
+   *
+   * Bu — pleerga tegadigan yagona joy. Tugma bosilishi ham, do'stdan kelgan
+   * o'zgarish ham, kuzatuvning jimgina tuzatishi ham shu funksiyadan o'tadi.
+   * Hech qayerda pleerdan o'qilgan qiymat uyga qaytmaydi: mo'ljal har doim
+   * uyning soatidan (`expectedPosition`) hisoblanadi.
+   *
+   * `force` — ataylab qilingan harakat (kimdir tugma bosdi). Bunda kutish
+   * davri e'tiborga olinmaydi va aniqlik talabi qattiqroq bo'ladi: surilgan
+   * joy aniq bo'lishi kerak. Oddiy kuzatuvda esa aksincha — mayda og'ish
+   * uchun videoni bezovta qilmaymiz.
+   */
+  const steer = useCallback((room: RoomStateView, force = false) => {
+    const player = playerRef.current
+    if (!player || !activatedRef.current) return
+    if (!force && Date.now() < holdRef.current) return
+
+    const live = player.getPlayerState()
+    const fresh = isFresh(live)
+    const total = durationRef.current
+    const lead = leadRef.current
+
+    let target = expectedPosition(room, nowRef.current())
+    if (total > 0) target = Math.min(target, total)
+
+    /* --- uy to'xtatilgan --- */
+    if (!room.isPlaying) {
+      if (fresh) {
+        beginSeek(LOAD_HOLD, false)
+        player.cueVideoById({ videoId: room.videoId, startSeconds: target })
+        return
+      }
+      if (live === YT_STATE.PLAYING || live === YT_STATE.BUFFERING) {
+        hold(SEEK_HOLD)
+        player.pauseVideo()
+      }
+      if (Math.abs(player.getCurrentTime() - target) > PRECISE) {
+        hold(SEEK_HOLD)
+        player.seekTo(target, true)
+      }
       return
     }
 
-    const startedAt = Date.now()
-    const limit = isPlaying ? SETTLE_TIMEOUT : SETTLE_TIMEOUT_PAUSED
+    /* --- kino oxiriga yetdi: quvishning ma'nosi yo'q --- */
+    if (total > 0 && target >= total - END_EPSILON) {
+      if (live === YT_STATE.PLAYING) player.pauseVideo()
+      return
+    }
 
-    const attempt = () => {
-      if (settleRef.current !== token) return // yangiroq harakat bo'ldi
+    /* --- uy o'ynayapti --- */
 
-      const time = player.getCurrentTime()
+    /**
+     * Ko'rinmayotgan sahifada brauzer o'ynatishni umuman boshlamaydi.
+     * Urinaversak, pleer har safar qaytadan yuklanib, hech qachon ketmaydigan
+     * halqaga tushardi. Qaytib kelganda `visibilitychange` o'zi tiklaydi.
+     */
+    if (document.hidden) return
+
+    // Hali boshlanmagan videoda `seekTo` ishonchsiz: u ko'pincha e'tiborsiz
+    // qolib, video 0-soniyadan boshlanardi.
+    if (fresh) {
+      beginSeek(LOAD_HOLD)
+      player.loadVideoById({ videoId: room.videoId, startSeconds: target + lead })
+      return
+    }
+
+    if (live === YT_STATE.PAUSED) {
+      beginSeek(LOAD_HOLD)
+      player.seekTo(target + lead, true)
+      player.playVideo()
+      return
+    }
+
+    // Bufer o'zi tugashi kerak — o'rtasida surish uni faqat cho'zadi.
+    if (live === YT_STATE.BUFFERING) return
+
+    const drift = player.getCurrentTime() - target
+    const limit = force ? PRECISE : DRIFT_TOLERANCE
+    if (Math.abs(drift) <= limit) return
+    if (!force && Date.now() < driftHoldRef.current) return
+
+    beginSeek(SEEK_HOLD)
+    driftHoldRef.current = Date.now() + DRIFT_HOLD
+    player.seekTo(target + lead, true)
+  }, [beginSeek, hold])
+
+  /**
+   * Uyga niyat yuboradi va pleerni o'sha niyat bo'yicha darhol yo'naltiradi.
+   *
+   * Pleerga darhol tegish ikki sababga ko'ra zarur: javob kutilmasin va
+   * `playVideo()` foydalanuvchi bosgan lahzada chaqirilsin — brauzer ovozli
+   * videoni faqat shunda boshlaydi.
+   *
+   * Yuboriladigan soniya pleerdan emas, uy soatidan olinadi.
+   */
+  const commit = useCallback(
+    (isPlaying: boolean, wanted: number) => {
       /**
-       * Ikki shart ham bajarilishi kerak:
+       * O'ynatishda uy soati biroz orqadan qo'yiladi.
        *
-       * — **yetib keldi**: `seekTo` bir zumda bajarilmaydi va o'sha oraliqda
-       *   `getCurrentTime` hali **eski** joyni qaytaradi. Ilgari shuni uyga
-       *   yuborardik, natijada surilgan video hammada oldingi joyiga qaytib
-       *   ketardi;
-       * — **o'ynay boshladi**: bosilgan lahzadagi soniyani yuborsak, video
-       *   yuklanguncha ketgan vaqt uy soatini oldinga surib yuborardi.
+       * Pleer buyruqdan keyin darhol ketmaydi — avval buferlaydi. Soatni
+       * "hozir"dan boshlasak, o'sha buferlash vaqti kinodan tushib qolardi:
+       * to'xtatilgan joydan davom etgan odam gapning o'rtasini eshitmasdi.
+       * Shuning uchun o'lchangan surish narxi chegirib yuboriladi — pleer
+       * haqiqatan ketgan lahzada uy soati aynan kerakli soniyada bo'ladi.
        */
-      const landed = Math.abs(time - target) < LANDED
-      const running = !isPlaying || player.getPlayerState() === YT_STATE.PLAYING
+      const target = Math.max(0, isPlaying ? wanted - leadRef.current : wanted)
 
-      if (landed && running) {
-        onActionRef.current(isPlaying, time)
-        return
-      }
-
-      // Pleer joylashmadi (bufer, sekin tarmoq, ko'rinmayotgan oyna). Uyni
-      // kutkazib qo'ymaymiz — mo'ljallangan soniya bilan davom etamiz.
-      if (Date.now() - startedAt > limit) {
-        onActionRef.current(isPlaying, target)
-        return
-      }
-
-      window.setTimeout(attempt, 120)
-    }
-
-    attempt()
-  }, [])
-
-  /**
-   * Uy holatini pleerga qo'llaydi.
-   *
-   * Hali boshlanmagan video uchun `seekTo` emas, `loadVideoById` ishlatiladi:
-   * `seekTo` bunday paytda ko'pincha e'tiborsiz qolib, video 0-soniyadan
-   * boshlanardi — do'stlar bir-biridan yarim kino orqada qolardi.
-   */
-  const applyRemote = useCallback((target: RoomStateView) => {
-    const player = playerRef.current
-    if (!player || !activatedRef.current) return
-
-    const position = expectedPosition(target, nowRef.current())
-    const playerState = player.getPlayerState()
-    const fresh = isFresh(playerState)
-
-    suppress()
-
-    if (target.isPlaying) {
-      if (fresh) {
-        player.loadVideoById({ videoId: target.videoId, startSeconds: position + SEEK_LEAD })
-      } else {
-        if (Math.abs(player.getCurrentTime() - position) > 0.4) {
-          player.seekTo(position + SEEK_LEAD, true)
-        }
-        player.playVideo()
-      }
-    } else {
-      if (fresh) {
-        player.cueVideoById({ videoId: target.videoId, startSeconds: position })
-      } else {
-        if (Math.abs(player.getCurrentTime() - position) > 0.4) player.seekTo(position, true)
-        player.pauseVideo()
-      }
-    }
-
-    appliedAtRef.current = target.stateAt
-  }, [])
-
-  /**
-   * Pleer hodisalari.
-   *
-   * Boshqaruv yashirilgani uchun bu yerda deyarli ish qolmadi: PLAYING va
-   * PAUSED — bizning buyruqlarimizning aks-sadosi. Faqat video tugagani
-   * muhim, aks holda hamma "o'ynayapti" holatida qotib qolardi.
-   */
-  const handlePlayerEvent = useCallback((event: YTStateEvent) => {
-    if (!activatedRef.current) return
-    if (event.data !== YT_STATE.ENDED) return
-    if (!stateRef.current.isPlaying) return
-
-    onActionRef.current(false, event.target.getDuration())
-  }, [])
+      setPendingPlay(isPlaying)
+      endReportedRef.current = false
+      driftHoldRef.current = 0
+      // Uy soati serverda yangilanadi; shu paytgacha o'zimiznikini ishlatamiz.
+      steer({ ...stateRef.current, isPlaying, positionSec: target, stateAt: nowRef.current() }, true)
+      onActionRef.current(isPlaying, target)
+    },
+    [steer],
+  )
 
   /* ------------------------------------------------------------- pleerni ochish */
+
+  const handlePlayerEvent = useCallback((event: YTStateEvent) => {
+    const next = event.data
+    const prev = prevPlayerStateRef.current
+    prevPlayerStateRef.current = next
+    setPlayerState(next)
+
+    /**
+     * O'ynab turgan video buferga tushdi va buni biz qilmadik (tarmoq bir
+     * zum cho'kdi) — parda darhol yonmasin. O'z surishimizdan keyingi bufer
+     * boshqa gap: YouTube o'shanda sarlavhasini ko'rsatadi, ya'ni yopish kerak.
+     */
+    if (next === YT_STATE.BUFFERING && prev === YT_STATE.PLAYING && !seekStartedAtRef.current) {
+      setGraceUntil(Date.now() + VEIL_DELAY)
+    }
+
+    // Buyruq o'ynatish bilan tugamadi — surish narxi o'lchovi bekor bo'ladi.
+    if (next === YT_STATE.PAUSED || next === YT_STATE.CUED) seekStartedAtRef.current = 0
+
+    const total = event.target.getDuration()
+    if (total > 0 && total !== durationRef.current) {
+      durationRef.current = total
+      setDuration(total)
+    }
+
+    if (next === YT_STATE.PLAYING) {
+      stalledSinceRef.current = 0
+      /**
+       * Surish qancha vaqt olgani — keyingi safar shuncha oldinga suramiz.
+       * Yumshoq o'rtacha: bitta sekin yuklanish o'lchovni butunlay buzib
+       * yubormasin.
+       */
+      if (seekStartedAtRef.current) {
+        const cost = (Date.now() - seekStartedAtRef.current) / 1000
+        seekStartedAtRef.current = 0
+        leadRef.current = clamp((leadRef.current + cost) / 2, MIN_LEAD, MAX_LEAD)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -307,8 +436,20 @@ export function WatchPlayer({
             origin: window.location.origin,
           },
           events: {
-            onReady: () => {
-              if (!cancelled) setReady(true)
+            onReady: (event) => {
+              if (cancelled) return
+              setReady(true)
+
+              /**
+               * Sichqoncha iframe'ga o'tmaydi (`pointer-events: none`), lekin
+               * klaviatura o'tishi mumkin edi: Tab bilan fokus iframe'ga
+               * tushsa, YouTube o'z tugmalarini ko'rsatib yuborardi.
+               */
+              const frame = (
+                event.target as unknown as { getIframe?: () => HTMLIFrameElement }
+              ).getIframe?.()
+              frame?.setAttribute("tabindex", "-1")
+              frame?.setAttribute("aria-hidden", "true")
 
               /**
                * Sinov uchun: dev rejimida pleerni konsoldan tekshirish mumkin
@@ -349,23 +490,34 @@ export function WatchPlayer({
     if (loadedVideoRef.current === state.videoId) return
 
     loadedVideoRef.current = state.videoId
-    suppress()
-    player.cueVideoById({ videoId: state.videoId, startSeconds: 0 })
+    durationRef.current = 0
+    endReportedRef.current = false
     appliedAtRef.current = 0
-    setDisplay({ time: 0, duration: 0, playerState: YT_STATE.UNSTARTED })
-  }, [state.videoId, ready])
+    setDuration(0)
+    beginSeek(LOAD_HOLD, false)
+    player.cueVideoById({ videoId: state.videoId, startSeconds: 0 })
+  }, [state.videoId, ready, beginSeek])
 
-  /* ------------------------------------------------- serverdagi o'zgarishlar */
+  /* ------------------------------------------------- markazdagi o'zgarishlar */
 
   useEffect(() => {
     if (!ready || !activated) return
     if (state.stateAt <= appliedAtRef.current) return
 
+    appliedAtRef.current = state.stateAt
     setPendingPlay(null)
-    applyRemote(state)
-  }, [state, ready, activated, applyRemote])
+    endReportedRef.current = false
 
-  /* ------------------------------------------------------ kuzatuv: og'ishlar */
+    /**
+     * O'z harakatimizning aks-sadosi bo'lsa pleerga majburan tegmaymiz: uni
+     * `commit()` allaqachon yo'naltirgan, hozir esa u yangi joyni
+     * buferlayapti. Ilgari shu aks-sado ustiga yana bir surish tushar va
+     * bosgan odamning o'zi bir zum orqaga tortilardi.
+     */
+    steer(state, state.stateBy !== meId)
+  }, [state, ready, activated, meId, steer])
+
+  /* -------------------------------------------------- kuzatuv: pleer va uy */
 
   useEffect(() => {
     if (!ready || !activated) return
@@ -373,75 +525,68 @@ export function WatchPlayer({
     const timer = window.setInterval(() => {
       const player = playerRef.current
       if (!player || scrubbingRef.current) return
-      if (Date.now() < suppressRef.current) return
 
       const room = stateRef.current
-      const playerState = player.getPlayerState()
       const at = Date.now()
+
+      // Hodisa yo'qolib qolishi mumkin — holatni vaqti-vaqti bilan solishtiramiz.
+      const live = player.getPlayerState()
+      prevPlayerStateRef.current = live
+      setPlayerState((prev) => (prev === live ? prev : live))
+
+      const total = player.getDuration()
+      if (total > 0 && total !== durationRef.current) {
+        durationRef.current = total
+        setDuration(total)
+      }
+
+      /**
+       * Kino tugadi. Uyga buni faqat uy egasi yozadi — aks holda har bir
+       * a'zo bir vaqtda yozib, uy holati ustma-ust almashardi.
+       */
+      if (room.isPlaying && durationRef.current > 0) {
+        const clock = expectedPosition(room, nowRef.current())
+        if (clock >= durationRef.current - END_EPSILON) {
+          if (live === YT_STATE.PLAYING) player.pauseVideo()
+          if (isOwnerRef.current && !endReportedRef.current) {
+            endReportedRef.current = true
+            onActionRef.current(false, durationRef.current)
+          }
+          return
+        }
+      }
 
       /**
        * Bufer odatda o'zi tugaydi, shuning uchun aralashmaymiz. Lekin u
-       * qotib qolishi ham mumkin (ko'rinmayotgan oyna, uzilgan tarmoq) —
-       * o'shanda videoni kerakli joydan qaytadan yuklaymiz.
+       * qotib qolishi ham mumkin — o'shanda videoni kerakli joydan
+       * qaytadan yuklaymiz.
        */
-      if (playerState === YT_STATE.BUFFERING) {
+      if (live === YT_STATE.BUFFERING) {
         stalledSinceRef.current ||= at
         if (at - stalledSinceRef.current < STALL_TIMEOUT) return
-        // Ko'rinmayotgan sahifada brauzer videoni boshlamaydi — qaytib
-        // kelganda `visibilitychange` o'zi tiklaydi.
         if (document.hidden) return
 
         stalledSinceRef.current = 0
-        suppress(2000)
-        const target = room.isPlaying
-          ? expectedPosition(room, nowRef.current()) + SEEK_LEAD
-          : room.positionSec
+        holdRef.current = 0
+        // Qotib qolgan bufer — surish narxi haqiqatan qimmat ekan.
+        leadRef.current = clamp(leadRef.current * 1.5, MIN_LEAD, MAX_LEAD)
+        beginSeek(LOAD_HOLD, room.isPlaying)
 
-        if (room.isPlaying) player.loadVideoById({ videoId: room.videoId, startSeconds: target })
-        else player.cueVideoById({ videoId: room.videoId, startSeconds: target })
+        if (room.isPlaying) {
+          const target = expectedPosition(room, nowRef.current()) + leadRef.current
+          player.loadVideoById({ videoId: room.videoId, startSeconds: target })
+        } else {
+          player.cueVideoById({ videoId: room.videoId, startSeconds: room.positionSec })
+        }
         return
       }
 
       stalledSinceRef.current = 0
-      const fresh = isFresh(playerState)
-
-      if (room.isPlaying) {
-        const target = expectedPosition(room, nowRef.current())
-
-        // Video o'zi to'xtab qolgan (reklama, tarmoq) — davom ettiramiz.
-        if (fresh || playerState === YT_STATE.PAUSED) {
-          if (document.hidden) return
-          suppress()
-          if (fresh) {
-            player.loadVideoById({ videoId: room.videoId, startSeconds: target + SEEK_LEAD })
-          } else {
-            player.seekTo(target + SEEK_LEAD, true)
-            player.playVideo()
-          }
-          return
-        }
-
-        if (Math.abs(player.getCurrentTime() - target) > DRIFT_TOLERANCE) {
-          suppress(1500)
-          player.seekTo(target + SEEK_LEAD, true)
-        }
-        return
-      }
-
-      /* Uy to'xtatilgan */
-      if (playerState === YT_STATE.PLAYING) {
-        suppress(900)
-        player.pauseVideo()
-        return
-      }
-      if (!fresh && Math.abs(player.getCurrentTime() - room.positionSec) > DRIFT_TOLERANCE) {
-        suppress(900)
-        player.seekTo(room.positionSec, true)
-      }
+      steer(room)
     }, WATCH_TICK)
 
     return () => window.clearInterval(timer)
-  }, [ready, activated])
+  }, [ready, activated, steer, beginSeek])
 
   /**
    * Ilovaga qaytilganda darhol tiklanadi.
@@ -454,38 +599,51 @@ export function WatchPlayer({
     const onVisible = () => {
       if (document.hidden || !activatedRef.current) return
       stalledSinceRef.current = 0
-      applyRemote(stateRef.current)
+      holdRef.current = 0
+      driftHoldRef.current = 0
+      steer(stateRef.current, true)
     }
 
     document.addEventListener("visibilitychange", onVisible)
     return () => document.removeEventListener("visibilitychange", onVisible)
-  }, [applyRemote])
+  }, [steer])
 
-  /* ------------------------------------------------------ vaqt ko'rsatkichi */
+  /* ------------------------------------------------------ uy soati (ekran) */
+
+  /**
+   * Ekrandagi vaqt pleerdan emas, uy soatidan chiziladi — shuning uchun uni
+   * sanab turish uchun qayta chizish kerak. Video to'xtatilgan bo'lsa soat
+   * ham to'xtaydi, ya'ni bekorga chizmaymiz.
+   */
+  const [, tick] = useState(0)
+  useEffect(() => {
+    if (!state.isPlaying) return
+    const timer = window.setInterval(() => tick((n) => n + 1), CLOCK_TICK)
+    return () => window.clearInterval(timer)
+  }, [state.isPlaying])
+
+  /* ------------------------------------------------------------- parda */
+
+  /**
+   * Bufer imtiyozi tugaganda ekranni qayta chizamiz.
+   *
+   * Parda `graceUntil` ga qarab chiziladi, ya'ni u o'tganda hech qanday
+   * holat o'zgarmaydi — taymer bo'lmasa ekran eski ko'rinishida qolib
+   * ketardi.
+   */
+  useEffect(() => {
+    if (!graceUntil) return
+    const timer = window.setTimeout(() => setGraceUntil(0), Math.max(0, graceUntil - Date.now()))
+    return () => window.clearTimeout(timer)
+  }, [graceUntil])
+
+  /* --------------------------------------------- javobsiz qolgan bosish */
 
   useEffect(() => {
-    if (!ready) return
-
-    const timer = window.setInterval(() => {
-      const player = playerRef.current
-      if (!player) return
-
-      const time = player.getCurrentTime()
-      const duration = player.getDuration()
-      const playerState = player.getPlayerState()
-
-      // Qiymat sezilarli o'zgarmasa qayta chizmaymiz.
-      setDisplay((prev) =>
-        Math.abs(prev.time - time) < 0.25 &&
-        prev.duration === duration &&
-        prev.playerState === playerState
-          ? prev
-          : { time, duration, playerState },
-      )
-    }, DISPLAY_TICK)
-
-    return () => window.clearInterval(timer)
-  }, [ready])
+    if (pendingPlay === null) return
+    const timer = window.setTimeout(() => setPendingPlay(null), PENDING_TTL)
+    return () => window.clearTimeout(timer)
+  }, [pendingPlay])
 
   /* --------------------------------------------------------------------- ovoz */
 
@@ -521,41 +679,43 @@ export function WatchPlayer({
 
   /* ------------------------------------------------------------------ amallar */
 
-  const duration = display.duration
+  /**
+   * Ekranda ko'rinadigan va boshqaruv tayanadigan soniya — uy soatidan.
+   *
+   * Bu qiymat hamma a'zoda bir xil: u serverdagi `positionSec` va `stateAt`
+   * dan hisoblanadi, mijoz esa soat farqini `serverNow()` orqali tuzatib
+   * oladi. Pleer yuklanayotganda ham, qayta yuklanganda ham raqam o'z
+   * yo'lida davom etadi — ilgari o'sha paytda 0:00 yonib turardi.
+   */
+  const clock = expectedPosition(state, serverNow())
+  const roomPosition = duration > 0 ? Math.min(clock, duration) : clock
+  const position = scrub ?? roomPosition
+  const ended = duration > 0 && clock >= duration - END_EPSILON
+
   const covered = !ready || !activated
-
+  /** Tugmalar uchun: hali uyga yetib bormagan bosish ham hisobga olinadi */
+  const showPlaying = (pendingPlay ?? state.isPlaying) && !ended
   /**
-   * Ekranda ko'rinadigan va boshqaruv tayanadigan soniya.
+   * Parda: video haqiqatan ketayotgan lahzadan boshqa paytda pleer yopiladi.
    *
-   * Pleer yuklanayotganda yoki qayta yuklanganda `getCurrentTime()` nolni
-   * qaytaradi. O'shanda uning o'rniga uyning soati ko'rsatiladi: aks holda
-   * "0:00" yonib turar, "+10 soniya" esa noldan hisoblab, hammani kino
-   * boshiga tortib ketardi.
-   */
-  const playerLive =
-    display.playerState === YT_STATE.PLAYING || display.playerState === YT_STATE.PAUSED
-  const position = scrub ?? (playerLive ? display.time : expectedPosition(state, serverNow()))
-  /** Tugmalar uchun: hali efirga chiqmagan bosish ham hisobga olinadi */
-  const showPlaying = pendingPlay ?? state.isPlaying
-
-  /**
-   * Video haqiqatan ketayotgan lahzadan boshqa paytda pleer o'z parda bilan
-   * yopiladi.
-   *
-   * YouTube boshqaruvini o'chirib bo'lsa ham, u yuklanish paytida sarlavha
+   * Boshqaruvni o'chirib bo'lsa ham, YouTube yuklanish paytida sarlavha
    * bilan brend qatorini, to'xtatilganda esa "More videos" tavsiyalarini
-   * ko'rsatishda davom etadi. Bosish o'tmasa ham bu ko'zga tashlanadi:
-   * do'stingiz videoni yoqqanda sizda bir zum begona ramka yonib o'chardi.
+   * ko'rsatishda davom etadi — do'stingiz videoni yoqqanda sizda bir zum
+   * begona ramka yonib o'chardi.
    */
-  const starting = showPlaying && display.playerState !== YT_STATE.PLAYING
-  const veiled = !covered && (starting || !showPlaying)
+  const grace = graceUntil > 0 && playerState === YT_STATE.BUFFERING
+  const loading = showPlaying && playerState !== YT_STATE.PLAYING && !grace
+  const veiled = !covered && (loading || !showPlaying)
+
+  /** Chiziqning to'lgan qismi (%) — CSS shu qiymatga qarab chiziladi. */
+  const progress = duration > 0 ? clamp((position / duration) * 100, 0, 100) : 0
 
   const activate = () => {
     haptic.impact("medium")
     setActivated(true)
     activatedRef.current = true
     // Teginish paytida chaqiramiz — brauzer ovozli o'ynatishga faqat shunda ruxsat beradi.
-    applyRemote(stateRef.current)
+    steer(stateRef.current, true)
   }
 
   /** Boshqarishga ruxsati bormi; bo'lmasa sababini ko'rsatadi. */
@@ -566,54 +726,77 @@ export function WatchPlayer({
   }
 
   const togglePlay = () => {
-    if (!allowed()) return
-    const player = playerRef.current
-    if (!player) return
-
-    const next = !showPlaying
+    if (covered || !allowed()) return
     haptic.impact("medium")
-    setPendingPlay(next)
-
-    // Avval o'z pleerimizni boshqaramiz — javob darhol sezilsin. Uyga esa
-    // pleer haqiqatan o'sha holatga o'tgach xabar beriladi.
-    const from = playerLive ? player.getCurrentTime() : position
-    suppress(SETTLE_TIMEOUT + 500)
-    if (next) player.playVideo()
-    else player.pauseVideo()
-
-    // To'xtatish darhol ma'lum, o'ynatish esa yuklanishni kutadi.
-    broadcast(next, from, next)
+    // Kino tugagan bo'lsa "o'ynatish" uni boshidan boshlaydi.
+    if (ended) commit(true, 0)
+    else commit(!showPlaying, roomPosition)
   }
 
-  /** Vaqt chizig'i qo'yib yuborilganda. */
-  const commitSeek = (value: number) => {
-    setScrub(null)
-    if (!allowed()) return
-
-    const player = playerRef.current
-    if (!player) return
-
-    haptic.select()
-    suppress(SETTLE_TIMEOUT + 500)
-    player.seekTo(value, true)
-    broadcast(showPlaying, value, true)
+  /**
+   * Vaqt chizig'i.
+   *
+   * Ushlab turilgan qiymat (`scrub`) ekranda ko'rinadi, lekin markazga
+   * darhol yuborilmaydi. Qo'yib yuborilgach yuborish bir oz kechiktiriladi
+   * va shu oraliqda kelgan yangi qiymat eskisini almashtiradi.
+   *
+   * Kechiktirish zarur: brauzer `input` hodisasini `pointerup` dan **keyin**
+   * ham yuborishi mumkin. Ilgari qo'yib yuborilgan zahoti yuborardik va
+   * kechikkan qiymat `scrub` ni qayta yoqib qo'yardi — chiziq o'sha joyda
+   * abadiy qotib qolar, markaz esa ketaverardi. Ba'zan esa aksincha:
+   * markazga hali yangilanmagan **eski** soniya ketib, video o'sha yerdan
+   * davom etardi.
+   */
+  const sendSeek = () => {
+    window.clearTimeout(seekTimerRef.current)
+    seekTimerRef.current = window.setTimeout(() => {
+      const value = pendingSeekRef.current
+      pendingSeekRef.current = null
+      setScrub(null)
+      if (value === null || !allowed()) return
+      haptic.select()
+      commit(showPlaying, duration > 0 ? clamp(value, 0, duration) : Math.max(0, value))
+    }, SEEK_COMMIT_DELAY)
   }
+
+  /** Chiziq qiymati o'zgardi — surish davomida ham, klaviaturada ham. */
+  const onSlide = (value: number) => {
+    pendingSeekRef.current = value
+    if (draggingRef.current) setScrub(value)
+    else sendSeek()
+  }
+
+  /**
+   * Barmoq yoki sichqoncha chiziqdan tashqarida qo'yib yuborilishi mumkin —
+   * o'shanda elementning o'zida `pointerup` bo'lmaydi va chiziq ushlangan
+   * qiymatida qotib qolardi. Shuning uchun oyna darajasida kuzatamiz.
+   */
+  const sendSeekRef = useRef(sendSeek)
+  useEffect(() => {
+    sendSeekRef.current = sendSeek
+  })
+
+  useEffect(() => {
+    const stop = () => {
+      if (!draggingRef.current) return
+      draggingRef.current = false
+      sendSeekRef.current()
+    }
+
+    window.addEventListener("pointerup", stop)
+    window.addEventListener("pointercancel", stop)
+    return () => {
+      window.removeEventListener("pointerup", stop)
+      window.removeEventListener("pointercancel", stop)
+      window.clearTimeout(seekTimerRef.current)
+    }
+  }, [])
 
   const step = (delta: number) => {
     if (!allowed()) return
-    const player = playerRef.current
-    if (!player) return
-
-    const limit = display.duration || Number.MAX_SAFE_INTEGER
-    const next = Math.max(0, Math.min(limit, position + delta))
-
+    const next = position + delta
     haptic.select()
-    setScrub(next)
-    // Pleer yangi joyni ko'rsatguncha raqam orqaga sakramasin.
-    window.setTimeout(() => setScrub(null), 1200)
-    suppress(SETTLE_TIMEOUT + 500)
-    player.seekTo(next, true)
-    broadcast(showPlaying, next, true)
+    commit(showPlaying, duration > 0 ? clamp(next, 0, duration) : Math.max(0, next))
   }
 
   /* ---------------------------------------------------------------- ko'rinish */
@@ -637,7 +820,7 @@ export function WatchPlayer({
               veiled ? "bg-black/95 backdrop-blur-sm" : "bg-transparent",
             )}
           >
-            {starting ? (
+            {loading ? (
               <span className="flex flex-col items-center gap-2 text-white/80">
                 <Loader2 className="size-6 animate-spin" />
                 <span className="text-xs">Yuklanmoqda…</span>
@@ -649,7 +832,11 @@ export function WatchPlayer({
                     <Play className="size-6 translate-x-0.5 fill-white text-white" />
                   </span>
                   <span className="text-xs text-white/70">
-                    {state.stateByName ? `${state.stateByName} to'xtatdi` : "To'xtatilgan"}
+                    {ended
+                      ? "Kino tugadi — boshidan ko'rish"
+                      : state.stateByName
+                        ? `${state.stateByName} to'xtatdi`
+                        : "To'xtatilgan"}
                   </span>
                 </span>
               )
@@ -675,7 +862,9 @@ export function WatchPlayer({
                 </span>
                 <span className="text-sm font-semibold">Birga ko'rishni boshlash</span>
                 <span className="max-w-60 text-[11px] leading-snug text-white/70">
-                  Bir marta bosing — shundan keyin video hammada bir vaqtda ketadi
+                  {state.isPlaying
+                    ? `Kino ${formatVideoTime(roomPosition)} da ketyapti — bosing va qo'shiling`
+                    : "Bir marta bosing — shundan keyin video hammada bir vaqtda ketadi"}
                 </span>
               </button>
             )}
@@ -684,95 +873,131 @@ export function WatchPlayer({
       </div>
 
       {/* --- o'z boshqaruvimiz --- */}
-      <div className="space-y-1 bg-black px-2.5 pt-1.5 pb-2 text-white">
+      <div className="bg-black px-1.5 pt-0.5 pb-1 text-white">
+        {/*
+          Chiziq alohida qatorda va deyarli chetdan chetgacha cho'ziladi:
+          telefonda uni barmoq bilan aniq ushlash kerak. Balandligi 24 px —
+          ko'rinadigan chiziq ingichka bo'lsa ham teginish maydoni keng.
+
+          `block` — inline element ostida matn tagligi uchun ~6 px bo'sh joy
+          qolardi va u qatorni pastga surardi.
+        */}
         <input
           type="range"
           min={0}
           max={Math.max(duration, 1)}
           step={0.5}
-          value={Math.min(position, Math.max(duration, 1))}
+          value={duration > 0 ? Math.min(position, duration) : 0}
           disabled={covered || !duration}
-          onChange={(e) => setScrub(Number(e.target.value))}
-          onPointerUp={(e) => commitSeek(Number(e.currentTarget.value))}
-          onKeyUp={(e) => commitSeek(Number(e.currentTarget.value))}
+          onPointerDown={() => {
+            draggingRef.current = true
+          }}
+          onChange={(e) => onSlide(Number(e.target.value))}
           aria-label="Video vaqti"
-          className="h-1 w-full accent-primary disabled:opacity-40"
+          className="range-track block w-full"
+          style={{ "--seek": `${progress}%` } as CSSProperties}
         />
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={togglePlay}
-            disabled={covered}
-            aria-label={showPlaying ? "To'xtatish" : "O'ynatish"}
-            className="tap grid size-8 shrink-0 place-items-center rounded-full bg-white/15 disabled:opacity-40"
-          >
-            {showPlaying ? (
-              <Pause className="size-4 fill-white" />
-            ) : (
-              <Play className="size-4 translate-x-px fill-white" />
-            )}
-          </button>
+        {/*
+          Qator chiziqqa yaqin tortilgan: chiziq elementi 24 px, ko'rinadigan
+          qismi esa 5 px — orada bo'sh joy qoladi va u qatorni bekorga
+          pastga surardi.
 
-          <button
-            type="button"
-            onClick={() => step(-10)}
-            disabled={covered}
-            className="tap shrink-0 text-[11px] font-medium text-white/70 disabled:opacity-40"
-          >
-            −10s
-          </button>
-          <button
-            type="button"
-            onClick={() => step(10)}
-            disabled={covered}
-            className="tap shrink-0 text-[11px] font-medium text-white/70 disabled:opacity-40"
-          >
-            +10s
-          </button>
-
-          <span className="shrink-0 text-[11px] tabular-nums text-white/80">
+          Uch ustunli grid: yon ustunlar teng (`1fr`), shuning uchun asosiy
+          uchlik har doim aniq markazda turadi. Mutlaq joylashuv bilan ham
+          markazlash mumkin edi, lekin o'shanda ovoz chizig'i ochilganda
+          tugmalar bir-birining ustiga chiqib ketardi — gridda ustunlar
+          hech qachon ustma-ust tushmaydi.
+        */}
+        <div className="-mt-1 grid grid-cols-[1fr_auto_1fr] items-center px-0.5">
+          <span className="justify-self-start text-[11px] tabular-nums text-white/70">
             {formatVideoTime(position)}
-            {duration > 0 && ` / ${formatVideoTime(duration)}`}
+            {duration > 0 && (
+              <span className="text-white/40"> / {formatVideoTime(duration)}</span>
+            )}
           </span>
 
-          <div className="flex-1" />
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => step(-10)}
+              disabled={covered}
+              aria-label="10 soniya orqaga"
+              className="tap grid size-9 place-items-center rounded-full text-white/80 disabled:opacity-40"
+            >
+              <Rewind className="size-5" />
+            </button>
 
-          {!canControl && (
-            <span className="flex shrink-0 items-center gap-1 text-[10px] text-white/60">
-              <Lock className="size-3" />
-              uy egasi
-            </span>
-          )}
+            <button
+              type="button"
+              onClick={togglePlay}
+              disabled={covered}
+              aria-label={showPlaying ? "To'xtatish" : "O'ynatish"}
+              className="tap grid size-11 place-items-center rounded-full bg-white/15 disabled:opacity-40"
+            >
+              {showPlaying ? (
+                <Pause className="size-5 fill-white" />
+              ) : (
+                <Play className="size-5 translate-x-px fill-white" />
+              )}
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setVolume(volume > 0 ? 0 : 100)}
-            aria-label={volume > 0 ? "Ovozni o'chirish" : "Ovozni yoqish"}
-            className="tap shrink-0 text-white/80"
-          >
-            {volume > 0 ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
-          </button>
+            <button
+              type="button"
+              onClick={() => step(10)}
+              disabled={covered}
+              aria-label="10 soniya oldinga"
+              className="tap grid size-9 place-items-center rounded-full text-white/80 disabled:opacity-40"
+            >
+              <FastForward className="size-5" />
+            </button>
+          </div>
 
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => setVolume(Number(e.target.value))}
-            aria-label="Kino ovozi"
-            className="h-1 w-14 shrink-0 accent-primary"
-          />
+          <div className="flex items-center justify-self-end gap-0.5">
+            {/*
+              Ovoz darajasi telefonda qurilma tugmalari bilan boshqariladi,
+              shuning uchun u yerda faqat ovozni o'chirish qoladi. Kengroq
+              ekranda chiziq ham ko'rinadi.
+            */}
+            <button
+              type="button"
+              onClick={() => setVolume(volume > 0 ? 0 : 100)}
+              aria-label={volume > 0 ? "Ovozni o'chirish" : "Ovozni yoqish"}
+              className="tap grid size-8 place-items-center rounded-full text-white/80"
+            >
+              {volume > 0 ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
+            </button>
 
-          <button
-            type="button"
-            onClick={toggleFullscreen}
-            aria-label={fullscreen ? "Oynadan chiqish" : "To'liq ekran"}
-            className="tap shrink-0 text-white/80"
-          >
-            {fullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
-          </button>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value))}
+              aria-label="Kino ovozi"
+              data-thin
+              className="range-track hidden w-16 sm:block"
+              style={{ "--seek": `${volume}%` } as CSSProperties}
+            />
+
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label={fullscreen ? "Oynadan chiqish" : "To'liq ekran"}
+              className="tap grid size-8 place-items-center rounded-full text-white/80"
+            >
+              {fullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
+            </button>
+          </div>
         </div>
+
+        {/* Qulf yopiq — mehmon nega boshqara olmasligini bilsin. */}
+        {!canControl && (
+          <p className="mt-1 flex items-center justify-center gap-1 text-[10px] text-white/50">
+            <Lock className="size-3" />
+            Videoni hozir faqat uy egasi boshqaradi
+          </p>
+        )}
       </div>
     </div>
   )
@@ -783,6 +1008,8 @@ const isFresh = (playerState: number) =>
   playerState === YT_STATE.UNSTARTED ||
   playerState === YT_STATE.CUED ||
   playerState === YT_STATE.ENDED
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
 function clampVolume(raw: string | null): number {
   const value = Number(raw)
