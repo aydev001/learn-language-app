@@ -88,9 +88,47 @@ Taklifni **id'si kichigi** yuboradi, kattasi javob beradi. Ikkalasi bir vaqtda
 taklif yuborsa ulanish chalkashardi; ikkala tomon ham ikkala id'ni bilgani
 uchun bu qoidaga kelishuv kerak emas.
 
-Kimdir gapirganda kino ovozi beshdan biriga tushadi va gap tugagach o'zi
-tiklanadi. Butunlay o'chirilmaydi: kino sizsiz ketaveradi va gap tugaganda
-nima bo'lganini bilmay qolasiz.
+### Aks-sado va tiniqlik
+
+Ovozli suhbatdagi eng katta muammo — kino ovozining karnaydan chiqib,
+mikrofonga qaytib tushishi. Do'stingiz o'shanda kinoni ikki marta eshitadi:
+o'zinikini va sizning mikrofoningizdan kelganini, biroz kechikkan holda —
+quloqqa u aks-sado ("reverb") bo'lib eshitiladi. Brauzerning aks-sado
+o'chirgichi (AEC) buni to'liq yo'q qila olmaydi, ayniqsa telefon karnayida.
+
+Uch qavat himoya bor:
+
+**1. Ovoz darvozasi.** Mikrofon do'stga to'g'ridan-to'g'ri emas, kichik
+zanjir orqali ketadi:
+
+```
+mikrofon ──┬── analizator (o'lchov)
+           └── darvoza (gain) ── chiquvchi oqim
+```
+
+Odam gapirmayotganda darvoza yopiladi va do'stga hech narsa ketmaydi —
+kino "sharpasi" ham. Gapirilganda bir zumda ochiladi. Analizator
+darvozadan **oldin** ulanadi: aks holda darvoza bir marta yopilgach daraja
+abadiy nol bo'lib qolar va qaytib ochilmasdi (`track.enabled = false` ham
+xuddi shu tuzoqni yaratardi — shuning uchun uzish emas, gain ishlatiladi).
+Ochilish-yopilish 60 ms da yumshoq bajariladi, aks holda har safar "chirt"
+etib eshitilardi.
+
+**2. Kino ovozini pasaytirish.** Kimdir gapirganda kino ovozi beshdan biriga
+tushadi va gap tugagach o'zi tiklanadi. Butunlay o'chirilmaydi: kino sizsiz
+ketaveradi va gap tugaganda nima bo'lganini bilmay qolasiz. Pasayish
+**o'zingiz gapirganda ham** ishlaydi — shunda karnaydan mikrofonga qaytadigan
+ovoz kamayadi, ya'ni do'stingizga aks-sado bormaydi.
+
+**3. Naushnik.** Yuqoridagi ikkitasi aks-sadoni sezilarli kamaytiradi, lekin
+butunlay yo'q qiladigan yagona yo'l — karnayni umuman ishlatmaslik. Bir
+xonada ikki qurilmada ko'rilayotgan bo'lsa bu ayniqsa muhim.
+
+Uzilishlarga qarshi: ovoz oqimi 48 kbit bilan cheklanadi va tarmoqda
+ustunlik oladi (`networkPriority: "high"`). Sababi — bir vaqtda YouTube ham
+xuddi shu kanaldan oqib turadi; video bufer to'ldirayotgan lahzada gap
+uzilib qolmasligi kerak. Opus'ning yo'qolgan paketni tiklash mexanizmi
+(inband FEC) brauzerda sukut bo'yicha yoqilgan.
 
 Ovoz darajasi ikki tomonda ham o'lchanadi (Web Audio) — kim gapirayotgani
 avatar atrofidagi halqadan ko'rinadi, ya'ni "meni eshityaptimi?" degan savol

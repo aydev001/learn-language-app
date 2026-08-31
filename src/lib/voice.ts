@@ -36,8 +36,40 @@ import { request } from "./api"
 /** Nomzodlar yig'ilishini shuncha kutamiz, keyin bori bilan yuboramiz (ms). */
 const GATHER_TIMEOUT = 2500
 
-/** Ovoz darajasi shu oraliqda o'lchanadi (ms). */
-const LEVEL_TICK = 150
+/**
+ * Ovoz darajasi shu oraliqda o'lchanadi (ms).
+ *
+ * Darvoza ham shu o'lchovga tayanadi, shuning uchun oraliq qisqa: uzunroq
+ * bo'lsa gapning boshi kesilib qolardi.
+ */
+const LEVEL_TICK = 60
+
+/**
+ * Ovoz darvozasi.
+ *
+ * Aks-sadoning asosiy manbai — karnaydan chiqqan kino ovozi mikrofonga
+ * qaytib tushishi. Brauzerning aks-sado o'chirgichi (AEC) uni butunlay
+ * yo'q qila olmaydi, ayniqsa telefon karnayida. Shuning uchun odam
+ * gapirmayotganda mikrofon umuman yopiladi: do'stga faqat gap ketadi,
+ * kino "sharpasi" emas.
+ *
+ * `OPEN` past qo'yilgan — sekin gapirgan odamni kesib qo'ymasin. `HOLD`
+ * esa uzun: gap orasidagi nafas darvozani yopib-ochib yubormasin.
+ */
+const GATE_OPEN = 0.045
+const GATE_HOLD = 900
+
+/** Darvoza shuncha vaqtda yumshoq ochiladi/yopiladi (s) — "chirt" eshitilmasin. */
+const GATE_FADE = 0.06
+
+/**
+ * Ovozga ajratiladigan tezlik chegarasi (bit/s).
+ *
+ * Bir vaqtda YouTube ham xuddi shu kanaldan oqib turadi. Ovoz o'zini
+ * cheklab qo'ysa (va tarmoqda ustunlik olsa) video buferga tushganda ham
+ * gap uzilib qolmaydi. 48 kbit — suhbat uchun ortig'i bilan yetarli.
+ */
+const AUDIO_BITRATE = 48_000
 
 /** Shundan baland ovoz "gapiryapti" deb hisoblanadi (0..1). */
 const SPEAKING_LEVEL = 0.08
@@ -146,10 +178,24 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
    */
   const speakingUntilRef = useRef(0)
 
+  /** Do'stlarga yuboriladigan oqim (darvozadan o'tgan). */
   const streamRef = useRef<MediaStream | null>(null)
+  /** Mikrofonning o'zi — to'xtatish faqat shu yerda bo'ladi. */
+  const micRef = useRef<MediaStream | null>(null)
   const peersRef = useRef(new Map<number, Peer>())
   const ctxRef = useRef<AudioContext | null>(null)
   const myAnalyserRef = useRef<AnalyserNode | null>(null)
+  /**
+   * Ovoz darvozasi.
+   *
+   * Jim turganda mikrofon yopiladi — do'stga karnaydan qaytgan kino ovozi
+   * ketmasin. Ochilish-yopilish bir zumda emas, yumshoq: keskin uzilish
+   * "chirt" etib eshitiladi.
+   */
+  const gateRef = useRef<GainNode | null>(null)
+  const gateOpenRef = useRef({ open: true, until: 0 })
+  /** Qo'lda o'chirilganmi — darvoza uni qaytib ochib yubormasin. */
+  const micMutedRef = useRef(false)
   const handledRef = useRef(new Set<string>())
   const statusRef = useRef<VoiceStatus>("off")
 
@@ -207,6 +253,30 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
     } catch {
       /* o'lchov qo'shimcha qulaylik — bo'lmasa ham suhbat ishlaydi */
     }
+  }, [])
+
+  /**
+   * Ovoz darvozasi: gapirganda ochiq, jim turganda yopiq.
+   *
+   * Qaytaradi: hozir gapiryapmanmi (darvoza ochiqmi). Qo'lda o'chirilgan
+   * mikrofonga tegilmaydi — u har doim yopiq turishi kerak.
+   */
+  const applyGate = useCallback((level: number): boolean => {
+    const gate = gateRef.current
+    const ctx = ctxRef.current
+    if (!gate || !ctx || micMutedRef.current) return false
+
+    const at = Date.now()
+    if (level > GATE_OPEN) gateOpenRef.current.until = at + GATE_HOLD
+
+    const open = gateOpenRef.current.until > at
+    if (open !== gateOpenRef.current.open) {
+      gateOpenRef.current.open = open
+      // Keskin uzilish "chirt" etib eshitiladi — shuning uchun yumshoq.
+      gate.gain.setTargetAtTime(open ? 1 : 0, ctx.currentTime, GATE_FADE)
+    }
+
+    return open
   }, [])
 
   /* --------------------------------------------------------------- ulanish */
@@ -295,6 +365,27 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
 
       for (const track of stream.getTracks()) pc.addTrack(track, stream)
 
+      /*
+        Ovozga tarmoqda ustunlik beramiz va tezligini cheklaymiz.
+
+        Bir vaqtda YouTube ham xuddi shu kanaldan oqib turadi: video bufer
+        to'ldirayotgan lahzada gap uzilib qolmasligi kerak. Ovoz ko'p joy
+        talab qilmaydi (48 kbit yetarli), lekin u birinchi navbatda
+        o'tishi kerak — `networkPriority` shuni bildiradi.
+      */
+      for (const sender of pc.getSenders()) {
+        if (sender.track?.kind !== "audio") continue
+        try {
+          const params = sender.getParameters()
+          params.encodings = [
+            { ...(params.encodings?.[0] ?? {}), maxBitrate: AUDIO_BITRATE, networkPriority: "high", priority: "high" },
+          ]
+          await sender.setParameters(params)
+        } catch {
+          // Brauzer bu sozlamani qabul qilmadi — ulanishga to'sqinlik qilmaydi.
+        }
+      }
+
       pc.ontrack = (event) => {
         const [remote] = event.streams
         if (!remote) return
@@ -374,12 +465,30 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
     setError(null)
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const mic = await navigator.mediaDevices.getUserMedia({
         // Kino ovozi mikrofonga qaytib aks-sado bo'lmasligi uchun.
-        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          // Suhbat uchun bitta kanal yetarli — stereo faqat kanalni band qiladi.
+          channelCount: 1,
+        },
         video: false,
       })
-      streamRef.current = stream
+      micRef.current = mic
+
+      /*
+        Mikrofon do'stga to'g'ridan-to'g'ri emas, kichik zanjir orqali ketadi:
+
+            mikrofon ──┬── analizator (o'lchov)
+                       └── darvoza (gain) ── chiquvchi oqim
+
+        Analizator darvozadan **oldin** ulanadi: darvoza yopilganda ham
+        ovozni eshitib turadi, aks holda u bir marta yopilgach daraja
+        abadiy nol bo'lib qolardi va qaytib ochilmasdi.
+      */
+      let outgoing = mic
 
       const Ctx =
         window.AudioContext ??
@@ -391,16 +500,29 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
         ctxRef.current = ctx
 
         try {
-          const source = ctx.createMediaStreamSource(stream)
+          const source = ctx.createMediaStreamSource(mic)
+
           const analyser = ctx.createAnalyser()
           analyser.fftSize = 512
           analyser.smoothingTimeConstant = 0.5
           source.connect(analyser)
           myAnalyserRef.current = analyser
+
+          const gate = ctx.createGain()
+          const destination = ctx.createMediaStreamDestination()
+          source.connect(gate)
+          gate.connect(destination)
+          gateRef.current = gate
+          outgoing = destination.stream
         } catch {
-          /* o'lchovsiz ham ishlayveradi */
+          // Zanjir qurilmadi — ovoz baribir ketadi, faqat darvozasiz.
+          myAnalyserRef.current = null
+          gateRef.current = null
         }
       }
+
+      streamRef.current = outgoing
+      gateOpenRef.current = { open: true, until: 0 }
 
       setStatus("on")
       statusRef.current = "on"
@@ -417,10 +539,21 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
   const stop = useCallback(() => {
     closeAll(true)
 
+    /*
+      Mikrofonning o'zi ham to'xtatilishi shart: chiquvchi oqim endi
+      zanjirdan chiqadi, ya'ni faqat uni to'xtatish qurilmadagi yozuv
+      chirog'ini o'chirmasdi — odam suhbatdan chiqqan bo'lsa ham mikrofon
+      yonib turaverardi.
+    */
+    micRef.current?.getTracks().forEach((track) => track.stop())
+    micRef.current = null
     streamRef.current?.getTracks().forEach((track) => track.stop())
     streamRef.current = null
 
     myAnalyserRef.current = null
+    gateRef.current = null
+    gateOpenRef.current = { open: true, until: 0 }
+    micMutedRef.current = false
     void ctxRef.current?.close().catch(() => {})
     ctxRef.current = null
 
@@ -435,12 +568,28 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
     inputRef.current.setVoice(false, false)
   }, [closeAll])
 
+  /**
+   * Qo'lda o'chirish — darvozadan qat'i nazar.
+   *
+   * Yo'l ikki qavatli: yo'lakcha (`gain`) yopiladi va yo'lning o'zi
+   * (`track.enabled`) uziladi. Ikkinchisi kafolat: darvoza qanday
+   * ishlashidan qat'i nazar, o'chirilgan mikrofondan hech narsa chiqmaydi.
+   */
   const toggleMute = useCallback(() => {
     const stream = streamRef.current
     if (!stream) return
 
-    const next = !stream.getAudioTracks().every((track) => !track.enabled)
+    const next = !micMutedRef.current
+    micMutedRef.current = next
+
+    const gate = gateRef.current
+    const ctx = ctxRef.current
+    if (gate && ctx) {
+      gate.gain.setTargetAtTime(next ? 0 : 1, ctx.currentTime, GATE_FADE)
+      gateOpenRef.current = { open: !next, until: 0 }
+    }
     for (const track of stream.getAudioTracks()) track.enabled = !next
+
     setMicMuted(next)
     if (next) setLevel(0)
     inputRef.current.setVoice(true, next)
@@ -514,6 +663,8 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
       const mine = myAnalyserRef.current ? readLevel(myAnalyserRef.current) : 0
       setLevel((prev) => (Math.abs(prev - mine) < 0.02 ? prev : mine))
 
+      const gate = applyGate(mine)
+
       let loudest = 0
       setPeerViews((prev) => {
         let changed = false
@@ -528,13 +679,21 @@ export function useVoiceChat(input: VoiceChatInput): VoiceChat {
         return changed ? next : prev
       })
 
-      if (loudest > SPEAKING_LEVEL) speakingUntilRef.current = Date.now() + SPEAKING_HOLD
+      /*
+        Kino ovozi men gapirganda ham pasayadi, nafaqat do'stim gapirganda.
+        Sababi ikkita: birinchisi — o'zimni eshitib turaman; ikkinchisi va
+        muhimrog'i — karnaydan mikrofonga qaytadigan ovoz kamayadi, ya'ni
+        do'stimga aks-sado ketmaydi.
+      */
+      if (loudest > SPEAKING_LEVEL || gate) {
+        speakingUntilRef.current = Date.now() + SPEAKING_HOLD
+      }
       const speaking = speakingUntilRef.current > Date.now()
       setSomeoneSpeaking((prev) => (prev === speaking ? prev : speaking))
     }, LEVEL_TICK)
 
     return () => window.clearInterval(timer)
-  }, [status])
+  }, [status, applyGate])
 
   /* ------------------------------------------------------------- tozalash */
 
