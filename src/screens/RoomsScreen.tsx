@@ -18,8 +18,8 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ApiError, useMe } from "@/lib/api"
-import { canUseRooms, useCreateRoom, useMyRooms, usePublicRooms } from "@/lib/rooms"
+import { ApiError } from "@/lib/api"
+import { useCreateRoom, useMyRooms, usePublicRooms } from "@/lib/rooms"
 import { haptic } from "@/lib/telegram"
 import { cn } from "@/lib/utils"
 import { youtubeThumbUrl } from "@shared/youtube"
@@ -39,10 +39,8 @@ const VISIBILITY = [
 ]
 export function RoomsScreen() {
   const navigate = useNavigate()
-  const me = useMe()
-  const allowed = canUseRooms(me.data)
-  const rooms = useMyRooms(allowed)
-  const publicRooms = usePublicRooms(allowed)
+  const rooms = useMyRooms()
+  const publicRooms = usePublicRooms()
   const create = useCreateRoom()
 
   const [url, setUrl] = useState("")
@@ -50,27 +48,6 @@ export function RoomsScreen() {
   /** Sukut bo'yicha uy ochiq: odam kimnidir chaqirish uchun uy ochadi. */
   const [visibility, setVisibility] = useState<RoomVisibility>("public")
 
-
-  /*
-    Sinov davri: bo'lim menyudan olib qo'yilgan, lekin manzil qo'lda
-    kiritilishi mumkin. Taklif havolasi (`/room/<kod>`) ochiq qoladi —
-    sinovchi do'stini uyiga chaqira olishi kerak.
-  */
-  if (!me.isLoading && !allowed) {
-    return (
-      <div className="safe-top flex min-h-[70dvh] flex-col justify-center px-4">
-        <Card className="gap-3 p-6 text-center">
-          <div className="mx-auto grid size-12 place-items-center rounded-full bg-secondary text-2xl">
-            🍿
-          </div>
-          <h1 className="text-base font-bold">Birga kino — tez orada</h1>
-          <p className="text-sm text-muted-foreground">
-            Bo'lim hozir sinovdan o'tyapti. Tayyor bo'lgach u shu yerda hammaga ochiladi.
-          </p>
-        </Card>
-      </div>
-    )
-  }
   const submitUrl = () => {
     const value = url.trim()
     if (!value || create.isPending) return

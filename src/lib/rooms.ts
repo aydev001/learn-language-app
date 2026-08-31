@@ -13,7 +13,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import type {
-  Me,
   PublicRoomSummary,
   RoomAccess,
   RoomMemberAction,
@@ -26,28 +25,6 @@ import type {
   RoomSync,
 } from "@shared/types"
 import { ApiError, request } from "./api"
-
-/* -------------------------------------------------------- sinov davri */
-
-/**
- * «Kino» bo'limi hozircha hamma uchun ochiq emas.
- *
- * Feature real sharoitda sinovdan o'tyapti: sinxron, uy egasining tasdig'i
- * va chat bir necha odamda bir vaqtda tekshirilishi kerak. Shuning uchun
- * pastdagi menyuda u faqat adminlarga va sinovda qatnashayotgan o'quvchiga
- * ko'rinadi.
- *
- * Taklif havolasi (`/room/<kod>`) hamma uchun ochiq qoladi — aks holda
- * sinovchi do'stini uyiga chaqira olmasdi, ya'ni sinovning o'zi imkonsiz
- * bo'lardi. Yopiq bo'lgani — bo'limni topib borish yo'li.
- *
- * Sinov tugagach shu ro'yxatni bo'shatib, `canUseRooms` ni `true`
- * qaytaradigan qilish kifoya.
- */
-const ROOMS_TESTERS = [7255599788]
-
-export const canUseRooms = (me?: Me | null): boolean =>
-  Boolean(me && (me.isAdmin || ROOMS_TESTERS.includes(me.id)))
 
 /* ---------------------------------------------------------------- so'rovlar */
 

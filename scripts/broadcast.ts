@@ -1,20 +1,64 @@
 /**
- * Yangi dars haqida o'quvchilarga xabar yuboradi.
+ * O'quvchilarga xabar yuboradi — yangi dars yoki yangi imkoniyat haqida.
  *
  *   npm run broadcast -- lesson-04 --test    -- faqat adminlarga (sinov)
  *   npm run broadcast -- lesson-04           -- bazadagi barcha o'quvchilarga
  *   npm run broadcast -- lesson-04 --dry     -- hech kimga yubormay, matnni ko'rsatadi
+ *   npm run broadcast -- kino --test         -- e'lon (dars emas), sinov
  *
- * Avval `--test` bilan o'zingizga yuborib ko'ring: Telegramda xabarni
- * qanday ko'rinishini tekshirgach, bayroqsiz qayta ishga tushiring.
+ * Avval `--test` bilan o'zingizga yuborib ko'ring: Telegramda xabar qanday
+ * ko'rinishini tekshirgach, bayroqsiz qayta ishga tushiring.
+ *
+ * Argument dars id'si bo'lsa dars e'loni yasaladi, aks holda pastdagi
+ * `NOTES` dan tayyor e'lon olinadi.
  */
 import { config } from "dotenv"
 
 config({ quiet: true })
 
+interface Note {
+  text: string
+  /** Xabar ostidagi tugma yozuvi */
+  button: string
+  /** Tugma ochadigan ichki manzil, masalan "/rooms" */
+  path?: string
+}
+
+/**
+ * Tayyor e'lonlar.
+ *
+ * Dars e'loni har safar boshqacha (nomi, muddati), shuning uchun u koddan
+ * yasaladi. Imkoniyat haqidagi e'lon esa bir martalik matn — uni shu yerda
+ * ko'rib chiqib, tuzatib, keyin yuborish qulay.
+ */
+const NOTES: Record<string, Note> = {
+  kino: {
+    button: "🍿 Kino bo'limini ochish",
+    path: "/rooms",
+    text: [
+      "🍿 <b>Yangi: do'stingiz bilan birga kino ko'rish</b>",
+      "",
+      "Ilovada «Kino» bo'limi ochildi. YouTube havolasini qo'yasiz, do'stingizni taklif qilasiz — va kino <b>ikkalangizda bir vaqtda</b> ketadi.",
+      "",
+      "Kim to'xtatsa — ikkalangizda to'xtaydi. Kim oldinga sursa — ikkalangizda suriladi. Sekundigacha bir xil joyda turadi.",
+      "",
+      "🎙 <b>Ovozli suhbat ham bor.</b> Mikrofon tugmasini bosasiz va bir-biringizni eshitasiz — telefonda gaplashgandek. Kimdir gapirsa kino ovozi o'zi pasayadi, gap tugagach yana ko'tariladi. Yozishni afzal ko'rsangiz — yonida chat turadi.",
+      "",
+      "<b>Qanday boshlanadi:</b>",
+      "1️⃣ «Kino» bo'limiga kiring",
+      "2️⃣ YouTube havolasini qo'yib, uy oching",
+      "3️⃣ Havolani do'stingizga yuboring — u so'rov yuboradi, siz tasdiqlaysiz",
+      "",
+      "💡 Rus tilidagi multfilm yoki qo'shiqni birga ko'ring va ko'rganingizni rus tilida muhokama qiling — bu darsdan kam foyda bermaydi.",
+      "",
+      "🎧 Ovoz tiniq chiqishi uchun naushnik kiying.",
+    ].join("\n"),
+  },
+}
+
 async function main() {
   const args = process.argv.slice(2)
-  const lessonId = args.find((a) => !a.startsWith("--"))
+  const target = args.find((a) => !a.startsWith("--"))
   const test = args.includes("--test")
   const dry = args.includes("--dry")
 
@@ -23,23 +67,34 @@ async function main() {
   const bot = await import("../server/lib/botApi.js")
   const { env } = await import("../server/lib/env.js")
 
-  if (!lessonId) {
-    console.error("✗ Dars id'si ko'rsatilmagan.\n  Foydalanish: npm run broadcast -- lesson-04 --test")
+  if (!target) {
+    console.error(
+      "✗ Nima yuborilishi ko'rsatilmagan.\n" +
+        `  Dars:  npm run broadcast -- lesson-04 --test\n` +
+        `  E'lon: npm run broadcast -- ${Object.keys(NOTES).join("|")} --test`,
+    )
     process.exit(1)
   }
 
-  const lesson = getLessonById(lessonId)
-  if (!lesson) {
-    console.error(`✗ '${lessonId}' topilmadi.`)
+  const lesson = getLessonById(target)
+  const note = NOTES[target]
+
+  if (!lesson && !note) {
+    console.error(`✗ '${target}' topilmadi — na dars, na e'lon.`)
     process.exit(1)
   }
 
-  const text = announcement(lesson.id, lesson.title, lesson.dueAt)
-  const url = env.publicUrl
-  const button = url ? { text: "📚 Darslarni ochish", url } : undefined
+  const appUrl = env.publicUrl
+  const text = lesson ? announcement(lesson.id, lesson.title, lesson.dueAt) : note.text
+  const buttonUrl = appUrl ? `${appUrl}${lesson ? "" : (note.path ?? "")}` : ""
+  const button = buttonUrl
+    ? { text: lesson ? "📚 Darslarni ochish" : note.button, url: buttonUrl }
+    : undefined
 
-  console.log(`\n  Dars       ${lesson.id} — ${lesson.titleUz}`)
-  console.log(`  Ilova      ${url || "sozlanmagan (tugmasiz yuboriladi)"}`)
+  console.log(
+    lesson ? `\n  Dars       ${lesson.id} — ${lesson.titleUz}` : `\n  E'lon      ${target}`,
+  )
+  console.log(`  Tugma      ${buttonUrl || "sozlanmagan (tugmasiz yuboriladi)"}`)
   console.log(`\n  ── xabar ──\n${text.replace(/^/gm, "  ")}\n  ───────────\n`)
 
   /* --- kimga --- */
