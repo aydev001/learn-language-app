@@ -18,7 +18,7 @@ import { getStore, type RoomDoc, type Store } from "./lib/db.js"
 import * as rooms from "./lib/rooms.js"
 import { fetchVideoInfo } from "./lib/youtube.js"
 import { describeUpstreamError } from "./lib/errors.js"
-import { env, hasBotToken } from "./lib/env.js"
+import { env, hasBotToken, hasMongo } from "./lib/env.js"
 import { hasOpenAI } from "./lib/openai.js"
 import { getTtsProvider, hasTts, speak } from "./lib/tts/index.js"
 import { evaluateReading } from "./lib/pronunciation.js"
@@ -37,9 +37,28 @@ const app = new Hono<{ Variables: Vars }>().basePath("/api")
 
 app.use("*", cors({ origin: "*", allowHeaders: ["Authorization", "Content-Type", "X-Dev-User"] }))
 
-app.get("/health", (c) =>
+/**
+ * Baza holati.
+ *
+ * `getStore()` ulanish uzilganda jimgina xotira rejimiga o'tadi — ilova
+ * ishlayveradi, lekin **bo'sh**: hamma o'quvchining bali nol bo'lib
+ * ko'rinadi va reyting bo'shab qoladi. Tashqaridan bu "ma'lumot o'chib
+ * ketibdi" bo'lib ko'rinardi, aslida esa ulanish yo'q edi.
+ *
+ * Shuning uchun holat shu yerda ochiq turadi: `connected: false` —
+ * demak ma'lumotga tegilmagan, shunchaki bazaga yetib borilmayapti.
+ * Kalitlar chiqmaydi, faqat baza nomi.
+ */
+async function dbStatus() {
+  if (!hasMongo()) return { configured: false, connected: false, name: null }
+  const store = await getStore()
+  return { configured: true, connected: !store.ephemeral, name: env.mongoDb }
+}
+
+app.get("/health", async (c) =>
   c.json({
     ok: true,
+    db: await dbStatus(),
     // Bot tugmalari shu manzilni ochadi. Sir emas, lekin xato bo'lsa ilova
     // "sahifani yangilang" deb turaveradi — shuning uchun ko'rinib tursin.
     appUrl: env.publicUrl || null,
