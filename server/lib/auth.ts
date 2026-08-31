@@ -102,11 +102,23 @@ function hashMatches(secret: Buffer, fields: [string, string][], received: strin
   return a.length === b.length && timingSafeEqual(a, b)
 }
 
+/**
+ * Brauzerda sinash uchun soxta foydalanuvchilar: `?devUser=1` — «Dev-1»,
+ * `?devUser=2` — «Dev-2».
+ *
+ * Ism raqami bilan yoziladi: kino uyini bir kompyuterda ikki oyna bo'lib
+ * sinaganda a'zolar ro'yxatida ham, suhbatda ham kim kimligi ko'rinib
+ * tursin. Ilgari ikkalasi ham "Dev" bo'lib chiqar va farqlab bo'lmasdi.
+ *
+ * Ularni alohida "yaratish" shart emas: birinchi so'rovda `touchUser`
+ * bazaga yozib qo'yadi. Lokal server `.env.local` dagi alohida bazaga
+ * (`learn_russian_dev`) yozadi, ya'ni bu yozuvlar haqiqiy o'quvchilar
+ * orasiga tushmaydi.
+ */
 const DEV_USER: TelegramUser = {
   id: 1,
-  first_name: "Dev",
-  last_name: "Foydalanuvchi",
-  username: "dev",
+  first_name: "Dev-1",
+  username: "dev1",
   language_code: "uz",
 }
 
@@ -141,7 +153,7 @@ export function authenticateDetailed(request: Request): {
     const id = Number.isFinite(devId) && devId > 0 ? devId : 1
     return {
       auth: {
-        user: { ...DEV_USER, id, first_name: id === 1 ? "Dev" : `Dev ${id}` },
+        user: { ...DEV_USER, id, first_name: `Dev-${id}`, username: `dev${id}` },
         isAdmin: true,
         dev: true,
       },

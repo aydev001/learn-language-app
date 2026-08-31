@@ -205,6 +205,93 @@ async function main() {
   const empty = await post(`/rooms/${code}/messages`, OWNER, { text: "   " })
   check("bo'sh xabar rad etildi", empty.status === 400)
 
+  /* --- 6b. ovozli suhbat --- */
+
+  /*
+    Ovozning o'zi bu yerdan o'tmaydi — brauzerlar to'g'ridan-to'g'ri
+    ulanadi. Server ikki ishni bajaradi: kim mikrofonini yoqqanini
+    ko'rsatadi va tanishtiruv xatlarini (SDP) yetkazadi. Ikkalasi ham
+    oddiy `sync` javobida ketadi.
+  */
+
+  const voiceOn = await get<{ members: { userId: number; voice: boolean }[] }>(
+    `/rooms/${code}/sync?voice=1`,
+    OWNER,
+  )
+  check(
+    "mikrofon yoqilgani o'zida ko'rinadi",
+    voiceOn.body.members?.find((m) => m.userId === 1)?.voice === true,
+    voiceOn.body.members,
+  )
+
+  await get(`/rooms/${code}/sync?voice=1&muted=1`, GUEST)
+  const seesVoice = await get<{
+    members: { userId: number; voice: boolean; voiceMuted: boolean }[]
+  }>(`/rooms/${code}/sync?voice=1`, OWNER)
+  const guestVoice = seesVoice.body.members?.find((m) => m.userId === 2)
+  check(
+    "do'stning mikrofoni va uning o'chirilgani ko'rinadi",
+    guestVoice?.voice === true && guestVoice?.voiceMuted === true,
+    guestVoice,
+  )
+
+  const sdp = JSON.stringify({ type: "offer", sdp: "v=0\r\n" })
+  const sigAt = Date.now()
+  const offer = await post(`/rooms/${code}/signal`, OWNER, { to: 2, kind: "offer", payload: sdp })
+  check("signal yuborildi", offer.status === 200, offer.body)
+
+  const guestSignals = await get<{ signals: { from: number; kind: string; payload: string }[] }>(
+    `/rooms/${code}/sync?voice=1&sigSince=${sigAt - 1}`,
+    GUEST,
+  )
+  check(
+    "signal faqat o'ziga atalgan odamga yetdi",
+    guestSignals.body.signals?.length === 1 &&
+      guestSignals.body.signals[0].from === 1 &&
+      guestSignals.body.signals[0].payload === sdp,
+    guestSignals.body.signals,
+  )
+
+  const ownerSignals = await get<{ signals: unknown[] }>(
+    `/rooms/${code}/sync?voice=1&sigSince=${sigAt - 1}`,
+    OWNER,
+  )
+  check(
+    "yuboruvchining o'ziga qaytmaydi",
+    ownerSignals.body.signals?.length === 0,
+    ownerSignals.body.signals,
+  )
+
+  const afterCursor = await get<{ signals: unknown[] }>(
+    `/rooms/${code}/sync?voice=1&sigSince=${Date.now() + 1000}`,
+    GUEST,
+  )
+  check("kursordan keyin eski signallar qaytmaydi", afterCursor.body.signals?.length === 0)
+
+  const outsiderSignal = await post(`/rooms/${code}/signal`, "3", {
+    to: 1,
+    kind: "offer",
+    payload: sdp,
+  })
+  check("begona signal yubora olmaydi", outsiderSignal.status === 403, outsiderSignal.body)
+
+  const strayTarget = await post(`/rooms/${code}/signal`, OWNER, {
+    to: 999,
+    kind: "offer",
+    payload: sdp,
+  })
+  check("a'zo bo'lmagan odamga signal ketmaydi", strayTarget.status === 404, strayTarget.body)
+
+  const voiceOff = await get<{ members: { userId: number; voice: boolean }[] }>(
+    `/rooms/${code}/sync`,
+    GUEST,
+  )
+  check(
+    "mikrofon o'chirilsa belgi darhol so'nadi",
+    voiceOff.body.members?.find((m) => m.userId === 2)?.voice === false,
+    voiceOff.body.members,
+  )
+
   /* --- 7. ro'yxat --- */
 
   const list = await get<{ code: string; memberCount: number; isOwner: boolean }[]>(

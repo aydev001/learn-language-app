@@ -21,17 +21,50 @@ import type {
   RoomMemberView,
   RoomMessageView,
   PublicRoomSummary,
+  RoomSignalKind,
+  RoomSignalView,
   RoomSummary,
   RoomVisibility,
   RoomSync,
 } from "../../shared/types.js"
-import type { RoomDoc, RoomMemberDoc, RoomMessageDoc, Store } from "./db.js"
+import type {
+  RoomDoc,
+  RoomMemberDoc,
+  RoomMessageDoc,
+  RoomSignalDoc,
+  Store,
+} from "./db.js"
 import type { TelegramUser } from "./auth.js"
 import { botTokenId, getMe, sendMessage } from "./botApi.js"
 import { env, hasBotToken } from "./env.js"
 
 /** Shu vaqt ichida sync so'ragan a'zo "hozir uyda" hisoblanadi. */
 const ONLINE_MS = 20_000
+
+/**
+ * Mikrofon shu vaqt ichida belgi bermasa — ovozli suhbatdan chiqqan
+ * hisoblanadi.
+ *
+ * "Chiqdim" degan xabar har doim ham kelmaydi: odam oynani yopishi,
+ * telefoni uxlab qolishi mumkin. Chegara `ONLINE_MS` dan kichik: mikrofoni
+ * o'chgan odam a'zolar qatorida gapirayotgandek ko'rinib turmasin.
+ */
+const VOICE_ONLINE_MS = 15_000
+
+/**
+ * Ulanish signallari shundan keyin o'chadi.
+ *
+ * Ular bir martalik: yetib borgach kerak emas. Eskisi qolib ketsa,
+ * qaytib kirgan odam allaqachon yopilgan ulanishning taklifini olib,
+ * bo'lmagan suhbatga javob berishga urinardi.
+ */
+const SIGNAL_TTL_MS = 2 * 60 * 1000
+
+/** Bir javobda qaytariladigan signallar chegarasi. */
+const SIGNAL_LIMIT = 20
+
+/** SDP hajmi (belgi). Nomzodlar bilan birga ~5 KB, zaxira bilan olamiz. */
+export const MAX_SIGNAL_LENGTH = 24_000
 
 /** Chat tarixi shundan keyin o'chadi — uy suhbati arxiv emas. */
 const MESSAGE_TTL_MS = 48 * 60 * 60 * 1000
@@ -381,6 +414,60 @@ const toMessageView = (doc: RoomMessageDoc): RoomMessageView => ({
   kind: doc.kind,
 })
 
+/* ------------------------------------------------------------ ovozli suhbat */
+
+/**
+ * Ulanish signali — bitta a'zodan bitta a'zoga.
+ *
+ * Server ovozni ko'rmaydi: uning ishi ikki brauzerni tanishtirish.
+ * Tanishtiruv xati (SDP) shu yerdan o'tadi, ovoz esa to'g'ridan-to'g'ri
+ * qurilmalar orasida ketadi. Shuning uchun trafik ham, xarajat ham
+ * bizga tushmaydi.
+ */
+export async function addSignal(
+  store: Store,
+  roomId: string,
+  from: TelegramUser,
+  to: number,
+  kind: RoomSignalKind,
+  payload: string,
+): Promise<void> {
+  const at = now()
+  await store.roomSignals.insertOne({
+    _id: `${roomId}:${String(at).padStart(14, "0")}:${Math.random().toString(36).slice(2, 8)}`,
+    roomId,
+    from: from.id,
+    fromName: displayName(from),
+    to,
+    kind,
+    payload: payload.slice(0, MAX_SIGNAL_LENGTH),
+    at,
+  })
+  await pruneSignals(store, roomId)
+}
+
+/**
+ * Eskirgan signallarni tozalaydi.
+ *
+ * Xabarlar bilan bir xil yondashuv: alohida cron yo'q, tozalash yozuv
+ * paytida beshtadan bir marta bajariladi. Signallar kichik va tez
+ * eskiradi, shuning uchun bu yetarli.
+ */
+async function pruneSignals(store: Store, roomId: string) {
+  if (Math.random() > 0.2) return
+  const stale = await store.roomSignals.find({ roomId, at: { $lt: now() - SIGNAL_TTL_MS } })
+  if (stale.length) await store.roomSignals.deleteMany(stale.map((s) => s._id))
+}
+
+const toSignalView = (doc: RoomSignalDoc): RoomSignalView => ({
+  id: doc._id,
+  from: doc.from,
+  fromName: doc.fromName,
+  kind: doc.kind,
+  payload: doc.payload,
+  at: doc.at,
+})
+
 /* -------------------------------------------------------------- sinxronlash */
 
 /**
@@ -389,12 +476,24 @@ const toMessageView = (doc: RoomMessageDoc): RoomMessageView => ({
  * `msgSince` — mijozdagi eng oxirgi xabar vaqti. Faqat undan keyingilari
  * qaytadi, shuning uchun javob hajmi suhbat uzunligiga bog'liq emas.
  */
+export interface SyncQuery {
+  /** mijozdagi eng oxirgi xabar vaqti */
+  msgSince: number
+  /** mijozdagi eng oxirgi signal vaqti */
+  sigSince: number
+  /** mikrofon yoqilganmi (ovozli suhbatdaman) */
+  voice: boolean
+  /** ovozli suhbatda, lekin mikrofon vaqtincha o'chirilgan */
+  voiceMuted: boolean
+}
+
 export async function buildSync(
   store: Store,
   room: RoomDoc,
   user: TelegramUser,
-  msgSince: number,
+  query: SyncQuery,
 ): Promise<RoomSync> {
+  const { msgSince, sigSince, voice, voiceMuted } = query
   const me = await getMember(store, room._id, user.id)
   const access = accessOf(me)
   const isOwner = room.ownerId === user.id
@@ -414,11 +513,22 @@ export async function buildSync(
 
   if (access !== "member") return base
 
-  // Borligimizni bildiramiz — boshqalar "hozir uyda" belgisini shundan ko'radi.
-  if (me) await store.roomMembers.upsert(me._id, { set: { lastSeenAt: now() } })
+  /*
+    Borligimizni bildiramiz — boshqalar "hozir uyda" belgisini shundan
+    ko'radi. Mikrofon holati ham shu yerda yangilanadi: ovozli suhbat
+    uchun alohida "tirikman" so'rovi kerak emas, u baribir shu oraliqda
+    kelib turadi.
+  */
+  const at = now()
+  if (me) {
+    await store.roomMembers.upsert(me._id, {
+      set: { lastSeenAt: at, voiceAt: voice ? at : 0, voiceMuted: voice && voiceMuted },
+    })
+  }
 
   const all = await store.roomMembers.find({ roomId: room._id })
   const fresh = await store.roomMessages.find({ roomId: room._id, at: { $gt: msgSince } })
+  const signals = await store.roomSignals.find({ roomId: room._id, at: { $gt: sigSince } })
 
   return {
     ...base,
@@ -455,6 +565,17 @@ export async function buildSync(
       .sort((a, b) => a.at - b.at)
       .slice(-MESSAGE_LIMIT)
       .map(toMessageView),
+    /*
+      Signallar faqat menga atalganlari. Ular o'qilgach o'chirilmaydi —
+      mijoz kursor bilan ("shu vaqtdan keyingilarini ber") so'raydi,
+      xuddi suhbat kabi. O'chirish bilan solishtirganda bu ishonchliroq:
+      javob yo'lda yo'qolsa, keyingi so'rovda yana keladi.
+    */
+    signals: signals
+      .filter((s) => s.to === user.id)
+      .sort((a, b) => a.at - b.at)
+      .slice(-SIGNAL_LIMIT)
+      .map(toSignalView),
     inviteUrl: await inviteUrl(room._id),
   }
 }
@@ -465,6 +586,8 @@ const byOwnerFirst = (a: RoomMemberView, b: RoomMemberView) => {
 }
 
 function toMemberView(doc: RoomMemberDoc): RoomMemberView {
+  const voice = Boolean(doc.voiceAt) && now() - (doc.voiceAt ?? 0) < VOICE_ONLINE_MS
+
   return {
     userId: doc.userId,
     name: doc.name,
@@ -473,6 +596,8 @@ function toMemberView(doc: RoomMemberDoc): RoomMemberView {
     role: doc.role,
     status: doc.status,
     online: now() - doc.lastSeenAt < ONLINE_MS,
+    voice,
+    voiceMuted: voice && Boolean(doc.voiceMuted),
     requestedAt: doc.requestedAt,
   }
 }

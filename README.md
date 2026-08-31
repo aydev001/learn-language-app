@@ -34,9 +34,9 @@ bir xil ma'noni bildiradi. Ballar reytingga tushadi.
 **3. Birga kino ko'rish.** O'quvchi YouTube havolasini berib "uy" (room)
 yaratadi va do'stini taklif qiladi. Do'st havolani bosganda uy egasiga kirish
 so'rovi boradi; u tasdiqlagach kino ikkalasida **bir vaqtda** ketadi —
-play, pauza va vaqt chizig'ini surish hammaga uzatiladi. Yonida matnli chat
-ishlaydi. Video hech qayerda saqlanmaydi: bazada faqat 11 belgilik
-`videoId` turadi, ko'rsatishni YouTube'ning o'z pleeri bajaradi.
+play, pauza va vaqt chizig'ini surish hammaga uzatiladi. Yonida matnli chat va
+**ovozli suhbat** ishlaydi. Video hech qayerda saqlanmaydi: bazada faqat 11
+belgilik `videoId` turadi, ko'rsatishni YouTube'ning o'z pleeri bajaradi.
 
 ### Ochiq va maxfiy uylar
 
@@ -59,6 +59,48 @@ bor uylar, keyin oxirgi harakat vaqti bo'yicha, ko'pi bilan 30 ta.
 Maxfiylik keyin qo'shilgani uchun eski uylarda bu maydon yo'q. Ular ochiq
 deb hisoblanadi (`$ne: "private"`) — hech kimning uyi kutilmaganda yashirinib
 qolmasligi kerak.
+
+### Ovozli suhbat
+
+Kino ketayotganda yozib o'tirish noqulay: ekrandan ko'z uzish kerak, qiziq
+joyini esa o'sha zahoti aytgingiz keladi. Shuning uchun chat yonida mikrofon
+tugmasi turadi — bosgan odamlar bir-birini eshita boshlaydi.
+
+**Ovoz serverdan o'tmaydi.** Brauzerlar bir-biriga to'g'ridan-to'g'ri ulanadi
+(WebRTC): serverning butun ishi — tanishtirish. Ikki brauzer bir marta xat
+almashadi ("men shu manzillardaman, kodek shunday"), keyin ovoz ular orasida
+ketadi. Bu bizga trafik ham, xarajat ham keltirmaydi va Vercel'ning
+serverless muhitiga to'g'ri keladi — ovoz oqimini ushlab turadigan doimiy
+ulanish baribir yo'q.
+
+Tanishtiruv xatlari (SDP) o'sha `sync` javobida keladi va o'sha yo'l bilan
+qaytadi, ya'ni yangi ulanish turi ham, yangi hosting ham kerak emas. Kim
+mikrofonini yoqqani ham shu so'rovda bildiriladi (`voice=1`), shuning uchun
+ovozli suhbat uchun alohida "tirikman" so'rovi qo'shilmadi.
+
+Nomzodlar (ICE) bittalab yuborilmaydi. Odatda WebRTC ularni topgan sayin
+yuboradi, lekin bizda kanal sekin — sekundiga bir marta so'raladigan polling.
+Har bir nomzod alohida ketsa ulanish o'nlab soniyaga cho'zilardi. Shuning
+uchun nomzodlar yig'ilib bo'lguncha kutiladi (ko'pi bilan 2,5 soniya) va
+hammasi SDP ichida bir yo'la ketadi: juftlik uchun ikkita xat yetarli.
+
+Taklifni **id'si kichigi** yuboradi, kattasi javob beradi. Ikkalasi bir vaqtda
+taklif yuborsa ulanish chalkashardi; ikkala tomon ham ikkala id'ni bilgani
+uchun bu qoidaga kelishuv kerak emas.
+
+Kimdir gapirganda kino ovozi beshdan biriga tushadi va gap tugagach o'zi
+tiklanadi. Butunlay o'chirilmaydi: kino sizsiz ketaveradi va gap tugaganda
+nima bo'lganini bilmay qolasiz.
+
+Ovoz darajasi ikki tomonda ham o'lchanadi (Web Audio) — kim gapirayotgani
+avatar atrofidagi halqadan ko'rinadi, ya'ni "meni eshityaptimi?" degan savol
+qolmaydi.
+
+Ba'zi tarmoqlarda (qattiq NAT, korporativ Wi-Fi) to'g'ridan-to'g'ri yo'l
+topilmaydi. Bunda TURN server kerak bo'ladi — `.env` dagi `TURN_URLS`,
+`TURN_USERNAME`, `TURN_PASSWORD`. Sozlanmagan bo'lsa ulanish faqat STUN bilan
+urinadi va muvaffaqiyatsizlikda foydalanuvchiga sababi aytiladi.
+
 ### Nega WebSocket emas
 
 Ilova Vercel'da serverless funksiya sifatida ishlaydi — u yerda doimiy
@@ -189,12 +231,32 @@ lekin ovoz bilan bog'liq funksiyalar `OPENAI_API_KEY` talab qiladi.
 ### Ikki foydalanuvchi bo'lib sinash
 
 Kino uyini bir kompyuterda sinash uchun ilovani `?devUser=<raqam>` bilan
-oching — server so'rovni o'sha id'li soxta foydalanuvchi deb qabul qiladi:
+oching — server so'rovni o'sha id'li soxta foydalanuvchi deb qabul qiladi.
+Ular **Dev-1**, **Dev-2** deb ko'rinadi, ya'ni a'zolar ro'yxatida ham,
+suhbatda ham kim kimligi ajralib turadi:
 
 ```
-http://localhost:5173/rooms?devUser=1     # uy egasi
-http://localhost:5173/rooms?devUser=2     # mehmon (boshqa oynada)
+http://localhost:5173/rooms?devUser=1     # Dev-1 — uy egasi
+http://localhost:5173/rooms?devUser=2     # Dev-2 — mehmon (boshqa oynada)
 ```
+
+Bu foydalanuvchilarni alohida yaratish shart emas: birinchi so'rovda bazaga
+o'zi yoziladi.
+
+**Sinov haqiqiy ma'lumotlarga tegmasligi kerak.** `.env` dagi baza
+(`learn_russian`) — o'quvchilarning ballari, progressi va uylari. Lokal
+serverni boshqa bazaga yo'naltirib qo'ying; `.env.local` git'ga tushmaydi va
+`.env` dagi qiymatni bosadi:
+
+```
+# .env.local
+MONGODB_DB=learn_russian_dev
+ALLOW_DEV_USER=1
+```
+
+Shundan keyin sinovda yaratilgan uy ham, Dev-1/Dev-2 ham faqat o'sha alohida
+bazada qoladi. Bazasiz sinov ham bor: `npm run test:rooms` butun uy oqimini
+(shu jumladan ovozli suhbat signallarini) xotirada tekshiradi.
 
 Qiymat `sessionStorage` da saqlanadi, ya'ni ilova ichida yurganda ham
 o'zgarmaydi, lekin **har oyna o'zinikini saqlaydi** — shuning uchun ikkinchi
@@ -202,6 +264,12 @@ foydalanuvchini alohida oynada (yoki incognito'da) oching.
 
 Videoni brauzer faqat **faol** oynada o'ynatadi, shuning uchun sinxronni
 ko'rish uchun ikkita alohida oyna kerak (bir oynadagi ikki tab emas).
+
+Ovozli suhbatni sinaganda ham shu qoida: fon oynada brauzer mikrofonni ham,
+ovoz o'lchovini ham to'xtatib qo'yadi. Bitta kompyuterda ikkala mikrofon
+yoqilgan bo'lsa naushnik kiying — aks holda karnaydan chiqqan ovoz qaytadan
+mikrofonga tushib, quloqni qomatga keltiradigan halqa hosil bo'ladi.
+Eng ishonchli sinov — ikkita alohida qurilma.
 
 Production'da bu butunlay o'chiq: `env.allowDevUser` ishlab chiqarish
 muhitida `ALLOW_DEV_USER` qiymatidan qat'i nazar `false` qaytaradi.
@@ -323,7 +391,7 @@ server/
   lib/
     auth.ts           Telegram initData tekshiruvi
     db.ts             MongoDB + xotiradagi zaxira
-    rooms.ts          Kino uyi: a'zolar, holat, chat, taklif havolasi
+    rooms.ts          Kino uyi: a'zolar, holat, chat, ovoz signallari
     youtube.ts        Video sarlavhasi va ko'rish mumkinligi (oEmbed)
     repo.ts           Progress, ball, reyting mantiqи
     openai.ts         TTS / STT / tahlil
@@ -343,9 +411,10 @@ shared/               Frontend va server o'rtasidagi umumiy kod
 src/
   screens/            Ekranlar (shu jumladan RoomsScreen, RoomScreen)
   components/
-    room/             Sinxron pleer, chat, a'zolar
+    room/             Sinxron pleer, chat, a'zolar, ovozli suhbat
   lib/                telegram.ts, api.ts, audio.ts, format.ts
-                      rooms.ts (polling), youtube.ts (IFrame API)
+                      rooms.ts (polling), voice.ts (WebRTC ovoz)
+                      youtube.ts (IFrame API)
 ```
 
 ## Kontent qo'shish

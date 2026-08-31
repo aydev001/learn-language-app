@@ -21,6 +21,7 @@ import {
   WatchingBar,
 } from "@/components/room/RoomMembers"
 import { RoomChat } from "@/components/room/RoomChat"
+import { VoiceBar } from "@/components/room/VoiceBar"
 import { WatchPlayer } from "@/components/room/WatchPlayer"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -30,6 +31,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { ApiError, useMe } from "@/lib/api"
 import { cn } from "@/lib/utils"
 import { roomApi, useRoomSync } from "@/lib/rooms"
+import { useVoiceChat } from "@/lib/voice"
 import { haptic, setBackButton, shareLink } from "@/lib/telegram"
 import type { RoomMemberAction, RoomMemberView, RoomVisibility } from "@shared/types"
 
@@ -46,8 +48,49 @@ export function RoomScreen() {
   const me = useMe()
   const api = useMemo(() => roomApi(code), [code])
 
-  const { sync, messages, error, loading, serverNow, refresh, predictState, applyState, abortAction, appendMessage } =
-    useRoomSync(code)
+  const {
+    sync,
+    messages,
+    signals,
+    error,
+    loading,
+    serverNow,
+    refresh,
+    predictState,
+    applyState,
+    abortAction,
+    appendMessage,
+    applyAccess,
+    setVoice,
+  } = useRoomSync(code)
+
+  const meId = me.data?.id ?? 0
+
+  /**
+   * Ovozli suhbat.
+   *
+   * Kimga ulanish kerakligini uy holati aytadi: mikrofoni yoqilgan har bir
+   * a'zo bilan to'g'ridan-to'g'ri ulanish quriladi. Signallar `sync`
+   * javobida keladi va o'sha yo'l bilan qaytadi — ovozli suhbat uchun
+   * alohida server ham, doimiy ulanish ham kerak emas.
+   */
+  const voiceMembers = useMemo(
+    () =>
+      (sync?.members ?? [])
+        .filter((member) => member.userId !== meId && member.voice)
+        .map((member) => member.userId),
+    [sync?.members, meId],
+  )
+
+  const voice = useVoiceChat({
+    code,
+    meId,
+    voiceMembers,
+    signals,
+    sendSignal: api.signal,
+    setVoice,
+    refresh,
+  })
 
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [busyId, setBusyId] = useState<number | null>(null)
@@ -164,7 +207,13 @@ export function RoomScreen() {
     setJoining(true)
     haptic.impact("medium")
     try {
-      await api.join()
+      /*
+        Javobni darhol qo'llaymiz. Ilgari ekran keyingi `sync` ni kutardi
+        (uch soniyagacha) va o'sha vaqt ichida tugma o'zgarmasdi — odam
+        so'rov ketmadi deb o'ylab yana bosardi.
+      */
+      const { access } = await api.join()
+      applyAccess(access)
       refresh()
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "So'rov yuborilmadi.")
@@ -236,7 +285,6 @@ export function RoomScreen() {
   const state = sync.state!
   const members = sync.members ?? []
   const pending = sync.pending ?? []
-  const meId = me.data?.id ?? 0
   const canControl = !state.controlLocked || sync.isOwner
 
   return (
@@ -281,6 +329,8 @@ export function RoomScreen() {
           meId={meId}
           isOwner={sync.isOwner}
           canControl={canControl}
+          /* Kimdir gapirganda kino ovozi pasayadi — baqirishga hojat qolmasin. */
+          duck={voice.someoneSpeaking}
           onAction={pushState}
           onBlocked={() => toast.info("Hozir videoni faqat uy egasi boshqaradi.")}
           onError={(message) => setVideoError({ videoId: state.videoId, message })}
@@ -300,6 +350,14 @@ export function RoomScreen() {
 
         <div className="mt-2.5">
           <WatchingBar members={members} meId={meId} onInvite={invite} />
+        </div>
+
+        {/*
+          Ovozli suhbat pleer bilan chat orasida turadi: kino ko'rayotganda
+          yozib o'tirish noqulay, gapirish esa tabiiy.
+        */}
+        <div className="mt-2.5">
+          <VoiceBar voice={voice} members={members} meId={meId} />
         </div>
       </div>
 

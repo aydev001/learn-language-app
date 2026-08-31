@@ -272,6 +272,10 @@ export interface RoomMemberView {
   status: RoomMemberStatus
   /** Oxirgi 20 soniyada sync so'ragan bo'lsa — hozir uyda */
   online: boolean
+  /** Ovozli suhbatga qo'shilgan (mikrofoni yoqilgan) */
+  voice: boolean
+  /** Ovozli suhbatda, lekin mikrofonini vaqtincha o'chirgan */
+  voiceMuted: boolean
   requestedAt: number
 }
 
@@ -343,6 +347,39 @@ export interface PublicRoomSummary {
   isPlaying: boolean
   updatedAt: number
 }
+/* ------------------------------------------------------- ovozli suhbat
+ *
+ * Ovoz serverdan o'tmaydi: brauzerlar bir-biriga to'g'ridan-to'g'ri
+ * ulanadi (WebRTC). Serverning ishi — tanishtirish uchun ikki xat
+ * ("men shunday ulanaman") almashtirish. Ular ham xuddi chat kabi
+ * `sync` javobida keladi, ya'ni yangi ulanish turi kerak emas.
+ */
+
+/**
+ * Signal turi.
+ *
+ * `offer` va `answer` — ulanish taklifi va javobi (SDP). `bye` — «men
+ * chiqdim, ulanishni yoping». Nomzodlar (ICE) alohida yuborilmaydi:
+ * ular yig'ilib bo'lgach SDP ichida bir yo'la ketadi — polling'da har
+ * bir nomzodni alohida yuborish sekin bo'lardi.
+ */
+export type RoomSignalKind = "offer" | "answer" | "bye"
+
+export interface RoomSignalView {
+  id: string
+  from: number
+  fromName: string
+  kind: RoomSignalKind
+  /** SDP (JSON satr). `bye` da bo'sh. */
+  payload: string
+  at: number
+}
+
+/** Brauzer NAT ortidan o'zini topishi uchun kerak bo'ladigan serverlar. */
+export interface IceConfig {
+  iceServers: { urls: string | string[]; username?: string; credential?: string }[]
+}
+
 /** Uy ichidagi polling javobi — bir so'rovda hamma narsa keladi. */
 export interface RoomSync {
   code: string
@@ -366,6 +403,8 @@ export interface RoomSync {
   blocked?: RoomMemberView[]
   /** so'ralgan lahzadan keyingi yangi xabarlar */
   messages?: RoomMessageView[]
+  /** menga atalgan, hali o'qilmagan ovozli suhbat signallari */
+  signals?: RoomSignalView[]
   /** do'stga yuboriladigan taklif havolasi */
   inviteUrl?: string
 }

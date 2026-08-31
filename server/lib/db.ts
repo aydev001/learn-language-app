@@ -107,6 +107,36 @@ export interface RoomMemberDoc {
   joinedAt?: number
   /** oxirgi sync so'rovi — kim hozir uyda ekanini shundan bilamiz */
   lastSeenAt: number
+  /**
+   * Mikrofon yoqilgan holda oxirgi sync so'rovi.
+   *
+   * Ovozli suhbatdan chiqish har doim ham "chiqaman" deb aytilmaydi —
+   * odam oynani yopishi, tarmoq uzilishi mumkin. Shuning uchun bu ham
+   * `lastSeenAt` kabi tiriklik belgisi: eskirsa, mikrofon o'chgan
+   * hisoblanadi.
+   */
+  voiceAt?: number
+  /** ovozli suhbatda, lekin mikrofonini vaqtincha o'chirgan */
+  voiceMuted?: boolean
+}
+
+/**
+ * Ovozli suhbat signali — bitta a'zodan bitta a'zoga.
+ *
+ * Ovozning o'zi bu yerdan o'tmaydi: brauzerlar tanishib olgach
+ * to'g'ridan-to'g'ri gaplashadi. Bazada faqat tanishtiruv xatlari
+ * turadi va ular bir necha daqiqada o'chib ketadi.
+ */
+export interface RoomSignalDoc {
+  /** `${roomId}:${at}:${tasodifiy}` — vaqt bo'yicha saralanadigan id */
+  _id: string
+  roomId: string
+  from: number
+  fromName: string
+  to: number
+  kind: "offer" | "answer" | "bye"
+  payload: string
+  at: number
 }
 
 export interface RoomMessageDoc {
@@ -287,6 +317,7 @@ export interface Store {
   rooms: Coll<RoomDoc>
   roomMembers: Coll<RoomMemberDoc>
   roomMessages: Coll<RoomMessageDoc>
+  roomSignals: Coll<RoomSignalDoc>
   /** true bo'lsa ma'lumot faqat xotirada — server o'chsa yo'qoladi */
   ephemeral: boolean
 }
@@ -304,6 +335,7 @@ const globalCache = globalThis as unknown as {
     rooms: RoomDoc[]
     roomMembers: RoomMemberDoc[]
     roomMessages: RoomMessageDoc[]
+    roomSignals: RoomSignalDoc[]
   }
 }
 
@@ -318,6 +350,7 @@ function memoryStore(): Store {
     rooms: [],
     roomMembers: [],
     roomMessages: [],
+    roomSignals: [],
   }
   const m = globalCache.__lrMemory
   return {
@@ -330,6 +363,7 @@ function memoryStore(): Store {
     rooms: memoryColl(m.rooms),
     roomMembers: memoryColl(m.roomMembers),
     roomMessages: memoryColl(m.roomMessages),
+    roomSignals: memoryColl(m.roomSignals),
     ephemeral: true,
   }
 }
@@ -354,6 +388,7 @@ export async function getStore(): Promise<Store> {
       rooms: mongoColl<RoomDoc>(db, "rooms"),
       roomMembers: mongoColl<RoomMemberDoc>(db, "roomMembers"),
       roomMessages: mongoColl<RoomMessageDoc>(db, "roomMessages"),
+      roomSignals: mongoColl<RoomSignalDoc>(db, "roomSignals"),
       ephemeral: false,
     }
   } catch (err) {

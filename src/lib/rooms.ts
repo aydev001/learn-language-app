@@ -18,6 +18,8 @@ import type {
   RoomAccess,
   RoomMemberAction,
   RoomMessageView,
+  RoomSignalKind,
+  RoomSignalView,
   RoomStateView,
   RoomSummary,
   RoomVisibility,
@@ -99,6 +101,20 @@ export function roomApi(code: string) {
     setVisibility: (visibility: RoomVisibility) =>
       post<{ ok: true }>(`${base}/visibility`, { visibility }),
     sendMessage: (text: string) => post<{ message: RoomMessageView }>(`${base}/messages`, { text }),
+    /**
+     * Ovozli suhbat signali.
+     *
+     * `keepalive` — sahifa yopilayotganda ham yuborilsin: "men chiqdim"
+     * xabari aynan o'sha lahzada ketadi va usiz do'stning ekranida
+     * ulanmagan odam 15 soniya osilib turardi.
+     */
+    signal: (to: number, kind: RoomSignalKind, payload: string) =>
+      request<{ ok: true }>(`${base}/signal`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to, kind, payload }),
+        keepalive: true,
+      }),
     member: (userId: number, action: RoomMemberAction) =>
       post<{ ok: true }>(`${base}/members/${userId}`, { action }),
     leave: () => post<{ ok: true; closed: boolean }>(`${base}/leave`),
@@ -124,6 +140,16 @@ const INTERVAL_WAITING = 3000
 const INTERVAL_HIDDEN = 10_000
 
 /**
+ * Ilova fonda, lekin ovozli suhbat ochiq.
+ *
+ * Suhbat ulanishi shu so'rovlar orqali quriladi, shuning uchun 10 soniya
+ * juda uzun: boshqa ilovaga o'tib qaytgan odam bilan qaytadan ulanish
+ * o'nlab soniyaga cho'zilardi. Ovoz baribir ketayotgan bo'lsa batareya
+ * shusiz ham ishlayapti.
+ */
+const INTERVAL_HIDDEN_VOICE = 3000
+
+/**
  * Harakat javobi shuncha kutiladi (ms).
  *
  * Shu vaqt ichida `sync` javoblari uy holatiga tegmaydi. Chegara zarur:
@@ -131,12 +157,30 @@ const INTERVAL_HIDDEN = 10_000
  */
 const ACTION_WAIT = 5000
 
+/**
+ * Ovozli suhbat ochiq — tez-tez so'raymiz.
+ *
+ * Ulanish signallari shu so'rovda keladi, ya'ni oraliq to'g'ridan-to'g'ri
+ * "necha soniyada gaplasha boshlaymiz" degani.
+ */
+const INTERVAL_VOICE = 900
+
 /** Xotirada saqlanadigan xabarlar chegarasi. */
 const MESSAGE_CAP = 200
+
+/**
+ * Xotirada saqlanadigan signallar chegarasi.
+ *
+ * Ular bir martalik va katta (SDP ~5 KB), shuning uchun ro'yxat qisqa:
+ * ishlatilgani ortiq kerak emas.
+ */
+const SIGNAL_CAP = 12
 
 export interface RoomSyncResult {
   sync: RoomSync | null
   messages: RoomMessageView[]
+  /** Ovozli suhbat signallari — kelgan tartibda */
+  signals: RoomSignalView[]
   error: ApiError | null
   /** Birinchi javob hali kelmagan */
   loading: boolean
@@ -156,6 +200,21 @@ export interface RoomSyncResult {
   abortAction: (seq: number) => void
   /** O'zi yozgan xabarni darhol ko'rsatish */
   appendMessage: (message: RoomMessageView) => void
+  /**
+   * Kirish so'rovi javobi.
+   *
+   * Ekran keyingi `sync` ni kutmasligi kerak: so'rov yuborilmagan odam
+   * uchun oraliq uch soniya va o'sha uch soniya davomida tugma o'sha
+   * holicha turardi — odam uni yana bosardi.
+   */
+  applyAccess: (access: RoomAccess) => void
+  /**
+   * Mikrofon holati.
+   *
+   * Alohida so'rov yuborilmaydi: keyingi `sync` so'roviga qo'shiladi va
+   * shu bilan "men ovozli suhbatdaman" belgisi yangilanib turadi.
+   */
+  setVoice: (active: boolean, muted: boolean) => void
 }
 
 /** Foydalanuvchi harakatidan keyin uy holatining kutilayotgan ko'rinishi. */
@@ -167,8 +226,11 @@ export type StatePatch = Pick<
 export function useRoomSync(code: string): RoomSyncResult {
   const [sync, setSync] = useState<RoomSync | null>(null)
   const [messages, setMessages] = useState<RoomMessageView[]>([])
+  const [signals, setSignals] = useState<RoomSignalView[]>([])
   const [error, setError] = useState<ApiError | null>(null)
   const [loading, setLoading] = useState(true)
+  /** Mikrofon yoqilgan — so'rov oralig'i ham shunga qarab qisqaradi */
+  const [voiceOn, setVoiceOn] = useState(false)
 
   /**
    * Server va mijoz soatlari orasidagi farq.
@@ -184,6 +246,10 @@ export function useRoomSync(code: string): RoomSyncResult {
    * qaytishi kerak, aks holda yangi uyning suhbati ochilmay qolardi.
    */
   const cursorRef = useRef({ code, since: 0 })
+  /** Olingan eng oxirgi signal vaqti — xabarlar kursorining ovozli nusxasi. */
+  const sigCursorRef = useRef(0)
+  /** Mikrofon holati — har `sync` so'roviga qo'shib yuboriladi. */
+  const voiceRef = useRef({ active: false, muted: false })
   const inflightRef = useRef(false)
   /** So'nggi o'lchangan borish-kelish vaqti (ms) — harakatni oldindan qo'yish uchun */
   const rttRef = useRef(0)
@@ -204,12 +270,27 @@ export function useRoomSync(code: string): RoomSyncResult {
     if (inflightRef.current) return
     inflightRef.current = true
 
-    if (cursorRef.current.code !== code) cursorRef.current = { code, since: 0 }
+    // Boshqa uyga o'tilgan — kursorlar va mikrofon holati nolga qaytadi.
+    if (cursorRef.current.code !== code) {
+      cursorRef.current = { code, since: 0 }
+      sigCursorRef.current = 0
+      voiceRef.current = { active: false, muted: false }
+    }
     const since = cursorRef.current.since
     const sentAt = Date.now()
 
+    const voice = voiceRef.current
+    const query = new URLSearchParams({
+      msgSince: String(since),
+      sigSince: String(sigCursorRef.current),
+    })
+    if (voice.active) {
+      query.set("voice", "1")
+      if (voice.muted) query.set("muted", "1")
+    }
+
     try {
-      const data = await request<RoomSync>(`/rooms/${code}/sync?msgSince=${since}`)
+      const data = await request<RoomSync>(`/rooms/${code}/sync?${query}`)
 
       // Javob kelguncha boshqa uyga o'tib ketgan bo'lishimiz mumkin.
       if (cursorRef.current.code !== code) return
@@ -222,6 +303,16 @@ export function useRoomSync(code: string): RoomSyncResult {
         const incoming = data.messages
         cursorRef.current.since = Math.max(since, ...incoming.map((m) => m.at))
         setMessages((prev) => mergeMessages(prev, incoming))
+      }
+
+      if (data.signals?.length) {
+        const incoming = data.signals
+        sigCursorRef.current = Math.max(sigCursorRef.current, ...incoming.map((s) => s.at))
+        setSignals((prev) => {
+          const seen = new Set(prev.map((s) => s.id))
+          const merged = [...prev, ...incoming.filter((s) => !seen.has(s.id))]
+          return merged.length > SIGNAL_CAP ? merged.slice(-SIGNAL_CAP) : merged
+        })
       }
 
       /**
@@ -252,10 +343,12 @@ export function useRoomSync(code: string): RoomSyncResult {
   useEffect(() => {
     intervalRef.current = !isMember
       ? INTERVAL_WAITING
-      : isPlaying
-        ? INTERVAL_PLAYING
-        : INTERVAL_IDLE
-  }, [isMember, isPlaying])
+      : voiceOn
+        ? INTERVAL_VOICE
+        : isPlaying
+          ? INTERVAL_PLAYING
+          : INTERVAL_IDLE
+  }, [isMember, isPlaying, voiceOn])
 
   useEffect(() => {
     let cancelled = false
@@ -275,7 +368,8 @@ export function useRoomSync(code: string): RoomSyncResult {
       if (cancelled) return
       await poll()
       if (cancelled) return
-      schedule(document.hidden ? INTERVAL_HIDDEN : intervalRef.current)
+      const hidden = voiceRef.current.active ? INTERVAL_HIDDEN_VOICE : INTERVAL_HIDDEN
+      schedule(document.hidden ? hidden : intervalRef.current)
     }
 
     // Ekranga qaytganda kutib o'tirmaymiz — darhol yangilaymiz.
@@ -307,8 +401,11 @@ export function useRoomSync(code: string): RoomSyncResult {
     setOpenCode(code)
     setSync(null)
     setMessages([])
+    setSignals([])
     setError(null)
     setLoading(true)
+    // Ovozli suhbat uy bilan birga tugaydi (kursorlarni `poll` tozalaydi).
+    setVoiceOn(false)
   }
 
   const serverNow = useCallback(() => Date.now() + offsetRef.current, [])
@@ -362,10 +459,28 @@ export function useRoomSync(code: string): RoomSyncResult {
     setMessages((prev) => mergeMessages(prev, [message]))
   }, [])
 
+  /** Kirish so'rovining javobi darhol ekranga qo'yiladi. */
+  const applyAccess = useCallback((access: RoomAccess) => {
+    setSync((prev) => (prev ? { ...prev, access } : prev))
+  }, [])
+
+  /**
+   * Mikrofon holati.
+   *
+   * Ref'ga yoziladi (keyingi so'rov o'zi olib ketadi), holat esa faqat
+   * so'rov oralig'ini o'zgartirish uchun kerak — shuning uchun u
+   * haqiqatan almashgandagina yangilanadi.
+   */
+  const setVoice = useCallback((active: boolean, muted: boolean) => {
+    voiceRef.current = { active, muted }
+    setVoiceOn((prev) => (prev === active ? prev : active))
+  }, [])
+
   return useMemo(
     () => ({
       sync,
       messages,
+      signals,
       error,
       loading,
       serverNow,
@@ -374,10 +489,13 @@ export function useRoomSync(code: string): RoomSyncResult {
       applyState,
       abortAction,
       appendMessage,
+      applyAccess,
+      setVoice,
     }),
     [
       sync,
       messages,
+      signals,
       error,
       loading,
       serverNow,
@@ -386,6 +504,8 @@ export function useRoomSync(code: string): RoomSyncResult {
       applyState,
       abortAction,
       appendMessage,
+      applyAccess,
+      setVoice,
     ],
   )
 }

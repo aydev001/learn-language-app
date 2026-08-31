@@ -113,7 +113,25 @@ const END_EPSILON = 0.3
  * ularning hammasini bitta yuborishga jamlaydi.
  */
 const SEEK_COMMIT_DELAY = 120
-const VOLUME_KEY = "room-volume"
+/**
+ * Ovoz darajasi shu kalit ostida saqlanadi.
+ *
+ * Kalitda `-v2` bor, chunki eskisi ostida **nol** yozilib qolgan:
+ * birinchi ochilishda daraja noldan boshlanardi (`Number(null) === 0`)
+ * va o'sha nol darhol saqlanardi. Faqat `clampVolume` ni tuzatish
+ * yetmasdi — bir marta uy ochgan har bir odamda kino ovozsiz qolaverardi.
+ * Yangi kalit — eski yozuvni bir marta unutish yo'li.
+ */
+const VOLUME_KEY = "room-volume-v2"
+
+/**
+ * Ovozli suhbatda kimdir gapirganda kino ovozi shu ulushga tushadi.
+ *
+ * Butunlay o'chirilmaydi: kino sizsiz ketaveradi va gap tugaganda nima
+ * bo'lganini bilmay qolasiz. Beshdan bir — gapni bemalol eshitish uchun
+ * yetarli, kinoni yo'qotmaydigan daraja.
+ */
+const DUCK_FACTOR = 0.2
 
 export interface WatchPlayerProps {
   state: RoomStateView
@@ -124,6 +142,13 @@ export interface WatchPlayerProps {
   /** Kino tugaganini uyga faqat uy egasi yozadi */
   isOwner: boolean
   canControl: boolean
+  /**
+   * Ovozli suhbatda kimdir gapiryapti — kino ovozi vaqtincha pasayadi.
+   *
+   * Ovozni butunlay o'chirish noto'g'ri bo'lardi: kino sizsiz ketaveradi
+   * va gap tugaganda nima bo'lganini bilmay qolasiz.
+   */
+  duck?: boolean
   /** Foydalanuvchi boshqaruv tugmasini bosdi (niyat: nima va qaysi soniyada) */
   onAction: (isPlaying: boolean, positionSec: number) => void
   /** Ruxsatsiz boshqarishga urinildi */
@@ -137,6 +162,7 @@ export function WatchPlayer({
   meId,
   isOwner,
   canControl,
+  duck = false,
   onAction,
   onBlocked,
   onError,
@@ -649,16 +675,26 @@ export function WatchPlayer({
 
   useEffect(() => {
     localStorage.setItem(VOLUME_KEY, String(volume))
+  }, [volume])
 
+  /**
+   * Ovoz darajasi pleerga qo'llanadi.
+   *
+   * Ovozli suhbatda kimdir gapirsa daraja `DUCK_FACTOR` ga tushadi va gap
+   * tugagach o'zi tiklanadi. Saqlanadigan qiymat o'zgarmaydi — pasaytirish
+   * vaqtinchalik, foydalanuvchi tanlagan daraja o'z joyida qoladi.
+   */
+  useEffect(() => {
     const player = playerRef.current
     if (!ready || !player) return
 
-    if (volume <= 0) player.mute()
+    const level = duck ? Math.round(volume * DUCK_FACTOR) : volume
+    if (level <= 0) player.mute()
     else {
       player.unMute()
-      player.setVolume(volume)
+      player.setVolume(level)
     }
-  }, [volume, ready])
+  }, [volume, duck, ready])
 
   /* --------------------------------------------------------------- to'liq ekran */
 
@@ -1011,7 +1047,17 @@ const isFresh = (playerState: number) =>
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
+/**
+ * Saqlangan ovoz darajasi.
+ *
+ * Bo'sh qiymatni alohida tekshirish shart: `Number(null)` ham,
+ * `Number("")` ham **nol** beradi va u tekshiruvdan o'tib ketardi —
+ * natijada ilovani birinchi marta ochgan har bir odamda kino ovozsiz
+ * boshlanar, chiziq esa nolda turardi. Odam buni "ovoz ishlamayapti" deb
+ * tushunardi.
+ */
 function clampVolume(raw: string | null): number {
+  if (raw === null || raw.trim() === "") return 100
   const value = Number(raw)
   return Number.isFinite(value) && value >= 0 && value <= 100 ? value : 100
 }

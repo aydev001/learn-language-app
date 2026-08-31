@@ -62,6 +62,38 @@ export const env = {
   },
 
   /**
+   * Ovozli suhbat uchun NAT ortidan chiqish serverlari.
+   *
+   * STUN — bepul va odatda yetarli: u faqat "tashqi manzilingiz shu" deb
+   * aytadi, ovoz esa to'g'ridan-to'g'ri ketadi.
+   *
+   * TURN — ovozni o'zidan o'tkazadigan zaxira. U qattiq NAT ortidagi
+   * (ba'zi mobil operatorlar, korporativ tarmoqlar) foydalanuvchilar
+   * uchun kerak bo'ladi va pullik, shuning uchun majburiy emas:
+   * sozlanmagan bo'lsa ulanish shunchaki STUN bilan urinadi.
+   */
+  get stunUrls(): string[] {
+    const raw = process.env.STUN_URLS ?? ""
+    const list = raw
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+    return list.length ? list : ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"]
+  },
+  get turn() {
+    const urls = (process.env.TURN_URLS ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+    if (!urls.length) return null
+    return {
+      urls,
+      username: process.env.TURN_USERNAME ?? "",
+      credential: process.env.TURN_PASSWORD ?? "",
+    }
+  },
+
+  /**
    * Oylik sarf chegarasi (dollarda). Oshib ketsa yangi sintez to'xtaydi,
    * keshdagi audio esa ishlayveradi. 0 — chegara yo'q.
    */

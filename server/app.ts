@@ -439,9 +439,20 @@ app.get("/rooms/:code/sync", async (c) => {
   if (!room) return roomNotFound(c)
 
   const { user } = c.get("auth")
-  const msgSince = Number(c.req.query("msgSince") ?? 0) || 0
 
-  return c.json(await rooms.buildSync(c.get("store"), room, user, msgSince))
+  /*
+    Mikrofon holati ham shu so'rovda keladi (`voice`, `muted`): u baribir
+    sekundiga bir marta yuboriladi, ya'ni ovozli suhbat uchun alohida
+    "tirikman" so'rovi qo'shish shart emas.
+  */
+  return c.json(
+    await rooms.buildSync(c.get("store"), room, user, {
+      msgSince: Number(c.req.query("msgSince") ?? 0) || 0,
+      sigSince: Number(c.req.query("sigSince") ?? 0) || 0,
+      voice: c.req.query("voice") === "1",
+      voiceMuted: c.req.query("muted") === "1",
+    }),
+  )
 })
 
 app.post("/rooms/:code/join", async (c) => {
@@ -538,6 +549,63 @@ app.post("/rooms/:code/messages", async (c) => {
   }
 
   return c.json({ message: await rooms.addMessage(store, room, user, parsed.data.text) })
+})
+
+/* ---------------------------------------------------------- ovozli suhbat
+ *
+ * Ovoz serverdan o'tmaydi: brauzerlar bir-biriga to'g'ridan-to'g'ri
+ * ulanadi (WebRTC). Serverning ishi — ikkita tanishtiruv xatini
+ * (`offer` / `answer`) yetkazish va chiqib ketganini aytish (`bye`).
+ * Ular ham `sync` javobida keladi, ya'ni yangi ulanish turi kerak emas.
+ */
+
+const signalSchema = z.object({
+  to: z.number().int(),
+  kind: z.enum(["offer", "answer", "bye"]),
+  payload: z.string().max(rooms.MAX_SIGNAL_LENGTH),
+})
+
+app.post("/rooms/:code/signal", async (c) => {
+  const room = await roomOf(c)
+  if (!room) return roomNotFound(c)
+
+  const { user } = c.get("auth")
+  const store = c.get("store")
+
+  const me = await rooms.getMember(store, room._id, user.id)
+  if (rooms.accessOf(me) !== "member") return forbidden(c, "Siz bu uyning a'zosi emassiz.")
+
+  const parsed = signalSchema.safeParse(await c.req.json().catch(() => null))
+  if (!parsed.success) {
+    return c.json({ error: "bad_request", message: "Signal noto'g'ri yuborildi." }, 400)
+  }
+
+  // Signal faqat shu uyning a'zosiga boradi: begonaga ovozli ulanish
+  // taklifi ketmasin.
+  const target = await rooms.getMember(store, room._id, parsed.data.to)
+  if (rooms.accessOf(target) !== "member") {
+    return c.json({ error: "not_found", message: "Bunday a'zo yo'q." }, 404)
+  }
+
+  await rooms.addSignal(store, room._id, user, parsed.data.to, parsed.data.kind, parsed.data.payload)
+  return c.json({ ok: true })
+})
+
+/**
+ * NAT ortidan chiqish serverlari.
+ *
+ * Alohida so'rov: ro'yxat kamdan-kam o'zgaradi, `sync` javobiga esa
+ * sekundiga bir marta qo'shilib yurishi ortiqcha. TURN maxfiy so'zi
+ * mijoz kodiga tikilmaydi — u shu yerda, serverda turadi.
+ */
+app.get("/rtc/ice", (c) => {
+  const turn = env.turn
+  return c.json({
+    iceServers: [
+      { urls: env.stunUrls },
+      ...(turn ? [{ urls: turn.urls, username: turn.username, credential: turn.credential }] : []),
+    ],
+  })
 })
 
 const memberActionSchema = z.object({
