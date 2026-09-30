@@ -3961,5 +3961,298 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-11",
+    "title": "ЦАРЬ И РУБА́ШКА",
+    "titleUz": "Podsho va ko'ylak",
+    "month": 2,
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-09-30",
+    "dueAt": "2026-09-30T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va baxtli odamda nima uchun ko'ylak yo'qligini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Оди́н царь заболе́л и сказа́л: «Полови́ну ца́рства я отда́м тому́, кто меня́ вы́лечит». Тогда́ собрали́сь мудрецы́ и ста́ли ду́мать, как вы́лечить царя́. Никто́ не знал. То́лько оди́н мудре́ц сказа́л: «Я зна́ю, как вы́лечить царя́. На́до найти́ счастли́вого челове́ка, снять с него́ руба́шку и наде́ть на царя́. Тогда́ царь вы́здоровеет».",
+        "Царь приказа́л найти́ счастли́вого челове́ка. Послы́ царя́ до́лго е́здили по всему́ ца́рству и иска́ли, но не могли́ найти́ тако́го челове́ка, кото́рый был бы всем дово́лен. Оди́н бога́т, да бо́лен; друго́й здоро́в, да бе́ден; тре́тий и бога́т и здоро́в, да жена́ не хороша́. Все на что́-нибудь жа́луются.",
+        "Одна́жды ца́рский сын идёт ми́мо избу́шки и вдруг слы́шит, как кто́-то говори́т: «Сла́ва бо́гу, я сего́дня хорошо́ порабо́тал, нае́лся и сейча́с ля́гу спать. Бо́льше мне ничего́ не ну́жно».",
+        "Ца́рский сын обра́довался, приказа́л снять с э́того челове́ка руба́шку и дать ему́ сто́лько де́нег, ско́лько он захо́чет, а руба́шку отнести́ царю́. По́сланные пришли́ к счастли́вому челове́ку и хоте́ли взять у него́ руба́шку, но счастли́вый был так бе́ден, что на нём не́ было руба́шки."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Оди́н царь заболе́л и сказа́л: «Полови́ну ца́рства я отда́м тому́, кто меня́ вы́лечит».",
+          "uz": "Bir podsho kasal bo'lib qoldi va dedi: «Kim meni davolasa, o'shanga podsholigimning yarmini beraman»."
+        },
+        {
+          "id": "s2",
+          "ru": "Тогда́ собрали́сь мудрецы́ и ста́ли ду́мать, как вы́лечить царя́.",
+          "uz": "Shunda donishmandlar yig'ilib, podshoni qanday davolash haqida o'ylay boshlashdi."
+        },
+        {
+          "id": "s3",
+          "ru": "Никто́ не знал.",
+          "uz": "Hech kim bilmasdi."
+        },
+        {
+          "id": "s4",
+          "ru": "То́лько оди́н мудре́ц сказа́л: «Я зна́ю, как вы́лечить царя́.",
+          "uz": "Faqat bir donishmand dedi: «Men podshoni qanday davolashni bilaman."
+        },
+        {
+          "id": "s5",
+          "ru": "На́до найти́ счастли́вого челове́ка, снять с него́ руба́шку и наде́ть на царя́.",
+          "uz": "Baxtli odamni topib, uning ko'ylagini yechib olib, podshoga kiydirish kerak."
+        },
+        {
+          "id": "s6",
+          "ru": "Тогда́ царь вы́здоровеет».",
+          "uz": "Shunda podsho tuzaladi»."
+        },
+        {
+          "id": "s7",
+          "ru": "Царь приказа́л найти́ счастли́вого челове́ка.",
+          "uz": "Podsho baxtli odamni topishni buyurdi."
+        },
+        {
+          "id": "s8",
+          "ru": "Послы́ царя́ до́лго е́здили по всему́ ца́рству и иска́ли, но не могли́ найти́ тако́го челове́ка, кото́рый был бы всем дово́лен.",
+          "uz": "Podshoning elchilari butun podsholik bo'ylab uzoq yurib qidirishdi, lekin hamma narsadan mamnun bo'lgan odamni topa olishmadi."
+        },
+        {
+          "id": "s9",
+          "ru": "Оди́н бога́т, да бо́лен; друго́й здоро́в, да бе́ден; тре́тий и бога́т и здоро́в, да жена́ не хороша́.",
+          "uz": "Biri boy-u, lekin kasal; boshqasi sog'-u, lekin kambag'al; uchinchisi ham boy, ham sog', lekin xotini yomon."
+        },
+        {
+          "id": "s10",
+          "ru": "Все на что́-нибудь жа́луются.",
+          "uz": "Hamma nimadandir shikoyat qiladi."
+        },
+        {
+          "id": "s11",
+          "ru": "Одна́жды ца́рский сын идёт ми́мо избу́шки и вдруг слы́шит, как кто́-то говори́т: «Сла́ва бо́гу, я сего́дня хорошо́ порабо́тал, нае́лся и сейча́с ля́гу спать.",
+          "uz": "Bir kuni podshoning o'g'li kichkina kulba yonidan o'tib ketayotib, to'satdan kimdir shunday deyayotganini eshitdi: «Xudoga shukur, bugun yaxshi ishladim, qornim to'ydi, hozir yotib uxlayman."
+        },
+        {
+          "id": "s12",
+          "ru": "Бо́льше мне ничего́ не ну́жно».",
+          "uz": "Menga boshqa hech narsa kerak emas»."
+        },
+        {
+          "id": "s13",
+          "ru": "Ца́рский сын обра́довался, приказа́л снять с э́того челове́ка руба́шку и дать ему́ сто́лько де́нег, ско́лько он захо́чет, а руба́шку отнести́ царю́.",
+          "uz": "Podshoning o'g'li xursand bo'ldi va bu odamning ko'ylagini yechib olishni, unga qancha xohlasa, shuncha pul berishni, ko'ylakni esa podshoga olib borishni buyurdi."
+        },
+        {
+          "id": "s14",
+          "ru": "По́сланные пришли́ к счастли́вому челове́ку и хоте́ли взять у него́ руба́шку, но счастли́вый был так бе́ден, что на нём не́ было руба́шки.",
+          "uz": "Yuborilganlar baxtli odamning oldiga kelib, undan ko'ylagini olmoqchi bo'lishdi, lekin baxtli odam shunchalik kambag'al ediki, uning ustida ko'ylak ham yo'q edi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Царь",
+        "uz": "podsho, shoh",
+        "pos": "ot",
+        "example": {
+          "ru": "Царь жил во дворце́.",
+          "uz": "Podsho saroyda yashardi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Полови́на",
+        "uz": "yarmi",
+        "pos": "ot",
+        "example": {
+          "ru": "Я съел полови́ну я́блока.",
+          "uz": "Men olmaning yarmini yedim."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Вы́лечить",
+        "uz": "davolamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Врач вы́лечил больно́го.",
+          "uz": "Shifokor bemorni davoladi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Мудре́ц",
+        "uz": "dono odam, donishmand",
+        "pos": "ot",
+        "example": {
+          "ru": "Мудре́ц дал хоро́ший сове́т.",
+          "uz": "Donishmand yaxshi maslahat berdi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Снять",
+        "uz": "yechmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Сними́ ку́ртку, здесь тепло́.",
+          "uz": "Kurtkangni yech, bu yer issiq."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Наде́ть",
+        "uz": "kiymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "На у́лице хо́лодно, наде́нь ша́пку.",
+          "uz": "Tashqarida sovuq, shapkangni kiy."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Вы́здороветь",
+        "uz": "tuzalmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ба́бушка ско́ро вы́здоровеет.",
+          "uz": "Buvim tez orada tuzaladi."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Приказа́ть",
+        "uz": "buyurmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Команди́р приказа́л солда́там ждать.",
+          "uz": "Komandir askarlarga kutishni buyurdi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Посо́л",
+        "uz": "elchi",
+        "pos": "ot",
+        "example": {
+          "ru": "Посо́л прие́хал в столи́цу.",
+          "uz": "Elchi poytaxtga keldi."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Дово́льный",
+        "uz": "mamnun",
+        "pos": "sifat",
+        "example": {
+          "ru": "Учи́тель дово́лен на́шей рабо́той.",
+          "uz": "O'qituvchi ishimizdan mamnun."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Бога́тый",
+        "uz": "boy",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он живёт в бога́том до́ме.",
+          "uz": "U boy uyda yashaydi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Бе́дный",
+        "uz": "kambag'al",
+        "pos": "sifat",
+        "example": {
+          "ru": "Ра́ньше э́та семья́ была́ бе́дной.",
+          "uz": "Ilgari bu oila kambag'al edi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Избу́шка",
+        "uz": "kichkina uy, kulba",
+        "pos": "ot",
+        "example": {
+          "ru": "В лесу́ стоя́ла ста́рая избу́шка.",
+          "uz": "O'rmonda eski kulba turardi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Нае́сться",
+        "uz": "to'ymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Спаси́бо, я уже́ нае́лся.",
+          "uz": "Rahmat, men allaqachon to'ydim."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Обра́доваться",
+        "uz": "xursand bo'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́ти обра́довались пода́ркам.",
+          "uz": "Bolalar sovg'alardan xursand bo'lishdi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Отнести́",
+        "uz": "olib bormoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Отнеси́ э́ту кни́гу в библиоте́ку.",
+          "uz": "Bu kitobni kutubxonaga olib bor."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Предложи́ть",
+        "uz": "taklif qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Друг предложи́л пойти́ в кино́.",
+          "uz": "Do'stim kinoga borishni taklif qildi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Рискну́ть",
+        "uz": "tavakkal qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я реши́л рискну́ть и попро́бовать.",
+          "uz": "Men tavakkal qilib, sinab ko'rishga qaror qildim."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Поменя́ть",
+        "uz": "o'zgartirmoq, almashtirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я хочу́ поменя́ть телефо́н.",
+          "uz": "Men telefonimni almashtirmoqchiman."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Обсужда́ть",
+        "uz": "muhokama qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы обсужда́ем но́вый фильм.",
+          "uz": "Biz yangi filmni muhokama qilyapmiz."
+        }
+      }
+    ]
   }
 ]
