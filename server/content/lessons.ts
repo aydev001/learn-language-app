@@ -18,6 +18,16 @@ import { LESSON_DATA } from "./lessons.data.js"
  */
 export const LESSONS: Lesson[] = LESSON_DATA
 
+/**
+ * Dars berilgan kuni kelganmi (Toshkent vaqti bilan). Oldindan qo'shilgan
+ * darslar o'z kunigacha ro'yxatda ko'rinmaydi — aks holda ertangi dars
+ * bugungi vazifa o'rnini egallab olardi.
+ */
+export function isAssigned(lesson: Lesson, now = new Date()): boolean {
+  const today = new Date(now.getTime() + 5 * 3_600_000).toISOString().slice(0, 10)
+  return lesson.assignedAt.slice(0, 10) <= today
+}
+
 export function getLessonById(id: string): Lesson | undefined {
   return LESSONS.find((l) => l.id === id)
 }

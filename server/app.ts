@@ -11,7 +11,7 @@ import type {
 } from "../shared/types.js"
 import { parseYouTubeId } from "../shared/youtube.js"
 import { handleUpdate, type TelegramUpdate } from "./bot.js"
-import { LESSONS, getLessonById } from "./content/lessons.js"
+import { LESSONS, getLessonById, isAssigned } from "./content/lessons.js"
 import { authenticateDetailed, type AuthResult } from "./lib/auth.js"
 import { webhookSecret } from "./lib/botApi.js"
 import { getStore, type RoomDoc, type Store } from "./lib/db.js"
@@ -153,7 +153,7 @@ app.get("/lessons", async (c) => {
   const store = c.get("store")
 
   const summaries: LessonSummary[] = await Promise.all(
-    [...LESSONS]
+    LESSONS.filter((lesson) => isAssigned(lesson))
       .sort((a, b) => b.assignedAt.localeCompare(a.assignedAt))
       .map(async (lesson) => ({
         id: lesson.id,

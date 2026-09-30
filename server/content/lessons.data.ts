@@ -4254,5 +4254,355 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-12",
+    "title": "ХЛЕБ И ЗО́ЛОТО",
+    "titleUz": "Non va oltin",
+    "month": 2,
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-10-02",
+    "dueAt": "2026-10-02T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va Abbos nima uchun tushi faqat tush bo'lganidan xursand bo'lganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Жил оди́н бе́дный крестья́нин. Его́ зва́ли Абба́с. Абба́с о́чень мно́го рабо́тал в по́ле, что́бы прокорми́ть себя́ и свою́ семью́. В свобо́дное вре́мя Абба́с ду́мал о том, как найти́ клад, что́бы стать бога́тым.",
+        "Одна́жды в о́чень жа́ркий день Абба́с, как всегда́, рабо́тал в по́ле. Вдруг он почу́вствовал си́льную уста́лость и сел под де́рево отдохну́ть. Он закры́л глаза́ и на́чал мечта́ть: «Е́сли бы Алла́х дал мне чуде́сную си́лу, что́бы я мог превраща́ть всё, что я возьму́ в ру́ки, в зо́лото. Как э́то бы́ло бы хорошо́!»",
+        "Абба́с не заме́тил, как усну́л. Во сне он услы́шал го́лос: «Абба́с! Ты полу́чишь то, что ты так хо́чешь. Положи́ свою́ ру́ку на како́й-нибудь предме́т — и он сра́зу преврати́тся в зо́лото». Абба́с взял ма́ленький ка́мень — ка́мень преврати́лся в зо́лото. Взял Абба́с друго́й ка́мень — и тот сра́зу стал золоты́м. Обра́довался Абба́с и реши́л: «Пойду́ сейча́с в го́род, превращу́ все ка́мни в зо́лото, куплю́ мно́го земли́, постро́ю краси́вый дом с са́дом, куплю́ прекра́сных коне́й и краси́вую оде́жду».",
+        "Он хоте́л встать, но почу́вствовал си́льную уста́лость, го́лод, жа́жду и по́нял, что он не смо́жет идти́. «Съем снача́ла за́втрак, кото́рый я принёс из до́ма», — реши́л Абба́с. Абба́с взял хлеб из мешо́чка, положи́л его́ в рот, но почу́вствовал вкус мета́лла. Он по́нял, что хлеб преврати́лся в зо́лото. В мешо́чке лежа́л ещё лук. Абба́с взял его́, но и лук преврати́лся в зо́лото. Абба́с испуга́лся. Как он тепе́рь пить и есть? Как бу́дет жить в ми́ре, где вокру́г бу́дет одно́ то́лько зо́лото?",
+        "Ведь он ско́ро умрёт от го́лода и жа́жды!",
+        "Но в э́тот моме́нт Абба́с откры́л глаза́ и по́нял, что он спал и что всё э́то ему́ присни́лось. Абба́с о́чень обра́довался, взял свой мешо́чек, поза́втракал и сказа́л: «Как хорошо́, что э́то был то́лько сон!»"
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Жил оди́н бе́дный крестья́нин.",
+          "uz": "Bir kambag'al dehqon yashardi."
+        },
+        {
+          "id": "s2",
+          "ru": "Его́ зва́ли Абба́с.",
+          "uz": "Uning ismi Abbos edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Абба́с о́чень мно́го рабо́тал в по́ле, что́бы прокорми́ть себя́ и свою́ семью́.",
+          "uz": "Abbos o'zini va oilasini boqish uchun dalada juda ko'p ishlardi."
+        },
+        {
+          "id": "s4",
+          "ru": "В свобо́дное вре́мя Абба́с ду́мал о том, как найти́ клад, что́бы стать бога́тым.",
+          "uz": "Bo'sh vaqtida Abbos boy bo'lish uchun qanday qilib xazina topish haqida o'ylardi."
+        },
+        {
+          "id": "s5",
+          "ru": "Одна́жды в о́чень жа́ркий день Абба́с, как всегда́, рабо́тал в по́ле.",
+          "uz": "Bir kuni juda issiq kunda Abbos har doimgidek dalada ishlayotgan edi."
+        },
+        {
+          "id": "s6",
+          "ru": "Вдруг он почу́вствовал си́льную уста́лость и сел под де́рево отдохну́ть.",
+          "uz": "To'satdan u qattiq charchoqni his qildi va dam olish uchun daraxt ostiga o'tirdi."
+        },
+        {
+          "id": "s7",
+          "ru": "Он закры́л глаза́ и на́чал мечта́ть: «Е́сли бы Алла́х дал мне чуде́сную си́лу, что́бы я мог превраща́ть всё, что я возьму́ в ру́ки, в зо́лото.",
+          "uz": "U ko'zlarini yumdi va orzu qila boshladi: «Qani endi Alloh menga qo'limga olgan hamma narsani oltinga aylantira oladigan mo'jizaviy kuch bersa."
+        },
+        {
+          "id": "s8",
+          "ru": "Как э́то бы́ло бы хорошо́!»",
+          "uz": "Bu qanchalik yaxshi bo'lardi!»"
+        },
+        {
+          "id": "s9",
+          "ru": "Абба́с не заме́тил, как усну́л.",
+          "uz": "Abbos qanday uxlab qolganini sezmay qoldi."
+        },
+        {
+          "id": "s10",
+          "ru": "Во сне он услы́шал го́лос: «Абба́с!",
+          "uz": "Tushida u bir ovozni eshitdi: «Abbos!"
+        },
+        {
+          "id": "s11",
+          "ru": "Ты полу́чишь то, что ты так хо́чешь.",
+          "uz": "Sen shunchalik xohlagan narsangni olasan."
+        },
+        {
+          "id": "s12",
+          "ru": "Положи́ свою́ ру́ку на како́й-нибудь предме́т — и он сра́зу преврати́тся в зо́лото».",
+          "uz": "Qo'lingni biror narsaga qo'y — u darhol oltinga aylanadi»."
+        },
+        {
+          "id": "s13",
+          "ru": "Абба́с взял ма́ленький ка́мень — ка́мень преврати́лся в зо́лото.",
+          "uz": "Abbos kichkina toshni oldi — tosh oltinga aylandi."
+        },
+        {
+          "id": "s14",
+          "ru": "Взял Абба́с друго́й ка́мень — и тот сра́зу стал золоты́м.",
+          "uz": "Abbos boshqa toshni oldi — u ham darhol oltin bo'ldi."
+        },
+        {
+          "id": "s15",
+          "ru": "Обра́довался Абба́с и реши́л: «Пойду́ сейча́с в го́род, превращу́ все ка́мни в зо́лото, куплю́ мно́го земли́, постро́ю краси́вый дом с са́дом, куплю́ прекра́сных коне́й и краси́вую оде́жду».",
+          "uz": "Abbos xursand bo'ldi va qaror qildi: «Hozir shaharga boraman, hamma toshlarni oltinga aylantiraman, ko'p yer sotib olaman, bog'li chiroyli uy quraman, ajoyib otlar va chiroyli kiyimlar sotib olaman»."
+        },
+        {
+          "id": "s16",
+          "ru": "Он хоте́л встать, но почу́вствовал си́льную уста́лость, го́лод, жа́жду и по́нял, что он не смо́жет идти́.",
+          "uz": "U o'rnidan turmoqchi bo'ldi, lekin qattiq charchoq, ochlik va chanqoqni his qildi va yura olmasligini tushundi."
+        },
+        {
+          "id": "s17",
+          "ru": "«Съем снача́ла за́втрак, кото́рый я принёс из до́ма», — реши́л Абба́с.",
+          "uz": "«Avval uydan olib kelgan nonushtamni yeyman», — deb qaror qildi Abbos."
+        },
+        {
+          "id": "s18",
+          "ru": "Абба́с взял хлеб из мешо́чка, положи́л его́ в рот, но почу́вствовал вкус мета́лла.",
+          "uz": "Abbos xaltachadan nonni olib, og'ziga soldi, lekin metall ta'mini sezdi."
+        },
+        {
+          "id": "s19",
+          "ru": "Он по́нял, что хлеб преврати́лся в зо́лото.",
+          "uz": "U non oltinga aylanganini tushundi."
+        },
+        {
+          "id": "s20",
+          "ru": "В мешо́чке лежа́л ещё лук.",
+          "uz": "Xaltachada yana piyoz bor edi."
+        },
+        {
+          "id": "s21",
+          "ru": "Абба́с взял его́, но и лук преврати́лся в зо́лото.",
+          "uz": "Abbos uni oldi, lekin piyoz ham oltinga aylandi."
+        },
+        {
+          "id": "s22",
+          "ru": "Абба́с испуга́лся.",
+          "uz": "Abbos qo'rqib ketdi."
+        },
+        {
+          "id": "s23",
+          "ru": "Как он тепе́рь пить и есть?",
+          "uz": "Endi u qanday ichadi va yeydi?"
+        },
+        {
+          "id": "s24",
+          "ru": "Как бу́дет жить в ми́ре, где вокру́г бу́дет одно́ то́лько зо́лото?",
+          "uz": "Atrofda faqat oltin bo'lgan dunyoda qanday yashaydi?"
+        },
+        {
+          "id": "s25",
+          "ru": "Ведь он ско́ро умрёт от го́лода и жа́жды!",
+          "uz": "Axir u tez orada ochlik va chanqoqdan o'lib qoladi-ku!"
+        },
+        {
+          "id": "s26",
+          "ru": "Но в э́тот моме́нт Абба́с откры́л глаза́ и по́нял, что он спал и что всё э́то ему́ присни́лось.",
+          "uz": "Lekin shu payt Abbos ko'zlarini ochdi va uxlaganini, bularning hammasi tushida ko'ringanini tushundi."
+        },
+        {
+          "id": "s27",
+          "ru": "Абба́с о́чень обра́довался, взял свой мешо́чек, поза́втракал и сказа́л: «Как хорошо́, что э́то был то́лько сон!»",
+          "uz": "Abbos juda xursand bo'ldi, xaltachasini olib, nonushta qildi va dedi: «Bu faqat tush bo'lgani qanday yaxshi!»"
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Бе́дный",
+        "uz": "kambag'al",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он помога́ет бе́дным лю́дям.",
+          "uz": "U kambag'al odamlarga yordam beradi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Крестья́нин",
+        "uz": "dehqon",
+        "pos": "ot",
+        "example": {
+          "ru": "Крестья́нин рабо́тает в по́ле.",
+          "uz": "Dehqon dalada ishlaydi."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Прокорми́ть",
+        "uz": "boqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Оте́ц рабо́тает, что́бы прокорми́ть семью́.",
+          "uz": "Ota oilasini boqish uchun ishlaydi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Клад",
+        "uz": "xazina",
+        "pos": "ot",
+        "example": {
+          "ru": "Де́ти нашли́ в саду́ клад.",
+          "uz": "Bolalar bog'da xazina topishdi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Почу́вствовать",
+        "uz": "his qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я почу́вствовал за́пах хле́ба.",
+          "uz": "Men non hidini his qildim."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Уста́лость",
+        "uz": "charchoq",
+        "pos": "ot",
+        "example": {
+          "ru": "По́сле рабо́ты я чу́вствую уста́лость.",
+          "uz": "Ishdan keyin charchoqni his qilaman."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Под",
+        "uz": "ostida, tagida",
+        "pos": "predlog",
+        "example": {
+          "ru": "Ко́шка спит под столо́м.",
+          "uz": "Mushuk stol ostida uxlayapti."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Мечта́ть",
+        "uz": "orzu qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я мечта́ю пое́хать в Москву́.",
+          "uz": "Men Moskvaga borishni orzu qilaman."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Превраща́ть",
+        "uz": "aylantirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Зима́ превраща́ет во́ду в лёд.",
+          "uz": "Qish suvni muzga aylantiradi."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Положи́ть",
+        "uz": "qo'ymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Положи́ кни́гу на стол.",
+          "uz": "Kitobni stol ustiga qo'y."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Конь",
+        "uz": "ot (hayvon)",
+        "pos": "ot",
+        "example": {
+          "ru": "У де́душки был бе́лый конь.",
+          "uz": "Buvamning oq oti bor edi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Го́лод",
+        "uz": "ochlik",
+        "pos": "ot",
+        "example": {
+          "ru": "Я чу́вствую си́льный го́лод.",
+          "uz": "Men qattiq ochlikni his qilyapman."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Жа́жда",
+        "uz": "chanqoqlik",
+        "pos": "ot",
+        "example": {
+          "ru": "В жа́ркий день му́чает жа́жда.",
+          "uz": "Issiq kunda chanqoqlik qiynaydi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Принести́",
+        "uz": "olib kelmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Принеси́ мне стака́н воды́.",
+          "uz": "Menga bir stakan suv olib kel."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Мешо́к",
+        "uz": "qop, xalta",
+        "pos": "ot",
+        "example": {
+          "ru": "В мешке́ лежи́т карто́шка.",
+          "uz": "Qopda kartoshka bor."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Присни́ться",
+        "uz": "tushga kirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мне присни́лась ма́ма.",
+          "uz": "Tushimga onam kirdi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Сон",
+        "uz": "tush; uyqu",
+        "pos": "ot",
+        "example": {
+          "ru": "Я ви́дел стра́нный сон.",
+          "uz": "Men g'alati tush ko'rdim."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Постро́ить",
+        "uz": "qurmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы постро́или но́вый дом.",
+          "uz": "Biz yangi uy qurdik."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Вкус",
+        "uz": "ta'm",
+        "pos": "ot",
+        "example": {
+          "ru": "У э́того я́блока сла́дкий вкус.",
+          "uz": "Bu olmaning ta'mi shirin."
+        }
+      }
+    ]
   }
 ]
