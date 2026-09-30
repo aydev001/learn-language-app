@@ -3623,5 +3623,333 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-10",
+    "title": "ВОРОБЕ́Й",
+    "titleUz": "Chumchuq",
+    "level": "A2",
+    "topic": "Hikoya",
+    "assignedAt": "2026-09-30",
+    "dueAt": "2026-09-30T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va katta chumchuq nima uchun itga qarshi tashlanganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Я возвраща́лся с охо́ты и шёл по алле́е са́да. Соба́ка бежа́ла впереди́ меня́. Вдруг она́ уме́ньшила свои́ шаги́ и начала́ кра́сться, как бу́дто почу́вствовала пе́ред собо́й дичь.",
+        "Я посмотре́л вперёд и уви́дел ма́ленькую пти́чку. Э́то был совсе́м молодо́й воробе́й, верне́е воро́бышек. Ве́тер си́льно кача́л берёзы алле́и, и птене́ц упа́л из гнезда́. Он ещё не уме́л лета́ть и тепе́рь сиде́л неподви́жный и беспомо́щный.",
+        "Моя́ соба́ка ме́дленно приближа́лась к воро́бышку. Но вдруг све́рху, с де́рева, ка́мнем упа́л пе́ред соба́кой черногру́дый большо́й воробе́й. Весь взъеро́шенный, он с отча́янным пи́ском пры́гнул два ра́за вперёд, навстре́чу огро́мной соба́ке.",
+        "Он хоте́л спасти́, заслони́ть собо́й своего́ ма́ленького птенца́. Всё его́ те́ло дрожа́ло от стра́ха, голосо́к охри́п. Каки́м огро́мным чудо́вищем должна́ была́ каза́ться ему́ соба́ка! Но он же́ртвовал собо́й, он не мог сиде́ть на свое́й высо́кой безопа́сной ве́тке, кака́я-то непоня́тная си́ла заста́вила его́ бро́ситься вниз.",
+        "Моя́ соба́ка останови́лась. Наве́рное, и она́ почу́вствовала э́ту си́лу. Я позва́л соба́ку и ушёл, благогове́я. Да, не сме́йтесь! Я благогове́л пе́ред э́той ма́ленькой герои́ческой пти́цей. Любо́вь, ду́мал я, сильне́е сме́рти и стра́ха сме́рти. То́лько е́ю, то́лько любо́вью де́ржится и дви́жется жизнь."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Я возвраща́лся с охо́ты и шёл по алле́е са́да.",
+          "uz": "Men ovdan qaytayotgan edim va bog' xiyobonidan ketayotgan edim."
+        },
+        {
+          "id": "s2",
+          "ru": "Соба́ка бежа́ла впереди́ меня́.",
+          "uz": "It oldimda yugurib borardi."
+        },
+        {
+          "id": "s3",
+          "ru": "Вдруг она́ уме́ньшила свои́ шаги́ и начала́ кра́сться, как бу́дто почу́вствовала пе́ред собо́й дичь.",
+          "uz": "To'satdan u qadamlarini sekinlashtirdi va go'yo oldida ov qushini sezgandek, bildirmasdan, pusib yura boshladi."
+        },
+        {
+          "id": "s4",
+          "ru": "Я посмотре́л вперёд и уви́дел ма́ленькую пти́чку.",
+          "uz": "Men oldinga qaradim va kichkina qushchani ko'rdim."
+        },
+        {
+          "id": "s5",
+          "ru": "Э́то был совсе́м молодо́й воробе́й, верне́е воро́бышек.",
+          "uz": "Bu juda yosh chumchuq, to'g'rirog'i, chumchuqcha edi."
+        },
+        {
+          "id": "s6",
+          "ru": "Ве́тер си́льно кача́л берёзы алле́и, и птене́ц упа́л из гнезда́.",
+          "uz": "Shamol xiyobondagi qayinlarni qattiq tebratardi va qush bolasi uyasidan tushib ketgan edi."
+        },
+        {
+          "id": "s7",
+          "ru": "Он ещё не уме́л лета́ть и тепе́рь сиде́л неподви́жный и беспомо́щный.",
+          "uz": "U hali ucha olmasdi va endi qimirlamay, ojiz holda o'tirardi."
+        },
+        {
+          "id": "s8",
+          "ru": "Моя́ соба́ка ме́дленно приближа́лась к воро́бышку.",
+          "uz": "Mening itim chumchuqchaga sekin yaqinlashib borardi."
+        },
+        {
+          "id": "s9",
+          "ru": "Но вдруг све́рху, с де́рева, ка́мнем упа́л пе́ред соба́кой черногру́дый большо́й воробе́й.",
+          "uz": "Lekin to'satdan yuqoridan, daraxtdan, itning oldiga ko'kragi qora katta chumchuq toshdek qulab tushdi."
+        },
+        {
+          "id": "s10",
+          "ru": "Весь взъеро́шенный, он с отча́янным пи́ском пры́гнул два ра́за вперёд, навстре́чу огро́мной соба́ке.",
+          "uz": "Patlari hurpaygan holda u umidsiz chiyillab, ulkan itga qarshi ikki marta oldinga sakradi."
+        },
+        {
+          "id": "s11",
+          "ru": "Он хоте́л спасти́, заслони́ть собо́й своего́ ма́ленького птенца́.",
+          "uz": "U o'zining kichkina bolasini qutqarmoqchi, o'zi bilan to'sib qolmoqchi edi."
+        },
+        {
+          "id": "s12",
+          "ru": "Всё его́ те́ло дрожа́ло от стра́ха, голосо́к охри́п.",
+          "uz": "Uning butun tanasi qo'rquvdan qaltirardi, ovozchasi xirillab qolgan edi."
+        },
+        {
+          "id": "s13",
+          "ru": "Каки́м огро́мным чудо́вищем должна́ была́ каза́ться ему́ соба́ка!",
+          "uz": "It unga qanday ulkan maxluq bo'lib ko'ringan bo'lsa kerak!"
+        },
+        {
+          "id": "s14",
+          "ru": "Но он же́ртвовал собо́й, он не мог сиде́ть на свое́й высо́кой безопа́сной ве́тке, кака́я-то непоня́тная си́ла заста́вила его́ бро́ситься вниз.",
+          "uz": "Lekin u o'zini qurbon qilardi, u o'zining baland, xavfsiz shoxida o'tira olmadi — qandaydir tushunarsiz kuch uni pastga tashlanishga majbur qildi."
+        },
+        {
+          "id": "s15",
+          "ru": "Моя́ соба́ка останови́лась.",
+          "uz": "Mening itim to'xtadi."
+        },
+        {
+          "id": "s16",
+          "ru": "Наве́рное, и она́ почу́вствовала э́ту си́лу.",
+          "uz": "Ehtimol, u ham bu kuchni sezgandir."
+        },
+        {
+          "id": "s17",
+          "ru": "Я позва́л соба́ку и ушёл, благогове́я.",
+          "uz": "Men itni chaqirdim va chuqur hurmat hissi bilan ketdim."
+        },
+        {
+          "id": "s18",
+          "ru": "Да, не сме́йтесь!",
+          "uz": "Ha, kulmang!"
+        },
+        {
+          "id": "s19",
+          "ru": "Я благогове́л пе́ред э́той ма́ленькой герои́ческой пти́цей.",
+          "uz": "Men bu kichkina qahramon qush oldida chuqur ehtirom his qildim."
+        },
+        {
+          "id": "s20",
+          "ru": "Любо́вь, ду́мал я, сильне́е сме́рти и стра́ха сме́рти.",
+          "uz": "Muhabbat, deb o'yladim men, o'limdan ham, o'lim qo'rquvidan ham kuchliroq."
+        },
+        {
+          "id": "s21",
+          "ru": "То́лько е́ю, то́лько любо́вью де́ржится и дви́жется жизнь.",
+          "uz": "Hayot faqat u bilan, faqat muhabbat bilan turadi va harakatlanadi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Охо́та",
+        "uz": "ov",
+        "pos": "ot",
+        "example": {
+          "ru": "Па́па пое́хал на охо́ту.",
+          "uz": "Dadam ovga ketdi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Алле́я",
+        "uz": "xiyobon",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы гуля́ли по алле́е па́рка.",
+          "uz": "Biz bog' xiyobonida sayr qildik."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Впереди́",
+        "uz": "oldinda",
+        "pos": "ravish",
+        "example": {
+          "ru": "Впереди́ нас идёт учи́тель.",
+          "uz": "Oldimizda o'qituvchi ketyapti."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Вдруг",
+        "uz": "to'satdan",
+        "pos": "ravish",
+        "example": {
+          "ru": "Вдруг пошёл дождь.",
+          "uz": "To'satdan yomg'ir yog'ib ketdi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Уме́ньшить",
+        "uz": "kichraytirmoq, kamaytirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Води́тель уме́ньшил ско́рость.",
+          "uz": "Haydovchi tezlikni kamaytirdi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Шаг",
+        "uz": "qadam",
+        "pos": "ot",
+        "example": {
+          "ru": "Ребёнок сде́лал пе́рвый шаг.",
+          "uz": "Bola birinchi qadamini qo'ydi."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Кра́сться",
+        "uz": "bildirmasdan bormoq, pusib yurmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ко́шка крадётся к пти́це.",
+          "uz": "Mushuk qushga pusib yaqinlashyapti."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Дичь",
+        "uz": "ov qushlari, ov hayvonlari",
+        "pos": "ot",
+        "example": {
+          "ru": "Соба́ка почу́вствовала дичь.",
+          "uz": "It ov qushini sezdi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Вперёд",
+        "uz": "oldinga",
+        "pos": "ravish",
+        "example": {
+          "ru": "Иди́те вперёд!",
+          "uz": "Oldinga yuring!"
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Взъеро́шенный",
+        "uz": "hurpaygan, to'zg'igan",
+        "pos": "sifat",
+        "example": {
+          "ru": "У ма́льчика взъеро́шенные во́лосы.",
+          "uz": "Bolaning sochlari to'zg'igan."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Отча́янный",
+        "uz": "umidsiz, jon holatdagi",
+        "pos": "sifat",
+        "example": {
+          "ru": "Мы услы́шали отча́янный крик.",
+          "uz": "Biz umidsiz qichqiriqni eshitdik."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Писк",
+        "uz": "chiyillash",
+        "pos": "ot",
+        "example": {
+          "ru": "Из гнезда́ слы́шен писк птенцо́в.",
+          "uz": "Uyadan qush bolalarining chiyillashi eshitiladi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Заслони́ть",
+        "uz": "to'smoq, to'sib qolmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мать заслони́ла ребёнка от ве́тра.",
+          "uz": "Ona bolani shamoldan to'sib qoldi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Дрожа́ть",
+        "uz": "qaltiramoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́льчик дрожи́т от хо́лода.",
+          "uz": "Bola sovuqdan qaltirayapti."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Охри́пнуть",
+        "uz": "xirillab qolmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Певе́ц охри́п по́сле конце́рта.",
+          "uz": "Qo'shiqchining ovozi konsertdan keyin xirillab qoldi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Же́ртвовать",
+        "uz": "qurbon qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Роди́тели же́ртвуют всем ра́ди дете́й.",
+          "uz": "Ota-onalar bolalari uchun hamma narsani qurbon qiladi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Ве́тка",
+        "uz": "shox",
+        "pos": "ot",
+        "example": {
+          "ru": "Пти́ца сиди́т на ве́тке.",
+          "uz": "Qush shoxda o'tiribdi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Благогове́ть",
+        "uz": "chuqur hurmat qilmoq, hayratda bo'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он благогове́л пе́ред свои́м учи́телем.",
+          "uz": "U o'z ustoziga chuqur ehtirom bilan qarardi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Заста́вить",
+        "uz": "majburlamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́ма заста́вила меня́ сде́лать уро́ки.",
+          "uz": "Onam meni dars qilishga majburladi."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Жизнь",
+        "uz": "hayot",
+        "pos": "ot",
+        "example": {
+          "ru": "Жизнь прекра́сна!",
+          "uz": "Hayot go'zal!"
+        }
+      }
+    ]
   }
 ]
