@@ -3969,8 +3969,8 @@ export const LESSON_DATA: Lesson[] = [
     "month": 2,
     "level": "A2",
     "topic": "Ertak",
-    "assignedAt": "2026-09-30",
-    "dueAt": "2026-09-30T23:00:00+05:00",
+    "assignedAt": "2026-09-28",
+    "dueAt": "2026-09-28T23:00:00+05:00",
     "reading": {
       "introUz": "Matnni ovoz chiqarib o'qing va baxtli odamda nima uchun ko'ylak yo'qligini tushunishga harakat qiling.",
       "paragraphs": [
@@ -4262,8 +4262,8 @@ export const LESSON_DATA: Lesson[] = [
     "month": 2,
     "level": "A2",
     "topic": "Ertak",
-    "assignedAt": "2026-10-02",
-    "dueAt": "2026-10-02T23:00:00+05:00",
+    "assignedAt": "2026-09-29",
+    "dueAt": "2026-09-29T23:00:00+05:00",
     "reading": {
       "introUz": "Matnni ovoz chiqarib o'qing va Abbos nima uchun tushi faqat tush bo'lganidan xursand bo'lganini tushunishga harakat qiling.",
       "paragraphs": [
@@ -4612,8 +4612,8 @@ export const LESSON_DATA: Lesson[] = [
     "month": 2,
     "level": "A2",
     "topic": "Hikoya",
-    "assignedAt": "2026-10-05",
-    "dueAt": "2026-10-05T23:00:00+05:00",
+    "assignedAt": "2026-09-30",
+    "dueAt": "2026-09-30T23:00:00+05:00",
     "reading": {
       "introUz": "Matnni ovoz chiqarib o'qing va aslida kim kimning pechenyesini yeganini tushunishga harakat qiling.",
       "paragraphs": [
