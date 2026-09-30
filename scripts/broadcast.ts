@@ -32,6 +32,16 @@ interface Note {
  * ko'rib chiqib, tuzatib, keyin yuborish qulay.
  */
 const NOTES: Record<string, Note> = {
+  oylar: {
+    button: "📚 Bugungi darsni ochish",
+    path: "/lesson/lesson-13",
+    text: [
+      "📅 Darslar endi <b>oylar bo'yicha</b> guruhlangan: 1-oyga 3 ta yangi dars qo'shildi, 2-oy boshlandi.",
+      "",
+      "📚 <b>Bugungi dars:</b> «Забавная история»",
+      "⏰ Muddat: bugun 23:00 gacha",
+    ].join("\n"),
+  },
   kino: {
     button: "🍿 Kino bo'limini ochish",
     path: "/rooms",
