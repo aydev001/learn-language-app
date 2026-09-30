@@ -2700,5 +2700,465 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-08",
+    "title": "КА́МЕНЬ",
+    "titleUz": "Tosh",
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-09-30",
+    "dueAt": "2026-09-30T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va Toshning orzusi nima bo'lganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "На берегу́ большо́го океа́на жил Ка́мень. Он смотре́л на полёты ча́ек, на шум прибо́я и о́чень тоскова́л. Э́то был гру́стный Ка́мень. А грусти́л он потому́, что уме́л мечта́ть. Его́ друзья́, то́же ка́мни, не понима́ли его́. Они́ то́лько смея́лись над ним и шушу́кались друг с дру́гом за его́ спино́й. Други́е ка́мни це́лый день то́лько и де́лали, что не́жились на со́лнце и расска́зывали све́жие спле́тни.",
+        "У Ка́мня была́ стра́нная мечта́. Он хоте́л пла́вать. Все зна́ли об э́том, и Ка́мень ча́сто слы́шал злы́е шу́тки от свои́х сосе́дей.",
+        "— Ну как? — ехи́дно спра́шивали они́ его́ ка́ждое у́тро. — Ещё не уплы́л?",
+        "И весь бе́рег начина́л хохота́ть.",
+        "Проходи́ли дни, ме́сяцы, го́ды. Не́которые ка́мни уноси́ло што́рмом, не́которые приноси́ло. А Ка́мень всё ждал и ве́рил в свою́ мечту́. Он ви́дел сны, как он уплывёт далеко́-далеко́ и уви́дит стра́ны, о кото́рых ему́ расска́зывали ча́йки.",
+        "Ча́йки счита́ли Ка́мень сумасше́дшим, но люби́ли откла́дывать я́йца ря́дом с ним. Ведь он был о́чень тёплым ка́мнем.",
+        "Одна́жды но́чью Ка́мень просну́лся от како́го-то шу́ма. Э́тот шум шёл от него́ самого́. «Тук — тук!» — что́-то стуча́ло внутри́ него́.",
+        "В трево́ге он пошевели́лся. Пошевели́лся!!!",
+        "То́лько сейча́с он по́нял, что сбыла́сь его́ мечта́. Внутри́ у него́ би́лось се́рдце, он мог ходи́ть! Осторо́жно, ме́дленно он подошёл к воде́. Океа́н мя́гко при́нял, по́днял его́ и понёс в свои́ бескра́йние просто́ры.",
+        "Пришло́ у́тро.",
+        "— Ну как? Ещё не ... — и вдруг все заме́тили, что Ка́мня нет.",
+        "— Неуже́ли уплы́л? — спроси́л ма́ленький Ка́мушек.",
+        "— Ерунда́! Его́ про́сто унесло́ волно́й, — серди́то сказа́л ста́рый Валу́н.",
+        "Так все и реши́ли, хотя́ зна́ли, что но́чью был штиль и на мо́ре не́ было ни одно́й волны́.",
+        "То́лько ма́ленький Ка́мушек смотре́л в даль горизо́нта и мечта́л отпра́виться за Ка́мнем.",
+        "А Ка́мень плыл всё да́льше и да́льше. Он был пе́рвым, верне́е — пе́рвой.",
+        "Пе́рвой на Земле́ Черепа́хой."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "На берегу́ большо́го океа́на жил Ка́мень.",
+          "uz": "Katta okean sohilida bir Tosh yashardi."
+        },
+        {
+          "id": "s2",
+          "ru": "Он смотре́л на полёты ча́ек, на шум прибо́я и о́чень тоскова́л.",
+          "uz": "U chag'alaylarning uchishiga, to'lqinlar shovqiniga qarardi va juda qayg'urardi."
+        },
+        {
+          "id": "s3",
+          "ru": "Э́то был гру́стный Ка́мень.",
+          "uz": "Bu g'amgin bir Tosh edi."
+        },
+        {
+          "id": "s4",
+          "ru": "А грусти́л он потому́, что уме́л мечта́ть.",
+          "uz": "U esa orzu qila olgani uchun qayg'urardi."
+        },
+        {
+          "id": "s5",
+          "ru": "Его́ друзья́, то́же ка́мни, не понима́ли его́.",
+          "uz": "Uning do'stlari, ular ham toshlar, uni tushunmasdi."
+        },
+        {
+          "id": "s6",
+          "ru": "Они́ то́лько смея́лись над ним и шушу́кались друг с дру́гом за его́ спино́й.",
+          "uz": "Ular faqat uning ustidan kulishar va orqasidan bir-biri bilan shivirlashardi."
+        },
+        {
+          "id": "s7",
+          "ru": "Други́е ка́мни це́лый день то́лько и де́лали, что не́жились на со́лнце и расска́зывали све́жие спле́тни.",
+          "uz": "Boshqa toshlar kun bo'yi faqat quyoshda rohatlanib yotishar va yangi g'iybatlarni aytib berishardi."
+        },
+        {
+          "id": "s8",
+          "ru": "У Ка́мня была́ стра́нная мечта́.",
+          "uz": "Toshning g'alati orzusi bor edi."
+        },
+        {
+          "id": "s9",
+          "ru": "Он хоте́л пла́вать.",
+          "uz": "U suzishni xohlardi."
+        },
+        {
+          "id": "s10",
+          "ru": "Все зна́ли об э́том, и Ка́мень ча́сто слы́шал злы́е шу́тки от свои́х сосе́дей.",
+          "uz": "Buni hamma bilardi va Tosh qo'shnilaridan tez-tez yomon hazillarni eshitardi."
+        },
+        {
+          "id": "s11",
+          "ru": "— Ну как? — ехи́дно спра́шивали они́ его́ ка́ждое у́тро.",
+          "uz": "— Xo'sh, qalay? — deb har kuni ertalab undan kinoyali ohangda so'rashardi."
+        },
+        {
+          "id": "s12",
+          "ru": "— Ещё не уплы́л?",
+          "uz": "— Hali suzib ketmadingmi?"
+        },
+        {
+          "id": "s13",
+          "ru": "И весь бе́рег начина́л хохота́ть.",
+          "uz": "Va butun sohil xoxolab kula boshlardi."
+        },
+        {
+          "id": "s14",
+          "ru": "Проходи́ли дни, ме́сяцы, го́ды.",
+          "uz": "Kunlar, oylar, yillar o'tdi."
+        },
+        {
+          "id": "s15",
+          "ru": "Не́которые ка́мни уноси́ло што́рмом, не́которые приноси́ло.",
+          "uz": "Ba'zi toshlarni bo'ron olib ketdi, ba'zilarini olib keldi."
+        },
+        {
+          "id": "s16",
+          "ru": "А Ка́мень всё ждал и ве́рил в свою́ мечту́.",
+          "uz": "Tosh esa hamon kutar va o'z orzusiga ishonardi."
+        },
+        {
+          "id": "s17",
+          "ru": "Он ви́дел сны, как он уплывёт далеко́-далеко́ и уви́дит стра́ны, о кото́рых ему́ расска́зывали ча́йки.",
+          "uz": "U tushida o'zini uzoq-uzoqlarga suzib ketib, chag'alaylar unga hikoya qilgan mamlakatlarni ko'rayotganini ko'rardi."
+        },
+        {
+          "id": "s18",
+          "ru": "Ча́йки счита́ли Ка́мень сумасше́дшим, но люби́ли откла́дывать я́йца ря́дом с ним.",
+          "uz": "Chag'alaylar Toshni telba deb hisoblashardi, lekin uning yonida tuxum qo'yishni yaxshi ko'rishardi."
+        },
+        {
+          "id": "s19",
+          "ru": "Ведь он был о́чень тёплым ка́мнем.",
+          "uz": "Axir u juda iliq tosh edi."
+        },
+        {
+          "id": "s20",
+          "ru": "Одна́жды но́чью Ка́мень просну́лся от како́го-то шу́ма.",
+          "uz": "Bir kuni kechasi Tosh qandaydir shovqindan uyg'onib ketdi."
+        },
+        {
+          "id": "s21",
+          "ru": "Э́тот шум шёл от него́ самого́.",
+          "uz": "Bu shovqin uning o'zidan chiqayotgan edi."
+        },
+        {
+          "id": "s22",
+          "ru": "«Тук — тук!» — что́-то стуча́ло внутри́ него́.",
+          "uz": "«Taq — taq!» — uning ichida nimadir taqillardi."
+        },
+        {
+          "id": "s23",
+          "ru": "В трево́ге он пошевели́лся.",
+          "uz": "U xavotirda qimirladi."
+        },
+        {
+          "id": "s24",
+          "ru": "Пошевели́лся!!!",
+          "uz": "Qimirladi!!!"
+        },
+        {
+          "id": "s25",
+          "ru": "То́лько сейча́с он по́нял, что сбыла́сь его́ мечта́.",
+          "uz": "Faqat endi u orzusi ushalganini tushundi."
+        },
+        {
+          "id": "s26",
+          "ru": "Внутри́ у него́ би́лось се́рдце, он мог ходи́ть!",
+          "uz": "Uning ichida yurak urardi, u yura olardi!"
+        },
+        {
+          "id": "s27",
+          "ru": "Осторо́жно, ме́дленно он подошёл к воде́.",
+          "uz": "Ehtiyotkorlik bilan, sekin u suvga yaqinlashdi."
+        },
+        {
+          "id": "s28",
+          "ru": "Океа́н мя́гко при́нял, по́днял его́ и понёс в свои́ бескра́йние просто́ры.",
+          "uz": "Okean uni mayin qabul qildi, ko'tardi va o'zining cheksiz kengliklariga olib ketdi."
+        },
+        {
+          "id": "s29",
+          "ru": "Пришло́ у́тро.",
+          "uz": "Tong otdi."
+        },
+        {
+          "id": "s30",
+          "ru": "— Ну как?",
+          "uz": "— Xo'sh, qalay?"
+        },
+        {
+          "id": "s31",
+          "ru": "Ещё не ... — и вдруг все заме́тили, что Ка́мня нет.",
+          "uz": "Hali ham ... — va birdan hamma Tosh yo'qligini payqab qoldi."
+        },
+        {
+          "id": "s32",
+          "ru": "— Неуже́ли уплы́л? — спроси́л ма́ленький Ка́мушек.",
+          "uz": "— Nahotki suzib ketgan bo'lsa? — deb so'radi kichkina Toshcha."
+        },
+        {
+          "id": "s33",
+          "ru": "— Ерунда́!",
+          "uz": "— Bo'lmag'ur gap!"
+        },
+        {
+          "id": "s34",
+          "ru": "Его́ про́сто унесло́ волно́й, — серди́то сказа́л ста́рый Валу́н.",
+          "uz": "Uni shunchaki to'lqin olib ketgan, — dedi jahl bilan keksa Xarsang."
+        },
+        {
+          "id": "s35",
+          "ru": "Так все и реши́ли, хотя́ зна́ли, что но́чью был штиль и на мо́ре не́ было ни одно́й волны́.",
+          "uz": "Hamma shunday qaror qildi, garchi kechasi dengiz jimjit bo'lgani va dengizda birorta ham to'lqin bo'lmaganini bilsalar ham."
+        },
+        {
+          "id": "s36",
+          "ru": "То́лько ма́ленький Ка́мушек смотре́л в даль горизо́нта и мечта́л отпра́виться за Ка́мнем.",
+          "uz": "Faqat kichkina Toshcha ufq uzoqligiga qarab, Toshning ortidan yo'lga chiqishni orzu qilardi."
+        },
+        {
+          "id": "s37",
+          "ru": "А Ка́мень плыл всё да́льше и да́льше.",
+          "uz": "Tosh esa tobora uzoqroqqa suzib borardi."
+        },
+        {
+          "id": "s38",
+          "ru": "Он был пе́рвым, верне́е — пе́рвой.",
+          "uz": "U birinchi edi, to'g'rirog'i — birinchi bo'lgan ayol edi."
+        },
+        {
+          "id": "s39",
+          "ru": "Пе́рвой на Земле́ Черепа́хой.",
+          "uz": "Yer yuzidagi birinchi Toshbaqa."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Ка́мень",
+        "uz": "tosh",
+        "pos": "ot",
+        "example": {
+          "ru": "На берегу́ лежи́т большо́й ка́мень.",
+          "uz": "Sohilda katta tosh yotibdi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Бе́рег",
+        "uz": "sohil",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы гуля́ем по бе́регу мо́ря.",
+          "uz": "Biz dengiz sohili bo'ylab sayr qilamiz."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Полёт",
+        "uz": "uchish",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы смо́трим на полёт пти́цы.",
+          "uz": "Biz qushning uchishiga qarayapmiz."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Прибо́й",
+        "uz": "to'lqin",
+        "pos": "ot",
+        "example": {
+          "ru": "Я слы́шу шум прибо́я.",
+          "uz": "Men to'lqin shovqinini eshityapman."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Тоскова́ть",
+        "uz": "qayg'urmoq, sog'inmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я о́чень тоску́ю по до́му.",
+          "uz": "Men uyimni juda sog'inyapman."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Грусти́ть",
+        "uz": "xafa bo'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не грусти́, всё бу́дет хорошо́.",
+          "uz": "Xafa bo'lma, hammasi yaxshi bo'ladi."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Шушу́каться",
+        "uz": "shivirlashmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́вочки шушу́каются на уро́ке.",
+          "uz": "Qizlar darsda shivirlashyapti."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Спле́тни",
+        "uz": "g'iybat",
+        "pos": "ot",
+        "example": {
+          "ru": "Я не люблю́ спле́тни.",
+          "uz": "Men g'iybatni yoqtirmayman."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Стра́нный",
+        "uz": "g'alati",
+        "pos": "sifat",
+        "example": {
+          "ru": "Мне присни́лся стра́нный сон.",
+          "uz": "Men g'alati tush ko'rdim."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Пла́вать",
+        "uz": "suzmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я люблю́ пла́вать в мо́ре.",
+          "uz": "Men dengizda suzishni yaxshi ko'raman."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Ехи́дно",
+        "uz": "kinoyali ohangda",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он ехи́дно улыбну́лся.",
+          "uz": "U kinoyali jilmaydi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Уплы́ть",
+        "uz": "suzib ketmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ло́дка уплыла́ далеко́.",
+          "uz": "Qayiq uzoqqa suzib ketdi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Хохота́ть",
+        "uz": "xoxolab kulmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́ти гро́мко хохо́чут.",
+          "uz": "Bolalar baland ovozda xoxolab kulishyapti."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Уноси́ть",
+        "uz": "olib ketmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ве́тер уно́сит ли́стья.",
+          "uz": "Shamol barglarni olib ketyapti."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Шторм",
+        "uz": "bo'ron",
+        "pos": "ot",
+        "example": {
+          "ru": "На мо́ре начался́ шторм.",
+          "uz": "Dengizda bo'ron boshlandi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Приноси́ть",
+        "uz": "olib kelmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Па́па прино́сит домо́й хлеб.",
+          "uz": "Dadam uyga non olib keladi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Сумасше́дший",
+        "uz": "aqldan ozgan, telba",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то сумасше́дшая иде́я!",
+          "uz": "Bu telbalarcha g'oya!"
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Откла́дывать",
+        "uz": "qoldirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не откла́дывай рабо́ту на за́втра.",
+          "uz": "Ishni ertaga qoldirma."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Пошевели́ться",
+        "uz": "qimirlamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ко́шка пошевели́лась во сне.",
+          "uz": "Mushuk uyqusida qimirladi."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Просто́ры",
+        "uz": "ochiq joylar",
+        "pos": "ot",
+        "example": {
+          "ru": "Пе́ред на́ми бескра́йние просто́ры.",
+          "uz": "Oldimizda cheksiz ochiq joylar."
+        }
+      },
+      {
+        "id": "w21",
+        "ru": "Штиль",
+        "uz": "tinchlik",
+        "pos": "ot",
+        "example": {
+          "ru": "Сего́дня на мо́ре штиль.",
+          "uz": "Bugun dengizda tinchlik, shamol yo'q."
+        }
+      },
+      {
+        "id": "w22",
+        "ru": "Ерунда́",
+        "uz": "bo'lmag'ur gap",
+        "pos": "ot",
+        "example": {
+          "ru": "Э́то всё ерунда́!",
+          "uz": "Bularning hammasi bo'lmag'ur gap!"
+        }
+      },
+      {
+        "id": "w23",
+        "ru": "Даль",
+        "uz": "uzoq",
+        "pos": "ot",
+        "example": {
+          "ru": "Он смо́трит в даль.",
+          "uz": "U uzoqqa qarayapti."
+        }
+      }
+    ]
   }
 ]
