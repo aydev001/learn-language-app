@@ -4604,5 +4604,385 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-13",
+    "title": "ЗАБА́ВНАЯ ИСТО́РИЯ",
+    "titleUz": "Qiziq voqea",
+    "month": 2,
+    "level": "A2",
+    "topic": "Hikoya",
+    "assignedAt": "2026-10-05",
+    "dueAt": "2026-10-05T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va aslida kim kimning pechenyesini yeganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Заба́вная исто́рия произошла́ со мной в про́шлую суббо́ту. Я прие́хал в Ло́ндон за поку́пками. Мне ну́жно бы́ло купи́ть пода́рки к Рождеству́ и найти́ не́которые кни́ги для мое́й учёбы (как вы по́няли, я студе́нт). Я вы́ехал в Ло́ндон ра́но у́тром, поэ́тому по́сле обе́да уже́ купи́л всё, что хоте́л. Я не о́чень люблю́ Ло́ндон, его́ шум и тра́нспорт.",
+        "Сде́лав поку́пки, я реши́л е́хать на вокза́л на такси́, потому́ что хоте́л успе́ть на шестичасово́й по́езд. Но, к сожале́нию, мы попа́ли в про́бку, и, прие́хав на вокза́л, я уви́дел, что по́езд то́лько что ушёл. Ну́жно бы́ло ждать ещё час до сле́дующего по́езда. Купи́в вече́рнюю газе́ту, я отпра́вился в станцио́нный буфе́т, кото́рый в э́то вре́мя дня обы́чно быва́ет почти́ пусты́м. И в тот раз там бы́ло мно́го свобо́дных сто́ликов.",
+        "Я купи́л ча́шку ко́фе и па́чку шокола́дного пече́нья, кото́рое о́чень люблю́. Си́дя за одни́м из сто́ликов, я на́чал разга́дывать кроссво́рд. Мне нра́вится разга́дывать кроссво́рды, э́то прия́тное и интере́сное заня́тие.",
+        "Че́рез не́сколько мину́т како́й-то челове́к сел напро́тив меня́. В нём не́ было ничего́ осо́бенного, кро́ме того́, что он был о́чень высо́кий. Он вы́глядел так, как обы́чно вы́глядят бизнесме́ны... Вы зна́ете, тёмный костю́м и портфе́ль. Ничего́ не говоря́, я продолжа́л разга́дывать свой кроссво́рд.",
+        "Вдруг он протяну́л ру́ку че́рез стол, откры́л мою́ па́чку пече́нья и взял одно́. Окуну́в пече́нье в свой ко́фе, он положи́л его́ в рот. Я не мог пове́рить свои́м глаза́м и был так удивлён, что ничего́ не мог сказа́ть. Я не люблю́ сканда́лов, поэ́тому реши́л игнори́ровать его́. Е́сли мо́жно, лу́чше избега́ть неприя́тностей. Я то́лько взял одно́ пече́нье и верну́лся к своему́ кроссво́рду.",
+        "Когда́ челове́к взял второ́е пече́нье, я не по́днял глаза́ и не произнёс ни зву́ка, а притвори́лся, что о́чень за́нят кроссво́рдом. Че́рез не́сколько мину́т, беря́ после́днее пече́нье, я взгляну́л на челове́ка. Он смотре́л на меня́ со зло́стью. Я не́рвно положи́л пече́нье в рот и реши́л уйти́, но челове́к вдруг ре́зко встал и бы́стро вы́шел. Я реши́л подожда́ть две-три мину́ты, пре́жде чем то́же вы́йти из буфе́та. Допи́в ко́фе и сложи́в газе́ту, я встал. И в э́тот моме́нт на столе́, там, где лежа́ла моя́ газе́та, я уви́дел... свою́ па́чку пече́нья."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Заба́вная исто́рия произошла́ со мной в про́шлую суббо́ту.",
+          "uz": "O'tgan shanba kuni men bilan qiziq voqea sodir bo'ldi."
+        },
+        {
+          "id": "s2",
+          "ru": "Я прие́хал в Ло́ндон за поку́пками.",
+          "uz": "Men Londonga xarid qilish uchun kelgan edim."
+        },
+        {
+          "id": "s3",
+          "ru": "Мне ну́жно бы́ло купи́ть пода́рки к Рождеству́ и найти́ не́которые кни́ги для мое́й учёбы (как вы по́няли, я студе́нт).",
+          "uz": "Menga Rojdestvo uchun sovg'alar sotib olish va o'qishim uchun ba'zi kitoblarni topish kerak edi (tushungan bo'lsangiz, men talabaman)."
+        },
+        {
+          "id": "s4",
+          "ru": "Я вы́ехал в Ло́ндон ра́но у́тром, поэ́тому по́сле обе́да уже́ купи́л всё, что хоте́л.",
+          "uz": "Men Londonga erta tongda yo'lga chiqdim, shuning uchun tushdan keyin xohlagan hamma narsani sotib olib bo'lgan edim."
+        },
+        {
+          "id": "s5",
+          "ru": "Я не о́чень люблю́ Ло́ндон, его́ шум и тра́нспорт.",
+          "uz": "Men Londonni, uning shovqini va transportini unchalik yoqtirmayman."
+        },
+        {
+          "id": "s6",
+          "ru": "Сде́лав поку́пки, я реши́л е́хать на вокза́л на такси́, потому́ что хоте́л успе́ть на шестичасово́й по́езд.",
+          "uz": "Xaridlarni qilib bo'lgach, vokzalga taksida borishga qaror qildim, chunki soat oltidagi poyezdga ulgurmoqchi edim."
+        },
+        {
+          "id": "s7",
+          "ru": "Но, к сожале́нию, мы попа́ли в про́бку, и, прие́хав на вокза́л, я уви́дел, что по́езд то́лько что ушёл.",
+          "uz": "Lekin afsuski, biz tirbandlikka tushib qoldik va vokzalga yetib kelganimda poyezd hozirgina jo'nab ketganini ko'rdim."
+        },
+        {
+          "id": "s8",
+          "ru": "Ну́жно бы́ло ждать ещё час до сле́дующего по́езда.",
+          "uz": "Keyingi poyezdgacha yana bir soat kutish kerak edi."
+        },
+        {
+          "id": "s9",
+          "ru": "Купи́в вече́рнюю газе́ту, я отпра́вился в станцио́нный буфе́т, кото́рый в э́то вре́мя дня обы́чно быва́ет почти́ пусты́м.",
+          "uz": "Kechki gazetani sotib olib, bekatdagi bufetga yo'l oldim, u kunning bu vaqtida odatda deyarli bo'sh bo'ladi."
+        },
+        {
+          "id": "s10",
+          "ru": "И в тот раз там бы́ло мно́го свобо́дных сто́ликов.",
+          "uz": "O'sha safar ham u yerda bo'sh stolchalar ko'p edi."
+        },
+        {
+          "id": "s11",
+          "ru": "Я купи́л ча́шку ко́фе и па́чку шокола́дного пече́нья, кото́рое о́чень люблю́.",
+          "uz": "Men bir finjon qahva va o'zim juda yaxshi ko'radigan shokoladli pechenyedan bir quti sotib oldim."
+        },
+        {
+          "id": "s12",
+          "ru": "Си́дя за одни́м из сто́ликов, я на́чал разга́дывать кроссво́рд.",
+          "uz": "Stolchalardan birida o'tirib, krossvord yecha boshladim."
+        },
+        {
+          "id": "s13",
+          "ru": "Мне нра́вится разга́дывать кроссво́рды, э́то прия́тное и интере́сное заня́тие.",
+          "uz": "Menga krossvord yechish yoqadi, bu yoqimli va qiziqarli mashg'ulot."
+        },
+        {
+          "id": "s14",
+          "ru": "Че́рез не́сколько мину́т како́й-то челове́к сел напро́тив меня́.",
+          "uz": "Bir necha daqiqadan keyin qandaydir bir odam ro'paramga o'tirdi."
+        },
+        {
+          "id": "s15",
+          "ru": "В нём не́ было ничего́ осо́бенного, кро́ме того́, что он был о́чень высо́кий.",
+          "uz": "Unda juda baland bo'yli ekanidan boshqa hech qanday o'zgacha narsa yo'q edi."
+        },
+        {
+          "id": "s16",
+          "ru": "Он вы́глядел так, как обы́чно вы́глядят бизнесме́ны...",
+          "uz": "U odatda biznesmenlar qanday ko'rinsa, shunday ko'rinardi..."
+        },
+        {
+          "id": "s17",
+          "ru": "Вы зна́ете, тёмный костю́м и портфе́ль.",
+          "uz": "Bilasiz-ku, to'q rangli kostyum va portfel."
+        },
+        {
+          "id": "s18",
+          "ru": "Ничего́ не говоря́, я продолжа́л разга́дывать свой кроссво́рд.",
+          "uz": "Hech narsa demasdan, krossvordimni yechishda davom etdim."
+        },
+        {
+          "id": "s19",
+          "ru": "Вдруг он протяну́л ру́ку че́рез стол, откры́л мою́ па́чку пече́нья и взял одно́.",
+          "uz": "To'satdan u stol ustidan qo'lini cho'zdi, mening pechenye qutimni ochdi va bittasini oldi."
+        },
+        {
+          "id": "s20",
+          "ru": "Окуну́в пече́нье в свой ко́фе, он положи́л его́ в рот.",
+          "uz": "Pechenyeni qahvasiga botirib, og'ziga soldi."
+        },
+        {
+          "id": "s21",
+          "ru": "Я не мог пове́рить свои́м глаза́м и был так удивлён, что ничего́ не мог сказа́ть.",
+          "uz": "Men ko'zlarimga ishonolmadim va shunchalik hayron bo'ldimki, hech narsa deya olmadim."
+        },
+        {
+          "id": "s22",
+          "ru": "Я не люблю́ сканда́лов, поэ́тому реши́л игнори́ровать его́.",
+          "uz": "Men janjallarni yoqtirmayman, shuning uchun unga e'tibor bermaslikka qaror qildim."
+        },
+        {
+          "id": "s23",
+          "ru": "Е́сли мо́жно, лу́чше избега́ть неприя́тностей.",
+          "uz": "Iloji bo'lsa, ko'ngilsizliklardan qochgan yaxshi."
+        },
+        {
+          "id": "s24",
+          "ru": "Я то́лько взял одно́ пече́нье и верну́лся к своему́ кроссво́рду.",
+          "uz": "Men faqat bitta pechenye oldim va krossvordimga qaytdim."
+        },
+        {
+          "id": "s25",
+          "ru": "Когда́ челове́к взял второ́е пече́нье, я не по́днял глаза́ и не произнёс ни зву́ка, а притвори́лся, что о́чень за́нят кроссво́рдом.",
+          "uz": "O'sha odam ikkinchi pechenyeni olganida, men ko'zimni ko'tarmadim va churq etmadim, o'zimni krossvord bilan juda banddek ko'rsatdim."
+        },
+        {
+          "id": "s26",
+          "ru": "Че́рез не́сколько мину́т, беря́ после́днее пече́нье, я взгляну́л на челове́ка.",
+          "uz": "Bir necha daqiqadan so'ng oxirgi pechenyeni olayotib, o'sha odamga qaradim."
+        },
+        {
+          "id": "s27",
+          "ru": "Он смотре́л на меня́ со зло́стью.",
+          "uz": "U menga jahl bilan qarab turardi."
+        },
+        {
+          "id": "s28",
+          "ru": "Я не́рвно положи́л пече́нье в рот и реши́л уйти́, но челове́к вдруг ре́зко встал и бы́стро вы́шел.",
+          "uz": "Men asabiylashib pechenyeni og'zimga soldim va ketishga qaror qildim, lekin o'sha odam birdan keskin o'rnidan turib, tezda chiqib ketdi."
+        },
+        {
+          "id": "s29",
+          "ru": "Я реши́л подожда́ть две-три мину́ты, пре́жде чем то́же вы́йти из буфе́та.",
+          "uz": "Men ham bufetdan chiqishdan oldin ikki-uch daqiqa kutishga qaror qildim."
+        },
+        {
+          "id": "s30",
+          "ru": "Допи́в ко́фе и сложи́в газе́ту, я встал.",
+          "uz": "Qahvani ichib bo'lib, gazetani buklab, o'rnimdan turdim."
+        },
+        {
+          "id": "s31",
+          "ru": "И в э́тот моме́нт на столе́, там, где лежа́ла моя́ газе́та, я уви́дел... свою́ па́чку пече́нья.",
+          "uz": "Va shu payt stol ustida, gazetam yotgan joyda... o'zimning pechenye qutimni ko'rdim."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Заба́вный",
+        "uz": "maroqli, qiziq, kulgili",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он рассказа́л заба́вную исто́рию.",
+          "uz": "U qiziq bir voqeani aytib berdi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Произойти́",
+        "uz": "sodir bo'lmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Что произошло́ вчера́?",
+          "uz": "Kecha nima sodir bo'ldi?"
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Поку́пка",
+        "uz": "xarid",
+        "pos": "ot",
+        "example": {
+          "ru": "Ма́ма пошла́ в магази́н за поку́пками.",
+          "uz": "Onam do'konga xarid qilgani ketdi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Вы́ехать",
+        "uz": "yo'lga chiqmoq, jo'nab ketmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы вы́ехали из до́ма в семь часо́в.",
+          "uz": "Biz uydan soat yettida yo'lga chiqdik."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Шум",
+        "uz": "shovqin",
+        "pos": "ot",
+        "example": {
+          "ru": "Я не люблю́ шум большо́го го́рода.",
+          "uz": "Men katta shaharning shovqinini yoqtirmayman."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Попа́сть",
+        "uz": "tushib qolmoq, tushmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы попа́ли под дождь.",
+          "uz": "Biz yomg'ir ostida qolib ketdik."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Станцио́нный",
+        "uz": "bekatdagi, stansiyaga oid",
+        "pos": "sifat",
+        "example": {
+          "ru": "Мы жда́ли в станцио́нном буфе́те.",
+          "uz": "Biz bekatdagi bufetda kutdik."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Разга́дывать",
+        "uz": "topmoq, yechmoq (topishmoq, krossvord)",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Де́душка лю́бит разга́дывать кроссво́рды.",
+          "uz": "Buvam krossvord yechishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Напро́тив",
+        "uz": "qarshi tomonda, ro'parasida",
+        "pos": "ravish",
+        "example": {
+          "ru": "Апте́ка нахо́дится напро́тив шко́лы.",
+          "uz": "Dorixona maktabning ro'parasida joylashgan."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Осо́бенный",
+        "uz": "o'zgacha, alohida",
+        "pos": "sifat",
+        "example": {
+          "ru": "Сего́дня осо́бенный день.",
+          "uz": "Bugun o'zgacha kun."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Вы́глядеть",
+        "uz": "ko'rinmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ты сего́дня хорошо́ вы́глядишь.",
+          "uz": "Bugun yaxshi ko'rinyapsan."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Продолжа́ть",
+        "uz": "davom ettirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы продолжа́ем изуча́ть ру́сский язы́к.",
+          "uz": "Biz rus tilini o'rganishni davom ettiryapmiz."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Протяну́ть",
+        "uz": "cho'zmoq, uzatmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он протяну́л мне ру́ку.",
+          "uz": "U menga qo'lini cho'zdi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Пове́рить",
+        "uz": "ishonmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я не могу́ пове́рить в э́то!",
+          "uz": "Men bunga ishona olmayman!"
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Удивлён",
+        "uz": "ajablangan, hayron",
+        "pos": "sifat",
+        "example": {
+          "ru": "Я был удивлён его́ отве́том.",
+          "uz": "Men uning javobidan hayron bo'ldim."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Притвори́ться",
+        "uz": "o'zini ...dek ko'rsatmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́льчик притвори́лся, что спит.",
+          "uz": "Bola o'zini uxlayotgandek ko'rsatdi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Неприя́тность",
+        "uz": "ko'ngilsizlik",
+        "pos": "ot",
+        "example": {
+          "ru": "У меня́ на рабо́те неприя́тности.",
+          "uz": "Ishimda ko'ngilsizliklar bor."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Сканда́л",
+        "uz": "janjal",
+        "pos": "ot",
+        "example": {
+          "ru": "Сосе́ди опя́ть устро́или сканда́л.",
+          "uz": "Qo'shnilar yana janjal ko'tarishdi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Игнори́ровать",
+        "uz": "e'tibor bermaslik, parvo qilmaslik",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не игнори́руй сове́ты роди́телей.",
+          "uz": "Ota-onangning maslahatlariga e'tiborsiz bo'lma."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Избежа́ть",
+        "uz": "qochmoq, chetlab o'tmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Нам удало́сь избежа́ть оши́бки.",
+          "uz": "Biz xatodan qochishga muvaffaq bo'ldik."
+        }
+      }
+    ]
   }
 ]
