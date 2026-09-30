@@ -3160,5 +3160,468 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-09",
+    "title": "ЗОЛОТА́Я РЫ́БКА",
+    "titleUz": "Oltin baliqcha",
+    "level": "A2",
+    "topic": "Ertak",
+    "assignedAt": "2026-09-30",
+    "dueAt": "2026-09-30T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va kampirning ochko'zligi nima bilan tugaganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "О́коло си́него мо́ря стоя́л ма́ленький до́мик, в кото́ром жи́ли стари́к и стару́ха. Они́ жи́ли о́чень бе́дно, в до́ме у них почти́ ничего́ не́ было. Ка́ждый день стари́к ходи́л к мо́рю, лови́л ры́бу, а стару́ха её гото́вила. На за́втрак была́ ры́ба, на обе́д — ры́ба, на у́жин — ры́ба.",
+        "Одна́жды стари́к пойма́л о́чень краси́вую ры́бку. Э́та ры́бка была́ необыкнове́нная, она́ была́ золота́я и уме́ла говори́ть челове́ческим го́лосом. Стари́к взял ры́бку в ру́ки, а она́ и говори́т: «Не бери́ меня́, стари́к! Отпусти́ меня́ обра́тно в си́нее мо́ре. Я всё могу́. Что ты попро́сишь, то я для тебя́ и сде́лаю».",
+        "Стари́к был до́брым, он ничего́ не попроси́л у ры́бки и отпусти́л её обра́тно в си́нее мо́ре. «Ничего́ мне не ну́жно, — сказа́л он. — Пла́вай в мо́ре!» И ры́бка уплыла́ в глубину́.",
+        "Пришёл стари́к домо́й, всё рассказа́л стару́хе. Стару́ха рассерди́лась: «Како́й ты глу́пый, стари́к! Иди́ скоре́е к бе́регу, позови́ золоту́ю ры́бку, попроси́ у неё немно́го хле́ба и но́вое коры́то для меня́. Моё коры́то совсе́м ста́рое и разби́тое».",
+        "Стари́к ничего́ не сказа́л, пошёл к мо́рю, на́чал звать золоту́ю ры́бку. Подплыла́ к нему́ золота́я ры́бка, спроси́ла: «Что тебе́ ну́жно, стари́к?» Стари́к отве́тил: «Моя́ стару́ха рассерди́лась, посла́ла к тебе́ за хле́бом и но́вым коры́том». Ры́бка отве́тила: «Ни о чём не ду́май, стари́к, иди́ домо́й. Бу́дет у вас и хлеб, и но́вое коры́то».",
+        "Стари́к верну́лся домо́й и ви́дит: на столе́ лежи́т вку́сный души́стый хлеб, а о́коло стола́ стои́т но́вое коры́то. Но стару́ха опя́ть недово́льна: «Глу́пый ты, стари́к! Иди́ обра́тно к бе́регу и попроси́ у ры́бки но́вый бога́тый дом».",
+        "Опя́ть пошёл стари́к к мо́рю, опя́ть позва́л ры́бку, рассказа́л ей всё. Ры́бка отве́тила ему́ ла́сково: «Иди́ домо́й, всё у тебя́ бу́дет». Когда́ стари́к пришёл домо́й, на ме́сте своего́ ста́рого до́ма он уви́дел но́вый бога́тый ка́менный дом, а в его́ до́ме сиди́т его́ стару́ха в но́вом дорого́м пла́тье, а вокру́г неё бе́гают слу́ги. Подошёл стари́к к стару́хе, а она́ и говори́т: «Иди́ к ры́бке, скажи́ ей, что я хочу́ быть цари́цей». Ушёл стари́к, всё сде́лал, как сказа́ла стару́ха. А когда́ верну́лся, ви́дит: стои́т высо́кий дворе́ц, вокру́г дворца́ сад, всю́ду му́зыка игра́ет, бога́тые лю́ди вокру́г хо́дят.",
+        "Прошло́ не́которое вре́мя. Опя́ть зовёт стару́ха старика́ и говори́т ему́: «Иди́ к мо́рю, скажи́ ры́бке — не хочу́ быть цари́цей на земле́, а хочу́ быть морско́й цари́цей. Хочу́, что́бы все в мо́ре меня́ слу́шали, а ры́бка была́ мое́й слуго́й».",
+        "Стал стари́к гру́стным, но пошёл к мо́рю ещё раз. Позва́л ры́бку — нет её, ещё раз позва́л — нет. Тре́тий раз позва́л стари́к ры́бку. Потемне́ло, зашуме́ло си́нее мо́ре. Наконе́ц приплыла́ ры́бка к бе́регу. Рассказа́л ей стари́к, чего́ хо́чет его́ стару́ха.",
+        "Ничего́ не сказа́ла старику́ золота́я ры́бка на э́тот раз, отплыла́ от бе́рега, махну́ла хвосто́м и ушла́ в глубину́ мо́ря. До́лго ждал на берегу́ стари́к, пото́м пошёл домо́й. Верну́лся он домо́й и ви́дит: стои́т на берегу́ его́ ста́рый бе́дный дом, а о́коло до́ма сиди́т его́ стару́ха в рва́ном пла́тье, а пе́ред ней разби́тое коры́то."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "О́коло си́него мо́ря стоя́л ма́ленький до́мик, в кото́ром жи́ли стари́к и стару́ха.",
+          "uz": "Moviy dengiz yaqinida kichkina uycha bor edi, unda bir chol va kampir yashardi."
+        },
+        {
+          "id": "s2",
+          "ru": "Они́ жи́ли о́чень бе́дно, в до́ме у них почти́ ничего́ не́ было.",
+          "uz": "Ular juda kambag'al yashashardi, uylarida deyarli hech narsa yo'q edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Ка́ждый день стари́к ходи́л к мо́рю, лови́л ры́бу, а стару́ха её гото́вила.",
+          "uz": "Har kuni chol dengizga borib baliq tutardi, kampir esa uni pishirardi."
+        },
+        {
+          "id": "s4",
+          "ru": "На за́втрак была́ ры́ба, на обе́д — ры́ба, на у́жин — ры́ба.",
+          "uz": "Nonushtaga baliq, tushlikka baliq, kechki ovqatga ham baliq edi."
+        },
+        {
+          "id": "s5",
+          "ru": "Одна́жды стари́к пойма́л о́чень краси́вую ры́бку.",
+          "uz": "Bir kuni chol juda chiroyli baliqcha tutib oldi."
+        },
+        {
+          "id": "s6",
+          "ru": "Э́та ры́бка была́ необыкнове́нная, она́ была́ золота́я и уме́ла говори́ть челове́ческим го́лосом.",
+          "uz": "Bu baliqcha g'ayrioddiy edi: u oltin rangda bo'lib, odam ovozida gapira olardi."
+        },
+        {
+          "id": "s7",
+          "ru": "Стари́к взял ры́бку в ру́ки, а она́ и говори́т: «Не бери́ меня́, стари́к!",
+          "uz": "Chol baliqchani qo'liga oldi, u esa shunday dedi: «Meni olma, chol!"
+        },
+        {
+          "id": "s8",
+          "ru": "Отпусти́ меня́ обра́тно в си́нее мо́ре.",
+          "uz": "Meni moviy dengizga qaytarib qo'yib yubor."
+        },
+        {
+          "id": "s9",
+          "ru": "Я всё могу́.",
+          "uz": "Men hamma narsani qila olaman."
+        },
+        {
+          "id": "s10",
+          "ru": "Что ты попро́сишь, то я для тебя́ и сде́лаю».",
+          "uz": "Nima so'rasang, o'shani sen uchun qilib beraman»."
+        },
+        {
+          "id": "s11",
+          "ru": "Стари́к был до́брым, он ничего́ не попроси́л у ры́бки и отпусти́л её обра́тно в си́нее мо́ре.",
+          "uz": "Chol mehribon edi, u baliqchadan hech narsa so'ramadi va uni moviy dengizga qaytarib qo'yib yubordi."
+        },
+        {
+          "id": "s12",
+          "ru": "«Ничего́ мне не ну́жно, — сказа́л он. — Пла́вай в мо́ре!»",
+          "uz": "«Menga hech narsa kerak emas, — dedi u. — Dengizda suzib yuraver!»"
+        },
+        {
+          "id": "s13",
+          "ru": "И ры́бка уплыла́ в глубину́.",
+          "uz": "Baliqcha esa chuqurlikka suzib ketdi."
+        },
+        {
+          "id": "s14",
+          "ru": "Пришёл стари́к домо́й, всё рассказа́л стару́хе.",
+          "uz": "Chol uyga keldi va hammasini kampirga aytib berdi."
+        },
+        {
+          "id": "s15",
+          "ru": "Стару́ха рассерди́лась: «Како́й ты глу́пый, стари́к!",
+          "uz": "Kampirning jahli chiqdi: «Namuncha ahmoqsan, chol!"
+        },
+        {
+          "id": "s16",
+          "ru": "Иди́ скоре́е к бе́регу, позови́ золоту́ю ры́бку, попроси́ у неё немно́го хле́ба и но́вое коры́то для меня́.",
+          "uz": "Tezroq sohilga bor, oltin baliqchani chaqir, undan biroz non va men uchun yangi tog'ora so'ra."
+        },
+        {
+          "id": "s17",
+          "ru": "Моё коры́то совсе́м ста́рое и разби́тое».",
+          "uz": "Mening tog'oram butunlay eski va singan»."
+        },
+        {
+          "id": "s18",
+          "ru": "Стари́к ничего́ не сказа́л, пошёл к мо́рю, на́чал звать золоту́ю ры́бку.",
+          "uz": "Chol hech narsa demadi, dengizga borib, oltin baliqchani chaqira boshladi."
+        },
+        {
+          "id": "s19",
+          "ru": "Подплыла́ к нему́ золота́я ры́бка, спроси́ла: «Что тебе́ ну́жно, стари́к?»",
+          "uz": "Oltin baliqcha uning oldiga suzib keldi va so'radi: «Senga nima kerak, chol?»"
+        },
+        {
+          "id": "s20",
+          "ru": "Стари́к отве́тил: «Моя́ стару́ха рассерди́лась, посла́ла к тебе́ за хле́бом и но́вым коры́том».",
+          "uz": "Chol javob berdi: «Kampirimning jahli chiqdi, meni senga non va yangi tog'ora uchun jo'natdi»."
+        },
+        {
+          "id": "s21",
+          "ru": "Ры́бка отве́тила: «Ни о чём не ду́май, стари́к, иди́ домо́й.",
+          "uz": "Baliqcha javob berdi: «Hech narsani o'ylama, chol, uyingga bor."
+        },
+        {
+          "id": "s22",
+          "ru": "Бу́дет у вас и хлеб, и но́вое коры́то».",
+          "uz": "Sizlarda non ham, yangi tog'ora ham bo'ladi»."
+        },
+        {
+          "id": "s23",
+          "ru": "Стари́к верну́лся домо́й и ви́дит: на столе́ лежи́т вку́сный души́стый хлеб, а о́коло стола́ стои́т но́вое коры́то.",
+          "uz": "Chol uyga qaytib qarasa: stol ustida mazali, xushbo'y non turibdi, stol yonida esa yangi tog'ora turibdi."
+        },
+        {
+          "id": "s24",
+          "ru": "Но стару́ха опя́ть недово́льна: «Глу́пый ты, стари́к!",
+          "uz": "Lekin kampir yana norozi: «Ahmoqsan, chol!"
+        },
+        {
+          "id": "s25",
+          "ru": "Иди́ обра́тно к бе́регу и попроси́ у ры́бки но́вый бога́тый дом».",
+          "uz": "Sohilga qaytib bor va baliqchadan yangi boy uy so'ra»."
+        },
+        {
+          "id": "s26",
+          "ru": "Опя́ть пошёл стари́к к мо́рю, опя́ть позва́л ры́бку, рассказа́л ей всё.",
+          "uz": "Chol yana dengizga bordi, yana baliqchani chaqirdi va unga hammasini aytib berdi."
+        },
+        {
+          "id": "s27",
+          "ru": "Ры́бка отве́тила ему́ ла́сково: «Иди́ домо́й, всё у тебя́ бу́дет».",
+          "uz": "Baliqcha unga mehribonlik bilan javob berdi: «Uyingga bor, senda hammasi bo'ladi»."
+        },
+        {
+          "id": "s28",
+          "ru": "Когда́ стари́к пришёл домо́й, на ме́сте своего́ ста́рого до́ма он уви́дел но́вый бога́тый ка́менный дом, а в его́ до́ме сиди́т его́ стару́ха в но́вом дорого́м пла́тье, а вокру́г неё бе́гают слу́ги.",
+          "uz": "Chol uyga kelganida, eski uyining o'rnida yangi, boy, tosh uyni ko'rdi; uyda esa kampiri yangi qimmatbaho ko'ylakda o'tiribdi, atrofida xizmatkorlar yugurib yurishibdi."
+        },
+        {
+          "id": "s29",
+          "ru": "Подошёл стари́к к стару́хе, а она́ и говори́т: «Иди́ к ры́бке, скажи́ ей, что я хочу́ быть цари́цей».",
+          "uz": "Chol kampirning oldiga keldi, u esa shunday dedi: «Baliqchaning oldiga bor, unga ayt: men malika bo'lishni xohlayman»."
+        },
+        {
+          "id": "s30",
+          "ru": "Ушёл стари́к, всё сде́лал, как сказа́ла стару́ха.",
+          "uz": "Chol ketdi va kampir aytganidek hammasini qildi."
+        },
+        {
+          "id": "s31",
+          "ru": "А когда́ верну́лся, ви́дит: стои́т высо́кий дворе́ц, вокру́г дворца́ сад, всю́ду му́зыка игра́ет, бога́тые лю́ди вокру́г хо́дят.",
+          "uz": "Qaytib kelsa: baland saroy turibdi, saroy atrofida bog', hamma yoqda musiqa chalinyapti, atrofda boy odamlar yurishibdi."
+        },
+        {
+          "id": "s32",
+          "ru": "Прошло́ не́которое вре́мя.",
+          "uz": "Oradan biroz vaqt o'tdi."
+        },
+        {
+          "id": "s33",
+          "ru": "Опя́ть зовёт стару́ха старика́ и говори́т ему́: «Иди́ к мо́рю, скажи́ ры́бке — не хочу́ быть цари́цей на земле́, а хочу́ быть морско́й цари́цей.",
+          "uz": "Kampir yana cholni chaqirib, unga dedi: «Dengizga bor, baliqchaga ayt: men yerda malika bo'lishni xohlamayman, dengiz malikasi bo'lishni xohlayman."
+        },
+        {
+          "id": "s34",
+          "ru": "Хочу́, что́бы все в мо́ре меня́ слу́шали, а ры́бка была́ мое́й слуго́й».",
+          "uz": "Dengizdagi hamma menga bo'ysunishini, baliqcha esa mening xizmatkorim bo'lishini xohlayman»."
+        },
+        {
+          "id": "s35",
+          "ru": "Стал стари́к гру́стным, но пошёл к мо́рю ещё раз.",
+          "uz": "Chol xafa bo'ldi, lekin dengizga yana bir marta bordi."
+        },
+        {
+          "id": "s36",
+          "ru": "Позва́л ры́бку — нет её, ещё раз позва́л — нет.",
+          "uz": "Baliqchani chaqirdi — u yo'q, yana chaqirdi — yo'q."
+        },
+        {
+          "id": "s37",
+          "ru": "Тре́тий раз позва́л стари́к ры́бку.",
+          "uz": "Chol baliqchani uchinchi marta chaqirdi."
+        },
+        {
+          "id": "s38",
+          "ru": "Потемне́ло, зашуме́ло си́нее мо́ре.",
+          "uz": "Moviy dengiz qorong'ilashib, shovqin ko'tardi."
+        },
+        {
+          "id": "s39",
+          "ru": "Наконе́ц приплыла́ ры́бка к бе́регу.",
+          "uz": "Nihoyat baliqcha sohilga suzib keldi."
+        },
+        {
+          "id": "s40",
+          "ru": "Рассказа́л ей стари́к, чего́ хо́чет его́ стару́ха.",
+          "uz": "Chol unga kampiri nima xohlayotganini aytib berdi."
+        },
+        {
+          "id": "s41",
+          "ru": "Ничего́ не сказа́ла старику́ золота́я ры́бка на э́тот раз, отплыла́ от бе́рега, махну́ла хвосто́м и ушла́ в глубину́ мо́ря.",
+          "uz": "Bu safar oltin baliqcha cholga hech narsa demadi, sohildan suzib uzoqlashdi, dumini silkitdi va dengiz tubiga ketdi."
+        },
+        {
+          "id": "s42",
+          "ru": "До́лго ждал на берегу́ стари́к, пото́м пошёл домо́й.",
+          "uz": "Chol sohilda uzoq kutdi, keyin uyiga ketdi."
+        },
+        {
+          "id": "s43",
+          "ru": "Верну́лся он домо́й и ви́дит: стои́т на берегу́ его́ ста́рый бе́дный дом, а о́коло до́ма сиди́т его́ стару́ха в рва́ном пла́тье, а пе́ред ней разби́тое коры́то.",
+          "uz": "U uyga qaytib qarasa: sohilda uning eski, kambag'al uyi turibdi, uy yonida kampiri yirtiq ko'ylakda o'tiribdi, oldida esa singan tog'ora."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "О́коло",
+        "uz": "yaqinida",
+        "pos": "ravish",
+        "example": {
+          "ru": "О́коло до́ма растёт де́рево.",
+          "uz": "Uy yaqinida daraxt o'sadi."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Лови́ть",
+        "uz": "tutmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мой па́па лю́бит лови́ть ры́бу.",
+          "uz": "Dadam baliq tutishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Гото́вить",
+        "uz": "tayyorlamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́ма гото́вит у́жин.",
+          "uz": "Onam kechki ovqat tayyorlayapti."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Пойма́ть",
+        "uz": "tutib olmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ко́шка пойма́ла мышь.",
+          "uz": "Mushuk sichqonni tutib oldi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Необыкнове́нный",
+        "uz": "g'ayrioddiy, boshqacha",
+        "pos": "sifat",
+        "example": {
+          "ru": "Сего́дня был необыкнове́нный день.",
+          "uz": "Bugun g'ayrioddiy kun bo'ldi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Уме́ть",
+        "uz": "bilmoq, qila olmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я уме́ю пла́вать.",
+          "uz": "Men suzishni bilaman."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Брать",
+        "uz": "olmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не бери́ мою́ ру́чку!",
+          "uz": "Mening ruchkamni olma!"
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Отпусти́ть",
+        "uz": "qo'yib yubormoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́льчик отпусти́л пти́цу.",
+          "uz": "Bola qushni qo'yib yubordi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Попроси́ть",
+        "uz": "so'ramoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я попроси́л дру́га помо́чь.",
+          "uz": "Men do'stimdan yordam berishni so'radim."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Пла́вать",
+        "uz": "suzmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ры́бы пла́вают в мо́ре.",
+          "uz": "Baliqlar dengizda suzadi."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Глубина́",
+        "uz": "chuqurlik",
+        "pos": "ot",
+        "example": {
+          "ru": "Ры́бка уплыла́ в глубину́.",
+          "uz": "Baliqcha chuqurlikka suzib ketdi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Рассерди́ться",
+        "uz": "jahli chiqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Учи́тель рассерди́лся на ученика́.",
+          "uz": "O'qituvchining o'quvchidan jahli chiqdi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Коры́то",
+        "uz": "tog'ora",
+        "pos": "ot",
+        "example": {
+          "ru": "У стару́хи бы́ло ста́рое коры́то.",
+          "uz": "Kampirning eski tog'orasi bor edi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Разби́тый",
+        "uz": "singan",
+        "pos": "sifat",
+        "example": {
+          "ru": "На полу́ лежи́т разби́тая ча́шка.",
+          "uz": "Polda singan piyola yotibdi."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Посла́ть",
+        "uz": "jo'natmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́ма посла́ла меня́ в магази́н.",
+          "uz": "Onam meni do'konga jo'natdi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Ка́менный",
+        "uz": "tosh, toshdan qurilgan",
+        "pos": "sifat",
+        "example": {
+          "ru": "Они́ живу́т в ка́менном до́ме.",
+          "uz": "Ular tosh uyda yashashadi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Слу́ги",
+        "uz": "xizmatkorlar",
+        "pos": "ot",
+        "example": {
+          "ru": "Во дворце́ бы́ло мно́го слуг.",
+          "uz": "Saroyda xizmatkorlar ko'p edi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Цари́ца",
+        "uz": "malika",
+        "pos": "ot",
+        "example": {
+          "ru": "Стару́ха хоте́ла быть цари́цей.",
+          "uz": "Kampir malika bo'lishni xohlardi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Потемне́ть",
+        "uz": "qorong'ilashmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Не́бо потемне́ло, начался́ дождь.",
+          "uz": "Osmon qorong'ilashdi, yomg'ir boshlandi."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Зашуме́ть",
+        "uz": "shovqinlashmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "В лесу́ зашуме́л ве́тер.",
+          "uz": "O'rmonda shamol shovqin ko'tardi."
+        }
+      },
+      {
+        "id": "w21",
+        "ru": "Отплы́ть",
+        "uz": "suzib ketmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ло́дка отплыла́ от бе́рега.",
+          "uz": "Qayiq sohildan suzib ketdi."
+        }
+      },
+      {
+        "id": "w22",
+        "ru": "Рва́ный",
+        "uz": "yirtilgan, yirtiq",
+        "pos": "sifat",
+        "example": {
+          "ru": "У него́ рва́ная ку́ртка.",
+          "uz": "Uning kurtkasi yirtiq."
+        }
+      }
+    ]
   }
 ]
