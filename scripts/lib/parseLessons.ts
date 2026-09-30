@@ -6,6 +6,7 @@
  *   LESSON 1
  *
  *   [ixtiyoriy: DUE 2026-08-12 23:00 — topshirish muddati]
+ *   [ixtiyoriy: MONTH 2 — o'quv oyi, berilmasa 1]
  *
  *   [ixtiyoriy sarlavha — bosh harflardagi qisqa qator]
  *
@@ -42,6 +43,8 @@ export interface RawLesson {
    * o'qituvchi qo'ygan muddatni yo'qotadi.
    */
   due?: string
+  /** `MONTH` qatoridan — o'quv oyi; berilmasa 1 */
+  month?: number
   /** Abzatslar va ularning gaplari — bog'lanish shu yerda saqlanadi */
   paragraphs: RawParagraph[]
   /** Barcha gaplar ketma-ket (abzatslardan yig'ilgan) */
@@ -54,6 +57,8 @@ const WORDS_HEADER_RE = /^(СЛОВА|SO'ZLAR|SOZLAR)\s*$/i
 const WORD_RE = /^(\d+)\.\s*(.+?)\s*[—–-]\s*(.+)$/
 /** `DUE 2026-08-12` yoki `DUE 2026-08-12 23:00` */
 const DUE_RE = /^DUE\s+(\d{4}-\d{2}-\d{2})(?:[\sT](\d{2}:\d{2}))?\s*$/i
+/** `MONTH 2` */
+const MONTH_RE = /^MONTH\s+(\d+)\s*$/i
 
 /** O'quvchilar O'zbekistonda — muddat mahalliy vaqtda tushuniladi. */
 const TIME_ZONE = "+05:00"
@@ -160,6 +165,12 @@ export function parseLessons(source: string): RawLesson[] {
     if (dueMatch) {
       const [, day, time] = dueMatch
       current.due = time ? `${day}T${time}:00${TIME_ZONE}` : day
+      continue
+    }
+
+    const monthMatch = MONTH_RE.exec(line)
+    if (monthMatch) {
+      current.month = Number(monthMatch[1])
       continue
     }
 

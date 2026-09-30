@@ -250,6 +250,7 @@ export async function enrichLesson(
     id: `lesson-${String(raw.number).padStart(2, "0")}`,
     title: applyStress(meta.title, dict),
     titleUz: meta.titleUz,
+    month: raw.month ?? 1,
     level: meta.level,
     topic: meta.topic,
     assignedAt: isoDay(-weeksAgo * DAYS_BETWEEN_LESSONS),

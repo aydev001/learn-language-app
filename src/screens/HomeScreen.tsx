@@ -1,5 +1,16 @@
+import { useState } from "react"
 import { Link } from "react-router"
-import { ArrowRight, BookOpenText, Flame, Hourglass, Mic, Sparkles, Target } from "lucide-react"
+import {
+  ArrowRight,
+  BookOpenText,
+  CalendarDays,
+  ChevronDown,
+  Flame,
+  Hourglass,
+  Mic,
+  Sparkles,
+  Target,
+} from "lucide-react"
 
 import { ProgressRing } from "@/components/ProgressRing"
 import { Badge } from "@/components/ui/badge"
@@ -54,9 +65,9 @@ export function HomeScreen() {
       {earlier.length > 0 && (
         <section className="mt-7">
           <SectionTitle icon={BookOpenText}>Oldingi darslar</SectionTitle>
-          <div className="mt-3 space-y-2.5">
-            {earlier.map((lesson) => (
-              <EarlierLessonRow key={lesson.id} lesson={lesson} />
+          <div className="mt-3 space-y-3">
+            {groupByMonth(earlier).map((group, i) => (
+              <MonthGroup key={group.month} {...group} defaultOpen={i === 0} />
             ))}
           </div>
         </section>
@@ -226,6 +237,72 @@ function CurrentLessonCard({ lesson }: { lesson: LessonSummary }) {
         </div>
       </div>
     </Link>
+  )
+}
+
+/**
+ * Darslarni o'quv oylari bo'yicha guruhlaydi: eng yangi oy tepada.
+ * Ro'yxat sanasi bo'yicha teskari tartibda keladi, guruh ichida ham shunday qoladi.
+ */
+function groupByMonth(lessons: LessonSummary[]): { month: number; lessons: LessonSummary[] }[] {
+  const groups = new Map<number, LessonSummary[]>()
+  for (const lesson of lessons) {
+    const list = groups.get(lesson.month)
+    if (list) list.push(lesson)
+    else groups.set(lesson.month, [lesson])
+  }
+  return [...groups.entries()]
+    .sort(([a], [b]) => b - a)
+    .map(([month, lessons]) => ({ month, lessons }))
+}
+
+/** Bir oyning darslari — sarlavhasini bosib yig'ish/ochish mumkin. */
+function MonthGroup({
+  month,
+  lessons,
+  defaultOpen,
+}: {
+  month: number
+  lessons: LessonSummary[]
+  defaultOpen: boolean
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const completion = lessons.reduce((sum, l) => sum + l.progress.completion, 0) / lessons.length
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => {
+          haptic.select()
+          setOpen((v) => !v)
+        }}
+        aria-expanded={open}
+        className="tap flex w-full items-center gap-3 rounded-2xl bg-muted/60 px-3.5 py-2.5 text-left"
+      >
+        <CalendarDays className="size-4 shrink-0 text-primary" />
+        <div className="min-w-0 flex-1">
+          <div className="text-sm font-semibold">{month}-oy</div>
+          <div className="text-xs text-muted-foreground">
+            {lessons.length} ta dars · {formatPercent(completion)} bajarildi
+          </div>
+        </div>
+        <ChevronDown
+          className={cn(
+            "size-4 shrink-0 text-muted-foreground transition-transform",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+
+      {open && (
+        <div className="mt-2.5 space-y-2.5">
+          {lessons.map((lesson) => (
+            <EarlierLessonRow key={lesson.id} lesson={lesson} />
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

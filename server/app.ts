@@ -159,6 +159,7 @@ app.get("/lessons", async (c) => {
         id: lesson.id,
         title: lesson.title,
         titleUz: lesson.titleUz,
+        month: lesson.month,
         level: lesson.level,
         topic: lesson.topic,
         assignedAt: lesson.assignedAt,

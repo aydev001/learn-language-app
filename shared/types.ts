@@ -23,6 +23,8 @@ export interface Lesson {
   id: string
   title: string
   titleUz: string
+  /** O'quv oyi (1, 2, ...) — ro'yxatda darslar shu bo'yicha guruhlanadi */
+  month: number
   level: "A1" | "A2" | "B1" | "B2"
   topic: string
   /** ISO sana — vazifa berilgan kun */
@@ -76,6 +78,7 @@ export interface LessonSummary {
   id: string
   title: string
   titleUz: string
+  month: number
   level: Lesson["level"]
   topic: string
   assignedAt: string
