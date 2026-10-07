@@ -4984,5 +4984,1271 @@ export const LESSON_DATA: Lesson[] = [
         }
       }
     ]
+  },
+  {
+    "id": "lesson-14",
+    "title": "ЛЕОНА́РД Э́ЙЛЕР",
+    "titleUz": "Leonard Eyler",
+    "month": 2,
+    "level": "A2",
+    "topic": "Biografiya",
+    "assignedAt": "2026-10-04",
+    "dueAt": "2026-10-04T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va Eyler nima uchun Rossiyani ikkinchi vatani deb hisoblaganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Имя замеча́тельного учёного-матема́тика Леона́рда Э́йлера изве́стно во всём ми́ре. Шко́льники и студе́нты всех стран до сих пор изуча́ют геоме́трию и а́лгебру по уче́бникам, со́зданным на осно́ве рабо́т Э́йлера.",
+        "Э́йлер роди́лся и получи́л образова́ние в Герма́нии. Когда́ ру́сский царь Пётр Пе́рвый основа́л в Петербу́рге Акаде́мию нау́к, он пригласи́л со всего́ ми́ра первокла́ссных учёных. Э́йлер то́же получи́л приглаше́ние. На ро́дине его́ предупрежда́ли, что Росси́я — огро́мная непоня́тная страна́, где о́чень хо́лодно. Но Э́йлер реши́л е́хать в Петербу́рг.",
+        "Росси́я ста́ла второ́й ро́диной для Э́йлера. Здесь он мог споко́йно рабо́тать и приноси́ть по́льзу нау́ке. За четы́рнадцать лет жи́зни в Петербу́рге Э́йлер написа́л восемьдеся́т кру́пных рабо́т. В 1736 году́ он изда́л большу́ю рабо́ту «Меха́ника», кото́рая сде́лала его́ и́мя изве́стным во всём ми́ре.",
+        "В 1740 году́ в Герма́нии была́ создана́ Акаде́мия нау́к, и Э́йлер верну́лся домо́й. С 1741 по 1766 год он жил в Берли́не. Но он не забы́л свою́ вто́рую ро́дину — Росси́ю.",
+        "Мно́гие свои́ рабо́ты он печа́тал в Петербу́рге, покупа́л для Петербу́ргской акаде́мии кни́ги и инструме́нты. В его́ до́ме подо́лгу жи́ли молоды́е ру́сские учёные. Находя́сь в Герма́нии, Э́йлер постоя́нно забо́тился о разви́тии нау́ки в Росси́и и о прести́же ру́сских учёных.",
+        "В 1766 году́ Э́йлер сно́ва прие́хал в Петербу́рг по приглаше́нию Акаде́мии нау́к и оста́лся здесь навсегда́. Несмотря́ на боле́знь (Э́йлер потеря́л зре́ние), он продолжа́л мно́го рабо́тать. В э́ти го́ды он написа́л мно́го ва́жных рабо́т, в том числе́ рабо́ту «Элеме́нты а́лгебры», кото́рая была́ сра́зу переведена́ на мно́гие языки́ ми́ра.",
+        "Э́йлер у́мер в 1783 году́ в Петербу́рге. Здесь вы́росли пя́теро его́ дете́й и три́дцать во́семь вну́ков. Пото́мки вели́кого учёного до сих пор живу́т в Росси́и. А на стене́ одного́ из петербу́ргских домо́в виси́т мра́морная доска́ с портре́том учёного и слова́ми: «Здесь жил с 1766 по 1783 год Леона́рд Э́йлер, член Петербу́ргской Акаде́мии нау́к, крупне́йший матема́тик, меха́ник и фи́зик»."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Имя замеча́тельного учёного-матема́тика Леона́рда Э́йлера изве́стно во всём ми́ре.",
+          "uz": "Ajoyib olim-matematik Leonard Eylerning nomi butun dunyoga ma'lum."
+        },
+        {
+          "id": "s2",
+          "ru": "Шко́льники и студе́нты всех стран до сих пор изуча́ют геоме́трию и а́лгебру по уче́бникам, со́зданным на осно́ве рабо́т Э́йлера.",
+          "uz": "Barcha mamlakatlarning maktab o'quvchilari va talabalari hozirgacha geometriya va algebrani Eyler ishlari asosida yaratilgan darsliklardan o'rganadilar."
+        },
+        {
+          "id": "s3",
+          "ru": "Э́йлер роди́лся и получи́л образова́ние в Герма́нии.",
+          "uz": "Eyler Germaniyada tug'ilgan va bilim olgan."
+        },
+        {
+          "id": "s4",
+          "ru": "Когда́ ру́сский царь Пётр Пе́рвый основа́л в Петербу́рге Акаде́мию нау́к, он пригласи́л со всего́ ми́ра первокла́ссных учёных.",
+          "uz": "Rus podshosi Pyotr Birinchi Peterburgda Fanlar akademiyasiga asos solganida, u butun dunyodan birinchi darajali olimlarni taklif qildi."
+        },
+        {
+          "id": "s5",
+          "ru": "Э́йлер то́же получи́л приглаше́ние.",
+          "uz": "Eyler ham taklif oldi."
+        },
+        {
+          "id": "s6",
+          "ru": "На ро́дине его́ предупрежда́ли, что Росси́я — огро́мная непоня́тная страна́, где о́чень хо́лодно.",
+          "uz": "Vatanida uni Rossiya juda katta, tushunarsiz, juda sovuq mamlakat ekanligidan ogohlantirishdi."
+        },
+        {
+          "id": "s7",
+          "ru": "Но Э́йлер реши́л е́хать в Петербу́рг.",
+          "uz": "Lekin Eyler Peterburgga borishga qaror qildi."
+        },
+        {
+          "id": "s8",
+          "ru": "Росси́я ста́ла второ́й ро́диной для Э́йлера.",
+          "uz": "Rossiya Eyler uchun ikkinchi vatanga aylandi."
+        },
+        {
+          "id": "s9",
+          "ru": "Здесь он мог споко́йно рабо́тать и приноси́ть по́льзу нау́ке.",
+          "uz": "Bu yerda u xotirjam ishlay olardi va fanga foyda keltirardi."
+        },
+        {
+          "id": "s10",
+          "ru": "За четы́рнадцать лет жи́зни в Петербу́рге Э́йлер написа́л восемьдеся́т кру́пных рабо́т.",
+          "uz": "Peterburgdagi o'n to'rt yillik hayoti davomida Eyler sakson ta yirik asar yozdi."
+        },
+        {
+          "id": "s11",
+          "ru": "В 1736 году́ он изда́л большу́ю рабо́ту «Меха́ника», кото́рая сде́лала его́ и́мя изве́стным во всём ми́ре.",
+          "uz": "1736-yilda u «Mexanika» nomli katta asarini nashr qildi, bu asar uning nomini butun dunyoga mashhur qildi."
+        },
+        {
+          "id": "s12",
+          "ru": "В 1740 году́ в Герма́нии была́ создана́ Акаде́мия нау́к, и Э́йлер верну́лся домо́й.",
+          "uz": "1740-yilda Germaniyada Fanlar akademiyasi tashkil etildi va Eyler uyiga qaytdi."
+        },
+        {
+          "id": "s13",
+          "ru": "С 1741 по 1766 год он жил в Берли́не.",
+          "uz": "1741-yildan 1766-yilgacha u Berlinda yashadi."
+        },
+        {
+          "id": "s14",
+          "ru": "Но он не забы́л свою́ вто́рую ро́дину — Росси́ю.",
+          "uz": "Lekin u o'zining ikkinchi vatani — Rossiyani unutmadi."
+        },
+        {
+          "id": "s15",
+          "ru": "Мно́гие свои́ рабо́ты он печа́тал в Петербу́рге, покупа́л для Петербу́ргской акаде́мии кни́ги и инструме́нты.",
+          "uz": "U o'zining ko'plab asarlarini Peterburgda bosmadan chiqardi, Peterburg akademiyasi uchun kitoblar va asbob-uskunalar sotib oldi."
+        },
+        {
+          "id": "s16",
+          "ru": "В его́ до́ме подо́лгу жи́ли молоды́е ру́сские учёные.",
+          "uz": "Uning uyida yosh rus olimlari uzoq muddat yashashardi."
+        },
+        {
+          "id": "s17",
+          "ru": "Находя́сь в Герма́нии, Э́йлер постоя́нно забо́тился о разви́тии нау́ки в Росси́и и о прести́же ру́сских учёных.",
+          "uz": "Germaniyada bo'lsa ham, Eyler Rossiyada fanning rivojlanishi va rus olimlarining obro'si haqida doimo qayg'urardi."
+        },
+        {
+          "id": "s18",
+          "ru": "В 1766 году́ Э́йлер сно́ва прие́хал в Петербу́рг по приглаше́нию Акаде́мии нау́к и оста́лся здесь навсегда́.",
+          "uz": "1766-yilda Eyler Fanlar akademiyasining taklifi bilan yana Peterburgga keldi va bu yerda abadiy qoldi."
+        },
+        {
+          "id": "s19",
+          "ru": "Несмотря́ на боле́знь (Э́йлер потеря́л зре́ние), он продолжа́л мно́го рабо́тать.",
+          "uz": "Kasalligiga (Eyler ko'rish qobiliyatini yo'qotgan edi) qaramay, u ko'p ishlashda davom etdi."
+        },
+        {
+          "id": "s20",
+          "ru": "В э́ти го́ды он написа́л мно́го ва́жных рабо́т, в том числе́ рабо́ту «Элеме́нты а́лгебры», кото́рая была́ сра́зу переведена́ на мно́гие языки́ ми́ра.",
+          "uz": "Shu yillarda u ko'plab muhim asarlar yozdi, jumladan «Algebra elementlari» asarini, u darhol dunyoning ko'p tillariga tarjima qilindi."
+        },
+        {
+          "id": "s21",
+          "ru": "Э́йлер у́мер в 1783 году́ в Петербу́рге.",
+          "uz": "Eyler 1783-yilda Peterburgda vafot etdi."
+        },
+        {
+          "id": "s22",
+          "ru": "Здесь вы́росли пя́теро его́ дете́й и три́дцать во́семь вну́ков.",
+          "uz": "Bu yerda uning besh nafar farzandi va o'ttiz sakkiz nevarasi o'sib ulg'aydi."
+        },
+        {
+          "id": "s23",
+          "ru": "Пото́мки вели́кого учёного до сих пор живу́т в Росси́и.",
+          "uz": "Buyuk olimning avlodlari hozirgacha Rossiyada yashaydilar."
+        },
+        {
+          "id": "s24",
+          "ru": "А на стене́ одного́ из петербу́ргских домо́в виси́т мра́морная доска́ с портре́том учёного и слова́ми: «Здесь жил с 1766 по 1783 год Леона́рд Э́йлер, член Петербу́ргской Акаде́мии нау́к, крупне́йший матема́тик, меха́ник и фи́зик».",
+          "uz": "Peterburgdagi uylardan birining devorida olimning portreti va quyidagi so'zlar bitilgan marmar lavha osilib turibdi: «Bu yerda 1766-yildan 1783-yilgacha Peterburg Fanlar akademiyasi a'zosi, eng yirik matematik, mexanik va fizik Leonard Eyler yashagan»."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Замеча́тельный",
+        "uz": "ajoyib",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то замеча́тельный день.",
+          "uz": "Bu ajoyib kun."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Учёный",
+        "uz": "olim",
+        "pos": "ot",
+        "example": {
+          "ru": "Мой оте́ц — учёный.",
+          "uz": "Mening otam — olim."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Созда́ть",
+        "uz": "yaratmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Лю́ди созда́ли э́ту маши́ну.",
+          "uz": "Odamlar bu mashinani yaratishdi."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Осно́ва",
+        "uz": "asos",
+        "pos": "ot",
+        "example": {
+          "ru": "На осно́ве э́того уче́бника мы изуча́ем ру́сский язы́к.",
+          "uz": "Biz rus tilini shu darslik asosida o'rganamiz."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Образова́ние",
+        "uz": "bilim, ta'lim",
+        "pos": "ot",
+        "example": {
+          "ru": "Он получи́л хоро́шее образова́ние.",
+          "uz": "U yaxshi ta'lim oldi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Пригласи́ть",
+        "uz": "taklif qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я приглаша́ю тебя́ на день рожде́ния.",
+          "uz": "Men seni tug'ilgan kunimga taklif qilaman."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Предупрежда́ть",
+        "uz": "ogohlantirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Врач предупрежда́л меня́ об опа́сности.",
+          "uz": "Shifokor meni xavf haqida ogohlantirgan edi."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Приноси́ть по́льзу",
+        "uz": "foyda keltirmoq",
+        "pos": "ibora",
+        "example": {
+          "ru": "Спорт прино́сит по́льзу здоро́вью.",
+          "uz": "Sport sog'liqqa foyda keltiradi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Изда́ть",
+        "uz": "chiqarmoq, nashr qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Писа́тель изда́л но́вую кни́гу.",
+          "uz": "Yozuvchi yangi kitob nashr qildi."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Печа́тать",
+        "uz": "bosmadan chiqarmoq, chop etmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Газе́та печа́тает но́вости.",
+          "uz": "Gazeta yangiliklarni chop etadi."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Инструме́нт",
+        "uz": "qurol, asbob",
+        "pos": "ot",
+        "example": {
+          "ru": "Отцу́ нужны́ инструме́нты для рабо́ты.",
+          "uz": "Otamga ish uchun asboblar kerak."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Забо́титься",
+        "uz": "qayg'urmoq, g'amxo'rlik qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́ма забо́тится о дета́х.",
+          "uz": "Onam bolalar haqida qayg'uradi."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Навсегда́",
+        "uz": "abadiy, butunlay",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он уе́хал навсегда́.",
+          "uz": "U butunlay ketib qoldi."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Вы́расти",
+        "uz": "o'smoq, ulg'aymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он вы́рос в большо́й семье́.",
+          "uz": "U katta oilada o'sdi."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Пото́мки",
+        "uz": "avlodlar",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы — пото́мки вели́ких люде́й.",
+          "uz": "Biz buyuk odamlarning avlodlarimiz."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Стена́",
+        "uz": "devor",
+        "pos": "ot",
+        "example": {
+          "ru": "На стене́ виси́т карти́на.",
+          "uz": "Devorda rasm osilib turibdi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Изве́стный",
+        "uz": "ma'lum, mashhur",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то изве́стный учёный.",
+          "uz": "Bu mashhur olim."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Кру́пный",
+        "uz": "katta, yirik",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то кру́пный го́род.",
+          "uz": "Bu yirik shahar."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Разви́тие",
+        "uz": "rivojlanish",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы говори́м о разви́тии нау́ки.",
+          "uz": "Biz fanning rivojlanishi haqida gaplashyapmiz."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Подо́лгу",
+        "uz": "uzoq muddat, uzoq vaqt",
+        "pos": "ravish",
+        "example": {
+          "ru": "Он подо́лгу сиде́л в библиоте́ке.",
+          "uz": "U kutubxonada uzoq vaqt o'tirardi."
+        }
+      }
+    ]
+  },
+  {
+    "id": "lesson-15",
+    "title": "ЧЕЛОВЕ́К, КОТО́РЫЙ ВЫПОЛНЯ́Л ПРА́ВИЛА",
+    "titleUz": "Qoidalarga amal qilgan odam",
+    "month": 2,
+    "level": "A2",
+    "topic": "Hikoya",
+    "assignedAt": "2026-10-05",
+    "dueAt": "2026-10-05T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va mister Tom nima uchun yomg'ir ostida vagon zinapoyasida o'tirganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Э́та шутли́вая исто́рия рассказывает об англича́нине, кото́рый всегда́ выполня́л все пра́вила. Его́ зва́ли ми́стер Том. Он служи́л на желе́зной доро́ге. Ста́нция, на кото́рой он служи́л, была́ о́чень ма́ленькая. Здесь остана́вливалось не бо́льше двух поездо́в в день, и ми́стер Том был и ста́нционным ма́стером, и носи́льщиком, и сигна́льщиком одновре́менно. Е́сли сказа́ть пра́вду, вся рабо́та, кото́рая была́ на ста́нции, выполня́лась ми́стером То́мом. И не́ было в А́нглии челове́ка счастли́вее его́.",
+        "Ста́нция была́ его́ го́рдостью. Зал ожида́ния был убра́н ка́ждый день, сту́лья бы́ли вы́мыты, биле́ты бы́ли про́даны, де́ньги бы́ли посчи́таны и сда́ны. Иногда́ э́то бы́ло то́лько четы́ре биле́та в день, но всё на ста́нции бы́ло сде́лано пра́вильно и во́время. Э́та ста́нция была́ изве́стна в А́нглии тем, что на ней рабо́тал са́мый стро́гий и пунктуа́льный челове́к. Он хорошо́ знал, что разрешено́ де́лать пассажи́рам, а что запрещено́, где разрешено́ кури́ть, а где запрещено́. И е́сли кто́-то из пассажи́ров нарушал пра́вила, ми́стер Том де́лал ему́ замеча́ние.",
+        "Ми́стер Том служи́л на доро́ге пятьдеся́т лет, и пришло́ вре́мя для него́ уйти́ на пе́нсию. Ни у кого́ не бы́ло сомне́ний в том, что ми́стер Том всегда́ выполня́л свою́ рабо́ту прекра́сно, все пятьдеся́т лет он всегда́ был на своём рабо́чем ме́сте, он не пропусти́л ни одного́ дня. Была́ организо́вана проща́льная церемо́ния, и глава́ компа́нии был приглашён на неё.",
+        "Ми́стера То́ма поблагодари́ли и вручи́ли ему́ дене́жный чек. Ми́стер Том поблагодари́л своего́ ше́фа, но сказа́л, что де́ньги ему́ не нужны́. Он всегда́ жил о́чень эконо́мно и собра́л доста́точно де́нег, что́бы жить споко́йно на ста́рости лет.",
+        "«Вме́сто э́того, — сказа́л он своему́ ше́фу, — я хоте́л бы попроси́ть у вас одну́ вещь, кото́рая напомина́ла бы мне о года́х, проведённых мно́й на мое́й люби́мой ста́нции». Шеф был удивлён, но сказа́л, что всё, о чём попро́сит ми́стер Том, бу́дет сде́лано.",
+        "Тогда́ ми́стер Том сказа́л: «Не могла́ бы компа́ния пода́рить мне ста́рый вагон? Не ва́жно — наско́лько он бу́дет стар и́ли сло́ман. Я тепе́рь на пе́нсии, и у меня́ доста́точно вре́мени, что́бы отремонти́ровать его́. Я хоте́л бы поста́вить э́тот вагон в моём саду́, и тогда́ я ка́ждый день мог бы сиде́ть в нём и вспомина́ть о счастли́вых дня́х, кото́рые бы́ли проведены́ мно́й на ста́нции».",
+        "Компа́ния согласи́лась, и че́рез неде́лю в саду́ ми́стера То́ма был поста́влен ста́рый вагон. Ми́стер Том ка́ждое у́тро ходи́л к нему́ как бу́дто на рабо́ту. Вагон был тепе́рь покра́шен и убра́н, он вы́глядел прекра́сно.",
+        "Одна́жды, год спустя́, брат ми́стера То́ма Джордж прие́хал к нему́ в го́сти. Он прошёл по доро́жке к до́му и позвони́л в дверь. Пого́да была́ не о́чень хоро́шая, начина́лся дождь. Ми́стер Джордж подожда́л немно́го, пото́м заме́тил, что дверь до́ма не закры́та. Он вошёл в дом, но не нашёл ми́стера То́ма в до́ме. Тогда́ ми́стер Джордж догада́лся, что брат нахо́дится где́-то о́коло своего́ люби́мого вагона. Так и оказа́лось. Когда́ ми́стер Джордж прошёл в коне́ц са́да, он уви́дел своего́ бра́та, кото́рый сиде́л,... нет, не в вагоне, а на ступе́ньке вагона и кури́л свою́ тру́бку. Шёл уже́ си́льный холо́дный дождь, голова́ и оде́жда ми́стера То́ма бы́ли мокрыми.",
+        "Ми́стер Джордж удиви́лся. «Дорого́й Том! Почему́ ты сиди́шь здесь, почему́ ты не войдёшь в вагон и не спря́чешься там от дождя́?» «Ра́зве ты не ви́дишь, — отве́тил ми́стер Том, — посмотри́ на табли́чку, кото́рая виси́т на двери́ моего́ вагона? Вагон, кото́рый был пода́рен мне, — э́то вагон для некуря́щих!»"
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Э́та шутли́вая исто́рия рассказывает об англича́нине, кото́рый всегда́ выполня́л все пра́вила.",
+          "uz": "Bu hazilomuz voqea doim barcha qoidalarga amal qiladigan bir inglis haqida hikoya qiladi."
+        },
+        {
+          "id": "s2",
+          "ru": "Его́ зва́ли ми́стер Том.",
+          "uz": "Uning ismi mister Tom edi."
+        },
+        {
+          "id": "s3",
+          "ru": "Он служи́л на желе́зной доро́ге.",
+          "uz": "U temir yo'lda xizmat qilardi."
+        },
+        {
+          "id": "s4",
+          "ru": "Ста́нция, на кото́рой он служи́л, была́ о́чень ма́ленькая.",
+          "uz": "U xizmat qilgan stansiya juda kichkina edi."
+        },
+        {
+          "id": "s5",
+          "ru": "Здесь остана́вливалось не бо́льше двух поездо́в в день, и ми́стер Том был и ста́нционным ма́стером, и носи́льщиком, и сигна́льщиком одновре́менно.",
+          "uz": "Bu yerda kuniga ikkitadan ko'p bo'lmagan poyezd to'xtardi va mister Tom bir vaqtning o'zida ham stansiya ustasi, ham yuk tashuvchi, ham signalchi edi."
+        },
+        {
+          "id": "s6",
+          "ru": "Е́сли сказа́ть пра́вду, вся рабо́та, кото́рая была́ на ста́нции, выполня́лась ми́стером То́мом.",
+          "uz": "Rostini aytganda, stansiyadagi barcha ishni mister Tom bajarardi."
+        },
+        {
+          "id": "s7",
+          "ru": "И не́ было в А́нглии челове́ка счастли́вее его́.",
+          "uz": "Va Angliyada undan baxtliroq odam yo'q edi."
+        },
+        {
+          "id": "s8",
+          "ru": "Ста́нция была́ его́ го́рдостью.",
+          "uz": "Stansiya uning g'ururi edi."
+        },
+        {
+          "id": "s9",
+          "ru": "Зал ожида́ния был убра́н ка́ждый день, сту́лья бы́ли вы́мыты, биле́ты бы́ли про́даны, де́ньги бы́ли посчи́таны и сда́ны.",
+          "uz": "Kutish zali har kuni yig'ishtirilgan, stullar yuvilgan, chiptalar sotilgan, pullar sanalib topshirilgan bo'lardi."
+        },
+        {
+          "id": "s10",
+          "ru": "Иногда́ э́то бы́ло то́лько четы́ре биле́та в день, но всё на ста́нции бы́ло сде́лано пра́вильно и во́время.",
+          "uz": "Ba'zan kuniga atigi to'rtta chipta bo'lardi, lekin stansiyadagi hamma narsa to'g'ri va o'z vaqtida bajarilardi."
+        },
+        {
+          "id": "s11",
+          "ru": "Э́та ста́нция была́ изве́стна в А́нглии тем, что на ней рабо́тал са́мый стро́гий и пунктуа́льный челове́к.",
+          "uz": "Bu stansiya Angliyada eng qattiqqo'l va punktual odam ishlagani bilan mashhur edi."
+        },
+        {
+          "id": "s12",
+          "ru": "Он хорошо́ знал, что разрешено́ де́лать пассажи́рам, а что запрещено́, где разрешено́ кури́ть, а где запрещено́.",
+          "uz": "U yo'lovchilarga nima qilish mumkinligini, nima mumkin emasligini, qayerda chekish mumkinligini, qayerda mumkin emasligini yaxshi bilardi."
+        },
+        {
+          "id": "s13",
+          "ru": "И е́сли кто́-то из пассажи́ров нарушал пра́вила, ми́стер Том де́лал ему́ замеча́ние.",
+          "uz": "Va agar yo'lovchilardan kimdir qoidalarni buzsa, mister Tom unga tanbeh berardi."
+        },
+        {
+          "id": "s14",
+          "ru": "Ми́стер Том служи́л на доро́ге пятьдеся́т лет, и пришло́ вре́мя для него́ уйти́ на пе́нсию.",
+          "uz": "Mister Tom temir yo'lda ellik yil xizmat qildi va uning nafaqaga chiqish vaqti keldi."
+        },
+        {
+          "id": "s15",
+          "ru": "Ни у кого́ не бы́ло сомне́ний в том, что ми́стер Том всегда́ выполня́л свою́ рабо́ту прекра́сно, все пятьдеся́т лет он всегда́ был на своём рабо́чем ме́сте, он не пропусти́л ни одного́ дня.",
+          "uz": "Mister Tom o'z ishini doim a'lo darajada bajarganiga hech kimda shubha yo'q edi: ellik yil davomida u doim ish joyida bo'ldi, bir kunni ham o'tkazib yubormadi."
+        },
+        {
+          "id": "s16",
+          "ru": "Была́ организо́вана проща́льная церемо́ния, и глава́ компа́нии был приглашён на неё.",
+          "uz": "Xayrlashuv marosimi uyushtirildi va kompaniya rahbari unga taklif qilindi."
+        },
+        {
+          "id": "s17",
+          "ru": "Ми́стера То́ма поблагодари́ли и вручи́ли ему́ дене́жный чек.",
+          "uz": "Mister Tomga minnatdorchilik bildirishdi va unga pul cheki topshirishdi."
+        },
+        {
+          "id": "s18",
+          "ru": "Ми́стер Том поблагодари́л своего́ ше́фа, но сказа́л, что де́ньги ему́ не нужны́.",
+          "uz": "Mister Tom boshlig'iga rahmat aytdi, lekin pul unga kerak emasligini aytdi."
+        },
+        {
+          "id": "s19",
+          "ru": "Он всегда́ жил о́чень эконо́мно и собра́л доста́точно де́нег, что́бы жить споко́йно на ста́рости лет.",
+          "uz": "U doim juda tejamkor yashagan va keksalikda xotirjam yashash uchun yetarli pul yig'gan edi."
+        },
+        {
+          "id": "s20",
+          "ru": "«Вме́сто э́того, — сказа́л он своему́ ше́фу, — я хоте́л бы попроси́ть у вас одну́ вещь, кото́рая напомина́ла бы мне о года́х, проведённых мно́й на мое́й люби́мой ста́нции».",
+          "uz": "«Buning o'rniga, — dedi u boshlig'iga, — sizdan sevimli stansiyamda o'tkazgan yillarimni eslatib turadigan bitta narsani so'rasam."
+        },
+        {
+          "id": "s21",
+          "ru": "Шеф был удивлён, но сказа́л, что всё, о чём попро́сит ми́стер Том, бу́дет сде́лано.",
+          "uz": "Boshliq hayron bo'ldi, lekin mister Tom nimani so'rasa, hammasi bajarilishini aytdi."
+        },
+        {
+          "id": "s22",
+          "ru": "Тогда́ ми́стер Том сказа́л: «Не могла́ бы компа́ния пода́рить мне ста́рый вагон?",
+          "uz": "Shunda mister Tom dedi: «Kompaniya menga eski vagonni sovg'a qila olmasmikin?"
+        },
+        {
+          "id": "s23",
+          "ru": "Не ва́жно — наско́лько он бу́дет стар и́ли сло́ман.",
+          "uz": "Qanchalik eski yoki buzuq bo'lishi muhim emas."
+        },
+        {
+          "id": "s24",
+          "ru": "Я тепе́рь на пе́нсии, и у меня́ доста́точно вре́мени, что́бы отремонти́ровать его́.",
+          "uz": "Men hozir nafaqadaman va uni ta'mirlash uchun vaqtim yetarli."
+        },
+        {
+          "id": "s25",
+          "ru": "Я хоте́л бы поста́вить э́тот вагон в моём саду́, и тогда́ я ка́ждый день мог бы сиде́ть в нём и вспомина́ть о счастли́вых дня́х, кото́рые бы́ли проведены́ мно́й на ста́нции».",
+          "uz": "Men bu vagonni bog'imga qo'ymoqchiman, shunda har kuni uning ichida o'tirib, stansiyada o'tkazgan baxtli kunlarimni eslagan bo'lardim»."
+        },
+        {
+          "id": "s26",
+          "ru": "Компа́ния согласи́лась, и че́рез неде́лю в саду́ ми́стера То́ма был поста́влен ста́рый вагон.",
+          "uz": "Kompaniya rozi bo'ldi va bir haftadan keyin mister Tomning bog'iga eski vagon o'rnatildi."
+        },
+        {
+          "id": "s27",
+          "ru": "Ми́стер Том ка́ждое у́тро ходи́л к нему́ как бу́дто на рабо́ту.",
+          "uz": "Mister Tom har ertalab go'yo ishga ketayotgandek unga borardi."
+        },
+        {
+          "id": "s28",
+          "ru": "Вагон был тепе́рь покра́шен и убра́н, он вы́глядел прекра́сно.",
+          "uz": "Vagon endi bo'yalgan va tozalangan edi, u a'lo ko'rinardi."
+        },
+        {
+          "id": "s29",
+          "ru": "Одна́жды, год спустя́, брат ми́стера То́ма Джордж прие́хал к нему́ в го́сти.",
+          "uz": "Bir kuni, bir yil o'tgach, mister Tomning birodari Jorj uning oldiga mehmonga keldi."
+        },
+        {
+          "id": "s30",
+          "ru": "Он прошёл по доро́жке к до́му и позвони́л в дверь.",
+          "uz": "U yo'lakdan uyga yurib bordi va eshikni jiringlatdi."
+        },
+        {
+          "id": "s31",
+          "ru": "Пого́да была́ не о́чень хоро́шая, начина́лся дождь.",
+          "uz": "Ob-havo unchalik yaxshi emas edi, yomg'ir boshlanayotgan edi."
+        },
+        {
+          "id": "s32",
+          "ru": "Ми́стер Джордж подожда́л немно́го, пото́м заме́тил, что дверь до́ма не закры́та.",
+          "uz": "Mister Jorj biroz kutdi, keyin uyning eshigi yopilmaganini payqadi."
+        },
+        {
+          "id": "s33",
+          "ru": "Он вошёл в дом, но не нашёл ми́стера То́ма в до́ме.",
+          "uz": "U uyga kirdi, lekin mister Tomni uyda topmadi."
+        },
+        {
+          "id": "s34",
+          "ru": "Тогда́ ми́стер Джордж догада́лся, что брат нахо́дится где́-то о́коло своего́ люби́мого вагона.",
+          "uz": "Shunda mister Jorj birodari o'zining sevimli vagoni yaqinida bir joyda ekanini fahmladi."
+        },
+        {
+          "id": "s35",
+          "ru": "Так и оказа́лось.",
+          "uz": "Haqiqatan ham shunday bo'lib chiqdi."
+        },
+        {
+          "id": "s36",
+          "ru": "Когда́ ми́стер Джордж прошёл в коне́ц са́да, он уви́дел своего́ бра́та, кото́рый сиде́л,... нет, не в вагоне, а на ступе́ньке вагона и кури́л свою́ тру́бку.",
+          "uz": "Mister Jorj bog'ning oxiriga o'tganda, birodarini ko'rdi, u o'tirgan edi... yo'q, vagon ichida emas, vagonning zinapoyasida o'tirib, trubkasini chekardi."
+        },
+        {
+          "id": "s37",
+          "ru": "Шёл уже́ си́льный холо́дный дождь, голова́ и оде́жда ми́стера То́ма бы́ли мокрыми.",
+          "uz": "Allaqachon kuchli sovuq yomg'ir yog'ayotgan edi, mister Tomning boshi va kiyimlari ho'l edi."
+        },
+        {
+          "id": "s38",
+          "ru": "Ми́стер Джордж удиви́лся.",
+          "uz": "Mister Jorj hayron bo'ldi."
+        },
+        {
+          "id": "s39",
+          "ru": "«Дорого́й Том!",
+          "uz": "«Aziz Tom!"
+        },
+        {
+          "id": "s40",
+          "ru": "Почему́ ты сиди́шь здесь, почему́ ты не войдёшь в вагон и не спря́чешься там от дождя́?»",
+          "uz": "Nega bu yerda o'tiribsan, nega vagonga kirib, u yerda yomg'irdan berkinmayapsan?»"
+        },
+        {
+          "id": "s41",
+          "ru": "«Ра́зве ты не ви́дишь, — отве́тил ми́стер Том, — посмотри́ на табли́чку, кото́рая виси́т на двери́ моего́ вагона?",
+          "uz": "«Ko'rmayapsanmi, — javob berdi mister Tom, — vagonimning eshigida osilib turgan lavhaga qara."
+        },
+        {
+          "id": "s42",
+          "ru": "Вагон, кото́рый был пода́рен мне, — э́то вагон для некуря́щих!»",
+          "uz": "Menga sovg'a qilingan vagon — chekmaydiganlar uchun vagon!»"
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Шутли́вый",
+        "uz": "hazilchan, hazilga moyil",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он шутли́вый челове́к.",
+          "uz": "U hazilkash odam."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "Выполня́ть",
+        "uz": "bajarmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ученики́ выполня́ют зада́ние.",
+          "uz": "O'quvchilar topshiriqni bajarishyapti."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Желе́зный",
+        "uz": "temir, temirdan yasalgan",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́то желе́зная дверь.",
+          "uz": "Bu temir eshik."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Служи́ть",
+        "uz": "xizmat qilmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мой брат служит в а́рмии.",
+          "uz": "Akam armiyada xizmat qiladi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Носи́льщик",
+        "uz": "yuk tashuvchi, ko'taruvchi",
+        "pos": "ot",
+        "example": {
+          "ru": "Носи́льщик помо́г нам с чемода́нами.",
+          "uz": "Yuk tashuvchi bizga chamadonlarda yordam berdi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Го́рдый",
+        "uz": "mag'rur, g'ururli",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он го́рдый челове́к.",
+          "uz": "U mag'rur odam."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Вы́мотать",
+        "uz": "holdan toydirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Дорога вы́мотала меня́.",
+          "uz": "Yo'l meni holdan toydirdi."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Прода́ть",
+        "uz": "sotmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Он прода́л свою́ маши́ну.",
+          "uz": "U mashinasini sotdi."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Посчита́ть",
+        "uz": "hisoblamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Посчита́й, ско́лько здесь люде́й.",
+          "uz": "Bu yerda necha odam borligini hisobla."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "Сдать",
+        "uz": "topshirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Студе́нты сда́ли экза́мен.",
+          "uz": "Talabalar imtihon topshirishdi."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Стро́гий",
+        "uz": "qat'iy, qattiqqo'l",
+        "pos": "sifat",
+        "example": {
+          "ru": "У нас стро́гий учи́тель.",
+          "uz": "Bizning o'qituvchimiz qattiqqo'l."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Нару́шать",
+        "uz": "buzmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Нельзя́ нару́шать пра́вила.",
+          "uz": "Qoidalarni buzish mumkin emas."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Пра́вила",
+        "uz": "qoidalar",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы зна́ем пра́вила доро́жного движе́ния.",
+          "uz": "Biz yo'l harakati qoidalarini bilamiz."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Вручи́ть",
+        "uz": "topshirmoq, taqdim etmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Дире́ктор вручи́л ему́ награ́ду.",
+          "uz": "Direktor unga mukofot topshirdi."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Напомина́ть",
+        "uz": "eslatmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Э́та пе́сня напомина́ет мне де́тство.",
+          "uz": "Bu qo'shiq menga bolalikni eslatadi."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Проводи́ть",
+        "uz": "o'tkazmoq / kuzatib qo'ymoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы провели́ о́тпуск на мо́ре.",
+          "uz": "Biz ta'tilni dengizda o'tkazdik."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Покра́сить",
+        "uz": "bo'yamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Оте́ц покра́сил забо́р.",
+          "uz": "Otam panjarani bo'yadi."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Догада́ться",
+        "uz": "tushunib yetmoq, fahmlamoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Я сра́зу догада́лся, что он врёт.",
+          "uz": "Men uning yolg'on gapirayotganini darhol fahmladim."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Мо́крый",
+        "uz": "ho'l",
+        "pos": "sifat",
+        "example": {
+          "ru": "У меня́ мо́края оде́жда.",
+          "uz": "Mening kiyimlarim ho'l."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Спря́таться",
+        "uz": "yashirinmoq, berkinmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ребёнок спря́тался под столо́м.",
+          "uz": "Bola stol tagiga yashirindi."
+        }
+      }
+    ]
+  },
+  {
+    "id": "lesson-16",
+    "title": "НО́ВЫЙ РОБИНЗО́Н",
+    "titleUz": "Yangi Robinzon",
+    "month": 2,
+    "level": "A2",
+    "topic": "Hikoya",
+    "assignedAt": "2026-10-07",
+    "dueAt": "2026-10-07T23:00:00+05:00",
+    "reading": {
+      "introUz": "Matnni ovoz chiqarib o'qing va Paulus orolda omon qolish uchun nimalar qilganini tushunishga harakat qiling.",
+      "paragraphs": [
+        "Э́то случи́лось неда́вно. Лито́вский спортсме́н Па́улус Норма́нтас реши́л провести́ свой о́тпуск на берегу́ Ара́льского мо́ря. Он ча́сто слы́шал расска́зы рыбако́в о том, что там о́чень интере́сная приро́да, краси́вые острова́ и о́чень мно́го ры́бы. Па́улус подгото́вил всё необходи́мое, взял ло́дку, подво́дное ружьё, фотоаппара́т, запа́с проду́ктов и отпра́вился в э́то тру́дное путеше́ствие.",
+        "Э́то бы́ло весно́й — в конце́ ма́рта, пого́да стоя́ла холо́дная. Снача́ла всё бы́ло хорошо́. Па́улус плыл в ло́дке, с интере́сом рассма́тривал берега́ Ара́льского мо́ря, кото́рое в э́то вре́мя го́да о́чень пусты́нно. Когда́ он уста́л, он реши́л подплы́ть к о́строву и немно́го отдохну́ть. Вы́йдя из ло́дки, он вы́тащил её на бе́рег, взял рюкза́к и пошёл осма́тривать о́стров. Вокру́г бы́ли за́росли камыша́, из-под ног вылета́ли ста́и кру́пных краси́вых пти́ц. Люде́й на о́строве не́ было. Осмотре́в ме́стность, Па́улус верну́лся на бе́рег. Но... ло́дки на берегу́ не́ было. Далеко́ в мо́ре он уви́дел бе́лый па́рус. Па́улус по́нял: вода́ подняла́ ло́дку и унесла́ её в откры́тое мо́ре. Па́улус оста́лся на о́строве оди́н.",
+        "Снача́ла он о́чень испуга́лся. Он не знал, когда́ здесь мо́гут появи́ться лю́ди и ско́лько вре́мени он до́лжен бу́дет жить на о́строве оди́н. Он осмотре́л свои́ ве́щи: ружьё, нож, ли́нза, немно́го хле́ба, са́хара, ча́я, муки́, спи́чки, люби́мая кни́га. Что де́лать? Он до́лжен был наде́яться то́лько на свои́ си́лы.",
+        "Па́улус разжёг костёр, пригото́вил чай. Вода́ здесь была́ немно́го солонова́тая, но её мо́жно бы́ло пить. В э́ту ночь он не спал из-за хо́лода. Но на сле́дующую ночь он сде́лал из гли́ны ма́ленький до́мик, где мо́жно бы́ло то́лько сиде́ть и лежа́ть.",
+        "Так нача́лась его́ жизнь на о́строве. Ни на сле́дующий день, ни че́рез неде́лю лю́ди на о́строве не появи́лись. Проду́кты ко́нчились. Не́сколько дней Па́улус голода́л. В мо́ре бы́ло мно́го ры́бы, у Па́улуса бы́ло подво́дное ружьё, но температу́ра воды́ была́ о́коло плюс восьми́ гра́дусов. Ско́лько мину́т мо́жет челове́к проплы́ть в тако́й холо́дной воде́, не риску́я заболе́ть? А боле́ть нельзя́, боле́знь — э́то смерть. Па́улус реши́л нача́ть подгото́вку: ка́ждое у́тро он де́лал упражне́ния, бе́гал вокру́г о́строва, а пото́м пла́вал в воде́, ско́лько хвата́ло сил, постепе́нно увели́чивая вре́мя.",
+        "На восьмо́й день он нача́л подво́дную охо́ту. Че́рез три дня он смог наконе́ц пойма́ть большу́ю ры́бу. Ел её осторо́жно, ме́дленно, чу́вствуя, как возвраща́ются си́лы. С э́того дня жизнь ста́ла ле́гче. Мо́ре тепле́ло, со́лнце свети́ло всё я́рче и я́рче. Ско́ро на о́строве появи́лась трава́, а с ней и враги́ — зме́и и скорпио́ны.",
+        "Шёл день за днём, неде́ля за неде́лей. У Па́улуса уже́ бы́ли свои́ ма́ленькие ра́дости: прилете́ли но́вые пти́цы, пришли́ черепа́хи. Бы́ли и неприя́тности: на о́строве нача́лся пожа́р. Па́улус до́лжен был поки́нуть о́стров. В уже́ потеплевшей воде́, сде́лав небольшо́й плот, он переплы́л на сосе́дний острово́к. Тепе́рь ка́ждый день он лови́л мно́го ры́бы, он её варил, запека́л, суши́л. Днём он был за́нят с утра́ до ве́чера. Ве́чером он чита́л свою́ еди́нственную кни́гу «Морско́й орёл» О́лдриджа.",
+        "Ко́нчился ме́сяц его́ пребыва́ния на о́строве. Са́мые тру́дные дни бы́ли позади́. С ка́ждым днём тепле́л во́здух, но всё трудне́е станови́лось одино́чество. Нача́л разгова́ривать сам с собо́й, с пти́цами, с ры́бами."
+      ],
+      "sentences": [
+        {
+          "id": "s1",
+          "ru": "Э́то случи́лось неда́вно.",
+          "uz": "Bu yaqinda sodir bo'ldi."
+        },
+        {
+          "id": "s2",
+          "ru": "Лито́вский спортсме́н Па́улус Норма́нтас реши́л провести́ свой о́тпуск на берегу́ Ара́льского мо́ря.",
+          "uz": "Litvalik sportchi Paulus Normantas ta'tilini Orol dengizi sohilida o'tkazishga qaror qildi."
+        },
+        {
+          "id": "s3",
+          "ru": "Он ча́сто слы́шал расска́зы рыбако́в о том, что там о́чень интере́сная приро́да, краси́вые острова́ и о́чень мно́го ры́бы.",
+          "uz": "U baliqchilarning u yerda tabiat juda qiziq, orollar chiroyli va baliq juda ko'p ekani haqidagi hikoyalarini tez-tez eshitgan edi."
+        },
+        {
+          "id": "s4",
+          "ru": "Па́улус подгото́вил всё необходи́мое, взял ло́дку, подво́дное ружьё, фотоаппара́т, запа́с проду́ктов и отпра́вился в э́то тру́дное путеше́ствие.",
+          "uz": "Paulus kerakli hamma narsani tayyorladi, qayiq, suv osti miltig'i, fotoapparat, oziq-ovqat zaxirasini oldi va bu qiyin sayohatga yo'l oldi."
+        },
+        {
+          "id": "s5",
+          "ru": "Э́то бы́ло весно́й — в конце́ ма́рта, пого́да стоя́ла холо́дная.",
+          "uz": "Bu bahorda — mart oxirida edi, ob-havo sovuq turardi."
+        },
+        {
+          "id": "s6",
+          "ru": "Снача́ла всё бы́ло хорошо́.",
+          "uz": "Avval hamma narsa yaxshi edi."
+        },
+        {
+          "id": "s7",
+          "ru": "Па́улус плыл в ло́дке, с интере́сом рассма́тривал берега́ Ара́льского мо́ря, кото́рое в э́то вре́мя го́да о́чень пусты́нно.",
+          "uz": "Paulus qayiqda suzib borar, yilning shu faslida juda huvillab yotgan Orol dengizi sohillariga qiziqish bilan qarardi."
+        },
+        {
+          "id": "s8",
+          "ru": "Когда́ он уста́л, он реши́л подплы́ть к о́строву и немно́го отдохну́ть.",
+          "uz": "Charchaganida, u orolga suzib borib, biroz dam olishga qaror qildi."
+        },
+        {
+          "id": "s9",
+          "ru": "Вы́йдя из ло́дки, он вы́тащил её на бе́рег, взял рюкза́к и пошёл осма́тривать о́стров.",
+          "uz": "Qayiqdan chiqib, uni sohilga tortib chiqardi, ryukzakni oldi va orolni ko'zdan kechirgani ketdi."
+        },
+        {
+          "id": "s10",
+          "ru": "Вокру́г бы́ли за́росли камыша́, из-под ног вылета́ли ста́и кру́пных краси́вых пти́ц.",
+          "uz": "Atrofda qamish chakalakzorlari bor edi, oyoq ostidan yirik, chiroyli qushlarning to'dalari uchib chiqardi."
+        },
+        {
+          "id": "s11",
+          "ru": "Люде́й на о́строве не́ было.",
+          "uz": "Orolda odamlar yo'q edi."
+        },
+        {
+          "id": "s12",
+          "ru": "Осмотре́в ме́стность, Па́улус верну́лся на бе́рег.",
+          "uz": "Joyni ko'zdan kechirib, Paulus sohilga qaytdi."
+        },
+        {
+          "id": "s13",
+          "ru": "Но... ло́дки на берегу́ не́ было.",
+          "uz": "Lekin... sohilda qayiq yo'q edi."
+        },
+        {
+          "id": "s14",
+          "ru": "Далеко́ в мо́ре он уви́дел бе́лый па́рус.",
+          "uz": "Dengizda uzoqda u oq yelkanni ko'rdi."
+        },
+        {
+          "id": "s15",
+          "ru": "Па́улус по́нял: вода́ подняла́ ло́дку и унесла́ её в откры́тое мо́ре.",
+          "uz": "Paulus tushundi: suv qayiqni ko'tarib, ochiq dengizga olib ketgan."
+        },
+        {
+          "id": "s16",
+          "ru": "Па́улус оста́лся на о́строве оди́н.",
+          "uz": "Paulus orolda yolg'iz qoldi."
+        },
+        {
+          "id": "s17",
+          "ru": "Снача́ла он о́чень испуга́лся.",
+          "uz": "Avval u juda qo'rqib ketdi."
+        },
+        {
+          "id": "s18",
+          "ru": "Он не знал, когда́ здесь мо́гут появи́ться лю́ди и ско́лько вре́мени он до́лжен бу́дет жить на о́строве оди́н.",
+          "uz": "U bu yerda odamlar qachon paydo bo'lishini va orolda qancha vaqt yolg'iz yashashi kerakligini bilmasdi."
+        },
+        {
+          "id": "s19",
+          "ru": "Он осмотре́л свои́ ве́щи: ружьё, нож, ли́нза, немно́го хле́ба, са́хара, ча́я, муки́, спи́чки, люби́мая кни́га.",
+          "uz": "U o'z narsalarini ko'zdan kechirdi: miltiq, pichoq, linza, ozgina non, shakar, choy, un, gugurt, sevimli kitob."
+        },
+        {
+          "id": "s20",
+          "ru": "Что де́лать?",
+          "uz": "Nima qilish kerak?"
+        },
+        {
+          "id": "s21",
+          "ru": "Он до́лжен был наде́яться то́лько на свои́ си́лы.",
+          "uz": "U faqat o'z kuchiga umid qilishi kerak edi."
+        },
+        {
+          "id": "s22",
+          "ru": "Па́улус разжёг костёр, пригото́вил чай.",
+          "uz": "Paulus gulxan yoqdi, choy tayyorladi."
+        },
+        {
+          "id": "s23",
+          "ru": "Вода́ здесь была́ немно́го солонова́тая, но её мо́жно бы́ло пить.",
+          "uz": "Bu yerdagi suv biroz sho'r edi, lekin uni ichsa bo'lardi."
+        },
+        {
+          "id": "s24",
+          "ru": "В э́ту ночь он не спал из-за хо́лода.",
+          "uz": "O'sha kecha u sovuqdan uxlamadi."
+        },
+        {
+          "id": "s25",
+          "ru": "Но на сле́дующую ночь он сде́лал из гли́ны ма́ленький до́мик, где мо́жно бы́ло то́лько сиде́ть и лежа́ть.",
+          "uz": "Lekin keyingi kechasi u loydan kichkina uycha yasadi, u yerda faqat o'tirish va yotish mumkin edi."
+        },
+        {
+          "id": "s26",
+          "ru": "Так нача́лась его́ жизнь на о́строве.",
+          "uz": "Shunday qilib, uning orolda hayoti boshlandi."
+        },
+        {
+          "id": "s27",
+          "ru": "Ни на сле́дующий день, ни че́рез неде́лю лю́ди на о́строве не появи́лись.",
+          "uz": "Na ertasi kuni, na bir haftadan keyin orolda odamlar paydo bo'lmadi."
+        },
+        {
+          "id": "s28",
+          "ru": "Проду́кты ко́нчились.",
+          "uz": "Oziq-ovqat tugadi."
+        },
+        {
+          "id": "s29",
+          "ru": "Не́сколько дней Па́улус голода́л.",
+          "uz": "Paulus bir necha kun och qoldi."
+        },
+        {
+          "id": "s30",
+          "ru": "В мо́ре бы́ло мно́го ры́бы, у Па́улуса бы́ло подво́дное ружьё, но температу́ра воды́ была́ о́коло плюс восьми́ гра́дусов.",
+          "uz": "Dengizda baliq ko'p edi, Paulusda suv osti miltig'i bor edi, lekin suv harorati taxminan sakkiz daraja issiq edi."
+        },
+        {
+          "id": "s31",
+          "ru": "Ско́лько мину́т мо́жет челове́к проплы́ть в тако́й холо́дной воде́, не риску́я заболе́ть?",
+          "uz": "Odam shunday sovuq suvda kasal bo'lish xavfisiz necha daqiqa suza oladi?"
+        },
+        {
+          "id": "s32",
+          "ru": "А боле́ть нельзя́, боле́знь — э́то смерть.",
+          "uz": "Kasal bo'lish esa mumkin emas, kasallik — bu o'lim."
+        },
+        {
+          "id": "s33",
+          "ru": "Па́улус реши́л нача́ть подгото́вку: ка́ждое у́тро он де́лал упражне́ния, бе́гал вокру́г о́строва, а пото́м пла́вал в воде́, ско́лько хвата́ло сил, постепе́нно увели́чивая вре́мя.",
+          "uz": "Paulus tayyorgarlikni boshlashga qaror qildi: har ertalab mashq qilar, orol atrofida yugurar, keyin kuchi yetgancha suvda suzar, vaqtni asta-sekin oshirib borardi."
+        },
+        {
+          "id": "s34",
+          "ru": "На восьмо́й день он нача́л подво́дную охо́ту.",
+          "uz": "Sakkizinchi kuni u suv ostida ov qilishni boshladi."
+        },
+        {
+          "id": "s35",
+          "ru": "Че́рез три дня он смог наконе́ц пойма́ть большу́ю ры́бу.",
+          "uz": "Uch kundan keyin nihoyat katta baliq tuta oldi."
+        },
+        {
+          "id": "s36",
+          "ru": "Ел её осторо́жно, ме́дленно, чу́вствуя, как возвраща́ются си́лы.",
+          "uz": "Uni ehtiyotkorlik bilan, sekin yedi, kuchlar qaytayotganini his qilib."
+        },
+        {
+          "id": "s37",
+          "ru": "С э́того дня жизнь ста́ла ле́гче.",
+          "uz": "Shu kundan hayot yengillashdi."
+        },
+        {
+          "id": "s38",
+          "ru": "Мо́ре тепле́ло, со́лнце свети́ло всё я́рче и я́рче.",
+          "uz": "Dengiz isib borar, quyosh tobora yorqinroq porlardi."
+        },
+        {
+          "id": "s39",
+          "ru": "Ско́ро на о́строве появи́лась трава́, а с ней и враги́ — зме́и и скорпио́ны.",
+          "uz": "Tez orada orolda o't paydo bo'ldi, u bilan birga dushmanlar ham — ilonlar va chayonlar."
+        },
+        {
+          "id": "s40",
+          "ru": "Шёл день за днём, неде́ля за неде́лей.",
+          "uz": "Kun kundan, hafta haftadan keyin o'tardi."
+        },
+        {
+          "id": "s41",
+          "ru": "У Па́улуса уже́ бы́ли свои́ ма́ленькие ра́дости: прилете́ли но́вые пти́цы, пришли́ черепа́хи.",
+          "uz": "Paulusning allaqachon o'zining kichik quvonchlari bor edi: yangi qushlar uchib keldi, toshbaqalar keldi."
+        },
+        {
+          "id": "s42",
+          "ru": "Бы́ли и неприя́тности: на о́строве нача́лся пожа́р.",
+          "uz": "Ko'ngilsizliklar ham bo'ldi: orolda yong'in boshlandi."
+        },
+        {
+          "id": "s43",
+          "ru": "Па́улус до́лжен был поки́нуть о́стров.",
+          "uz": "Paulus orolni tark etishi kerak edi."
+        },
+        {
+          "id": "s44",
+          "ru": "В уже́ потеплевшей воде́, сде́лав небольшо́й плот, он переплы́л на сосе́дний острово́к.",
+          "uz": "Allaqachon isigan suvda, kichik sol yasab, u qo'shni orolchaga suzib o'tdi."
+        },
+        {
+          "id": "s45",
+          "ru": "Тепе́рь ка́ждый день он лови́л мно́го ры́бы, он её варил, запека́л, суши́л.",
+          "uz": "Endi har kuni u ko'p baliq tutar, uni qaynatar, pishirar, quritardi."
+        },
+        {
+          "id": "s46",
+          "ru": "Днём он был за́нят с утра́ до ве́чера.",
+          "uz": "Kunduzi u ertalabdan kechgacha band bo'lardi."
+        },
+        {
+          "id": "s47",
+          "ru": "Ве́чером он чита́л свою́ еди́нственную кни́гу «Морско́й орёл» О́лдриджа.",
+          "uz": "Kechqurun u o'zining yagona kitobi — Oldrijning «Dengiz burguti»ni o'qirdi."
+        },
+        {
+          "id": "s48",
+          "ru": "Ко́нчился ме́сяц его́ пребыва́ния на о́строве.",
+          "uz": "Uning orolda bo'lgan bir oyi tugadi."
+        },
+        {
+          "id": "s49",
+          "ru": "Са́мые тру́дные дни бы́ли позади́.",
+          "uz": "Eng qiyin kunlar ortda qoldi."
+        },
+        {
+          "id": "s50",
+          "ru": "С ка́ждым днём тепле́л во́здух, но всё трудне́е станови́лось одино́чество.",
+          "uz": "Har kuni havo isib borardi, lekin yolg'izlik tobora qiyinlashardi."
+        },
+        {
+          "id": "s51",
+          "ru": "Нача́л разгова́ривать сам с собо́й, с пти́цами, с ры́бами.",
+          "uz": "U o'zi bilan, qushlar bilan, baliqlar bilan gaplasha boshladi."
+        }
+      ]
+    },
+    "vocabulary": [
+      {
+        "id": "w1",
+        "ru": "Провести́",
+        "uz": "o'tkazmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Мы провели́ выходны́е на да́че.",
+          "uz": "Biz dam olish kunlarini dachada o'tkazdik."
+        }
+      },
+      {
+        "id": "w2",
+        "ru": "О́стров",
+        "uz": "orol",
+        "pos": "ot",
+        "example": {
+          "ru": "Э́тот о́стров о́чень краси́вый.",
+          "uz": "Bu orol juda chiroyli."
+        }
+      },
+      {
+        "id": "w3",
+        "ru": "Необходи́мый",
+        "uz": "kerakli, zarur",
+        "pos": "sifat",
+        "example": {
+          "ru": "Возьми́ с собо́й всё необходи́мое.",
+          "uz": "O'zing bilan kerakli hamma narsani ol."
+        }
+      },
+      {
+        "id": "w4",
+        "ru": "Подво́дный",
+        "uz": "suv osti",
+        "pos": "sifat",
+        "example": {
+          "ru": "Он лю́бит подво́дную охо́ту.",
+          "uz": "U suv ostida ov qilishni yaxshi ko'radi."
+        }
+      },
+      {
+        "id": "w5",
+        "ru": "Путеше́ствие",
+        "uz": "sayohat",
+        "pos": "ot",
+        "example": {
+          "ru": "Э́то бы́ло интере́сное путеше́ствие.",
+          "uz": "Bu qiziqarli sayohat edi."
+        }
+      },
+      {
+        "id": "w6",
+        "ru": "Плыть",
+        "uz": "suzmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ло́дка плывёт по реке́.",
+          "uz": "Qayiq daryo bo'ylab suzib bormoqda."
+        }
+      },
+      {
+        "id": "w7",
+        "ru": "Рассма́тривать",
+        "uz": "ko'rib chiqmoq, razm solmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ма́льчик рассма́тривает карти́нки.",
+          "uz": "Bola rasmlarga razm solmoqda."
+        }
+      },
+      {
+        "id": "w8",
+        "ru": "Бе́рег",
+        "uz": "sohil",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы сиде́ли на берегу́ реки́.",
+          "uz": "Biz daryo sohilida o'tirdik."
+        }
+      },
+      {
+        "id": "w9",
+        "ru": "Пусты́ня",
+        "uz": "cho'l",
+        "pos": "ot",
+        "example": {
+          "ru": "В пусты́не о́чень жа́рко.",
+          "uz": "Cho'lda juda issiq."
+        }
+      },
+      {
+        "id": "w10",
+        "ru": "За́росли",
+        "uz": "chakalakzorlar",
+        "pos": "ot",
+        "example": {
+          "ru": "За до́мом начина́ются за́росли.",
+          "uz": "Uyning orqasidan chakalakzor boshlanadi."
+        }
+      },
+      {
+        "id": "w11",
+        "ru": "Вы́лететь",
+        "uz": "uchib chiqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Из ле́са вы́летела пти́ца.",
+          "uz": "O'rmondan qush uchib chiqdi."
+        }
+      },
+      {
+        "id": "w12",
+        "ru": "Ме́стность",
+        "uz": "joy, hudud",
+        "pos": "ot",
+        "example": {
+          "ru": "Мы не зна́ем э́ту ме́стность.",
+          "uz": "Biz bu hududni bilmaymiz."
+        }
+      },
+      {
+        "id": "w13",
+        "ru": "Па́рус",
+        "uz": "yelkan",
+        "pos": "ot",
+        "example": {
+          "ru": "На ло́дке бе́лый па́рус.",
+          "uz": "Qayiqda oq yelkan bor."
+        }
+      },
+      {
+        "id": "w14",
+        "ru": "Унести́",
+        "uz": "olib ketmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Ве́тер унёс шля́пу.",
+          "uz": "Shamol shlyapani olib ketdi."
+        }
+      },
+      {
+        "id": "w15",
+        "ru": "Ружьё",
+        "uz": "miltiq, qurol",
+        "pos": "ot",
+        "example": {
+          "ru": "У охо́тника есть ружьё.",
+          "uz": "Ovchida miltiq bor."
+        }
+      },
+      {
+        "id": "w16",
+        "ru": "Разже́чь",
+        "uz": "yoqmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Тури́сты разожгли́ костёр.",
+          "uz": "Sayyohlar gulxan yoqishdi."
+        }
+      },
+      {
+        "id": "w17",
+        "ru": "Солонова́тый",
+        "uz": "sho'r, sho'rroq",
+        "pos": "sifat",
+        "example": {
+          "ru": "Э́та вода́ солонова́тая.",
+          "uz": "Bu suv sho'rroq."
+        }
+      },
+      {
+        "id": "w18",
+        "ru": "Гли́на",
+        "uz": "loy",
+        "pos": "ot",
+        "example": {
+          "ru": "Из гли́ны де́лают посу́ду.",
+          "uz": "Loydan idish-tovoq yasashadi."
+        }
+      },
+      {
+        "id": "w19",
+        "ru": "Увели́чивать",
+        "uz": "oshirmoq, ko'paytirmoq",
+        "pos": "fe'l",
+        "example": {
+          "ru": "Спортсме́н увели́чивает нагру́зку.",
+          "uz": "Sportchi yuklamani oshirmoqda."
+        }
+      },
+      {
+        "id": "w20",
+        "ru": "Охо́та",
+        "uz": "ov",
+        "pos": "ot",
+        "example": {
+          "ru": "Де́душка лю́бит охо́ту.",
+          "uz": "Bobom ovni yaxshi ko'radi."
+        }
+      }
+    ]
   }
 ]
