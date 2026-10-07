@@ -42,6 +42,18 @@ const NOTES: Record<string, Note> = {
       "⏰ Muddat: bugun 23:00 gacha",
     ].join("\n"),
   },
+  darslar: {
+    button: "📚 Darslarni ochish",
+    text: [
+      "📚 <b>2-oyga 3 ta yangi dars qo'shildi:</b>",
+      "",
+      "4-dars: «Леонард Эйлер»",
+      "5-dars: «Человек, который выполнял правила»",
+      "6-dars: «Новый Робинзон» — <b>bugungi dars</b>",
+      "",
+      "⏰ Bugungi dars muddati: bugun 23:00 gacha",
+    ].join("\n"),
+  },
   kino: {
     button: "🍿 Kino bo'limini ochish",
     path: "/rooms",
